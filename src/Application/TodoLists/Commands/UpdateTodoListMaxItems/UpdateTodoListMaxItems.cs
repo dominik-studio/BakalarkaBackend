@@ -1,0 +1,30 @@
+using PromobayBackend.Application.Common.Interfaces.Data;
+using PromobayBackend.Domain.Entities;
+
+namespace PromobayBackend.Application.TodoLists.Commands.UpdateTodoListMaxItems
+{
+    public record UpdateTodoListMaxItemsCommand : IRequest
+    {
+        public int Id { get; init; }
+        public int? MaxItems { get; init; }
+    }
+
+    public class UpdateTodoListMaxItemsCommandHandler : IRequestHandler<UpdateTodoListMaxItemsCommand>
+    {
+        private readonly IWriteRepository<TodoList> _repository;
+
+        public UpdateTodoListMaxItemsCommandHandler(IWriteRepository<TodoList> repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task Handle(UpdateTodoListMaxItemsCommand request, CancellationToken cancellationToken)
+        {
+            var entity = await _repository.GetByIdAsync(request.Id, cancellationToken);
+            Guard.Against.NotFound(request.Id, entity);
+
+            entity.SetMaxItems(request.MaxItems);
+            await _repository.SaveAsync(cancellationToken);
+        }
+    }
+} 

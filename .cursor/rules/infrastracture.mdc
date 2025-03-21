@@ -1,0 +1,27 @@
+---
+description: Contains information about infrastructure project. Apply based on project structure rules.
+globs: src/Infrastructure/**
+---
+
+
+# when editing or creating new files, you can get inspired by these existing files in the project:
+
+
+[DependencyInjection.cs](mdc:src/Infrastructure/DependencyInjection.cs)
+
+
+## entity framework
+
+configurations of entities are saved in "src/Infrastructure/Data/Configurations"
+- [TodoListConfiguration.cs](mdc:src/Infrastructure/Data/Configurations/TodoListConfiguration.cs)
+
+interceptors are saved in "src/Infrastructure/Data/Interceptors"
+- [DispatchDomainEventsInterceptor.cs](mdc:src/Infrastructure/Data/Interceptors/DispatchDomainEventsInterceptor.cs)
+
+dbcontext
+- [ApplicationDbContext.cs](mdc:src/Infrastructure/Data/ApplicationDbContext.cs)
+
+db context initialiser, that seeds database, when running tests
+- [ApplicationDbContextInitialiser.cs](mdc:src/Infrastructure/Data/ApplicationDbContextInitialiser.cs)
+
+migrations are saved in "src/Infrastructure/Data/Migrations"

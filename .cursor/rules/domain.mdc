@@ -1,0 +1,89 @@
+---
+description: Contains information about domain project. Apply based on project structure rules.
+globs: src/Domain/**
+---
+
+
+- uses domain driven design
+
+
+# when editing or creating new files, you can get inspired by these files:
+
+
+## common files:
+
+[BaseAuditableEntity.cs](mdc:src/Domain/Common/BaseAuditableEntity.cs)
+[BaseEntity.cs](mdc:src/Domain/Common/BaseEntity.cs)
+[BaseEvent.cs](mdc:src/Domain/Common/BaseEvent.cs)
+[IAggregateRoot.cs](mdc:src/Domain/Common/IAggregateRoot.cs)
+[ValueObject.cs](mdc:src/Domain/Common/ValueObject.cs)
+
+
+Enums
+"src/Domain/Enums/PriorityLevel.cs"
+[PriorityLevel.cs](mdc:src/Domain/Enums/PriorityLevel.cs)
+
+ValueObjects
+"src/Domain/ValueObjects/Colour.cs"
+[Colour.cs](mdc:src/Domain/ValueObjects/Colour.cs)
+
+Constants
+"src/Domain/Constants/Roles.cs"
+[Roles.cs](mdc:src/Domain/Constants/Roles.cs)
+
+
+## specific todolist example
+
+"src/Domain/AggregateRoots/TodoListAggregate"
+
+aggregate root
+- [TodoList.cs](mdc:src/Domain/AggregateRoots/TodoListAggregate/TodoList.cs)
+- below is snippet from code that showcases how to write properties
+    ```c#
+    public required string Title { get; set; }
+    public string? Description { get; private set; }
+    public Colour Colour { get; private set; } = Colour.White;
+    public int MaxItems { get; private set; } = DefaultMaxItems;
+
+    public void SetDescription(string? description)
+    ...
+    public void SetMaxItems(int maxItems)
+    ...
+    public void SetColour(Colour colour)
+    ...
+
+    ```
+- there are multiple types of properties in this snippet:
+    - `Title`: has required keyword, you need to provide value from outside of class. use this type, if it would not make sense to not provide value such as in this example todolist without title would be pointless
+    - `MaxItems`: use private setter, since the property needs to be validated with `SetMaxItems(int maxItems)` to make sure you do not set max items that is lower than current count of items. 
+    - `Colour`: similar to `MaxItems`. However we use private setter and set method, mainly because it is easier to set optionally in Application layer, if colour is not null.
+    - `Description`: property is set to nullable. use if the property does not have domain significance or is not important to be set in general. we also use private setter and set method for reasons similar to `Colour`.
+        - in set method, you should accept also nullable parameter `SetDescription(string? description)`, otherwise we would not be able to set it back to null.
+
+- generally speaking, when the property is nullable also use nullable parameter in set methods to be able to clear that property.
+- when the property is nullable or have default value, use private setter and method to set that property
+- set default values when property is not nullable and required such as for `MaxItems`.
+    - do not use required keyword, when you use default values, since it would be pointless to have default value, when you have to set property, because of required.
+
+- set child entities TodoItem as readonly for public access to make sure you add items via `AddItem(TodoItem item)` or `RemoveItem(int itemId)` to validate them, in this example to make sure there are not more items than max items.
+    ```c#
+    private readonly List<TodoItem> _items = new();
+    public IEnumerable<TodoItem> Items => _items.AsReadOnly();
+    ```
+
+validation
+- use [DomainValidationException.cs](mdc:src/Domain/Exceptions/DomainValidationException.cs) for validation errors. error message should be static, do not include variables. 
+- do not validate trivial situations like "`Title` cannot be empty", since when you use `required` keyword, the `Title` wont be empty.
+- validate and throw exceptions related to business rules such as "Maximum item count reached". 
+
+
+child entity
+- [TodoItem.cs](mdc:src/Domain/AggregateRoots/TodoListAggregate/TodoItem.cs)
+
+
+domain events
+- [TodoItemCompletedEvent.cs](mdc:src/Domain/AggregateRoots/TodoListAggregate/Events/TodoItemCompletedEvent.cs)
+- event handlers are located in application layer
+- src/Domain/AggregateRoots/TodoListAggregate/Events/TodoItemCompletedEvent.cs
+
+

@@ -1,0 +1,91 @@
+---
+description: Apply almost always, contains information about project structure.
+globs: src/**
+---
+
+
+Do not write unneccessary comments, which are self explanatory from code.
+
+
+My solution uses asp.net core, clean architecture and domain driven design.
+My solution contains only backend (API), not frontend.
+My solution uses Mediatr and Entity Framework.
+
+Each layer is in seperate project, projects are located in "src" folder.
+Each project implements its containers in "DependencyInjection.cs" except Domain.
+Each project also has "GlobalUsings.cs".
+
+
+# Projects
+
+note: each project also references other project rules.
+
+- Domain 
+    - contains entities alongside with domain logic and validation, events, enums, value objects, constants like auth roles
+    - should not contain external references or other projects. is referenced by other projects
+- Infrastructure
+    - communicate with external components such as database, email services
+    - implements interfaces located in application "src/Application/Common/Interfaces"
+    - each implementation of exteral components should be in seperate folder such as ef core "src/Infrastructure/Data"
+- Web
+    - uses controllers with RESTful API pattern
+    - exposes api. calls mediatr request saved in application to serve web requests
+- Application
+    - handles requests from web api. calls interfaces implemented by infrastructure
+    - handles domain events
+    - acts as sort of glue between other projects
+    - uses automapper to map entities and dtos
+
+
+## Multiproject concepts, libraries
+
+for authorization use constats found in domain
+- [Roles.cs](mdc:src/Domain/Constants/Roles.cs)
+- [Policies.cs](mdc:src/Domain/Constants/Policies.cs)
+
+
+Error handling instead result object
+- in my solution exceptions are thrown as indicators of failed requests instead returning status in result object from Application to Web Project
+    - [ValidationException.cs](mdc:src/Application/Common/Exceptions/ValidationException.cs), [ForbiddenAccessException.cs](mdc:src/Application/Common/Exceptions/ForbiddenAccessException.cs), System.UnauthorizedAccessException, Ardalis.GuardClauses.NotFoundException, [DomainValidationException.cs](mdc:src/Domain/Exceptions/DomainValidationException.cs)
+
+
+Default values
+- Set default values in domain project. Do not set default values in requests in application layer, unless the value is not tied to domain but used elsewhere f.e calling services in infrastructure
+
+
+The solution uses library, that creates filter, sorting and paging from query, what is sent to queries in application layer.
+- web project:
+```c#
+[HttpGet]
+public async Task<IActionResult> Get([FromQuery] EntityFilter<TodoList> filter, [FromQuery] EntitySort<TodoList> sort, [FromQuery] EntityPage<TodoList> page)
+{
+    var vm = await _sender.Send(new GetTodosQuery { Filter = filter, Sort = sort, Page = page });
+    return Ok(vm);
+}
+```
+- application project:
+```c#
+public record GetTodosQuery : IRequest<TodosVm>
+{
+    public required EntityFilter<TodoList> Filter { get; init; }
+    public required EntitySort<TodoList> Sort { get; init; }
+    public required EntityPage<TodoList> Page { get; init; }
+
+}
+...
+Lists = await _context.TodoLists
+    .AsNoTracking()
+    .Where(request.Filter)
+    .OrderBy(request.Sort)
+    .Page(request.Page)
+    ...
+```
+
+The solution uses entity framework interceptor saved in infrastructure project to:
+- dispatch domain events saved in entities
+- set auditable fields like modifiedBy
+
+
+
+
+
