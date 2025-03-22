@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>PromobayBackend.Infrastructure.IntegrationTests</RootNamespace>
-        <AssemblyName>PromobayBackend.Infrastructure.IntegrationTests</AssemblyName>
+        <RootNamespace>CRMBackend.Infrastructure.IntegrationTests</RootNamespace>
+        <AssemblyName>CRMBackend.Infrastructure.IntegrationTests</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

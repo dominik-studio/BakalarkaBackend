@@ -1,5 +1,5 @@
 
-namespace PromobayBackend.Application.Common.Interfaces.Data
+namespace CRMBackend.Application.Common.Interfaces.Data
 {
     public interface IReadRepository<T>
     {

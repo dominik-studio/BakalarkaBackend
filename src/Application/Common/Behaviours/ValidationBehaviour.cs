@@ -1,6 +1,6 @@
-﻿using ValidationException = PromobayBackend.Application.Common.Exceptions.ValidationException;
+﻿using ValidationException = CRMBackend.Application.Common.Exceptions.ValidationException;
 
-namespace PromobayBackend.Application.Common.Behaviours;
+namespace CRMBackend.Application.Common.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
      where TRequest : notnull

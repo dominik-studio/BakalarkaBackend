@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
-using PromobayBackend.Application.Common.Interfaces;
-using PromobayBackend.Domain.Entities;
+using CRMBackend.Application.Common.Interfaces;
+using CRMBackend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace PromobayBackend.Infrastructure.Data;
+namespace CRMBackend.Infrastructure.Data;
 
 public class ApplicationDbContext : DbContext
 {

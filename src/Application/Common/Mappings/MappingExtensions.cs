@@ -1,6 +1,6 @@
-﻿using PromobayBackend.Application.Common.Models;
+﻿using CRMBackend.Application.Common.Models;
 
-namespace PromobayBackend.Application.Common.Mappings;
+namespace CRMBackend.Application.Common.Mappings;
 
 public static class MappingExtensions
 {

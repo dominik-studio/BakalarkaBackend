@@ -1,12 +1,12 @@
 ﻿using System.Text.Json.Serialization;
-using PromobayBackend.Application.Common.Interfaces.Data;
-using PromobayBackend.Domain.Entities;
-using PromobayBackend.Domain.Enums;
-using PromobayBackend.Domain.ValueObjects;
-using PromobayBackend.Application.Common.Interfaces;
-using PromobayBackend.Domain.Common;
+using CRMBackend.Application.Common.Interfaces.Data;
+using CRMBackend.Domain.Entities;
+using CRMBackend.Domain.Enums;
+using CRMBackend.Domain.ValueObjects;
+using CRMBackend.Application.Common.Interfaces;
+using CRMBackend.Domain.Common;
 
-namespace PromobayBackend.Application.TodoLists.Commands.CreateTodoList;
+namespace CRMBackend.Application.TodoLists.Commands.CreateTodoList;
 
 public record CreateTodoListCommand : IRequest<int>
 {

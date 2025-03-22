@@ -1,7 +1,7 @@
-﻿using PromobayBackend.Application.Common.Interfaces.Data;
-using PromobayBackend.Domain.Entities;
+﻿using CRMBackend.Application.Common.Interfaces.Data;
+using CRMBackend.Domain.Entities;
 
-namespace PromobayBackend.Application.TodoLists.Commands.UpdateTodoList;
+namespace CRMBackend.Application.TodoLists.Commands.UpdateTodoList;
 
 public class UpdateTodoListCommandValidator : AbstractValidator<UpdateTodoListCommand>
 {

@@ -1,11 +1,11 @@
-﻿using PromobayBackend.Domain.Constants;
-using PromobayBackend.Infrastructure.Data;
+﻿using CRMBackend.Domain.Constants;
+using CRMBackend.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace PromobayBackend.Application.FunctionalTests;
+namespace CRMBackend.Application.FunctionalTests;
 
 [SetUpFixture]
 public partial class Testing

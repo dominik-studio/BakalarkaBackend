@@ -1,6 +1,6 @@
-﻿using PromobayBackend.Domain.Entities;
+﻿using CRMBackend.Domain.Entities;
 
-namespace PromobayBackend.Application.TodoLists.Queries.GetTodos;
+namespace CRMBackend.Application.TodoLists.Queries.GetTodos;
 
 public class TodoItemDto
 {

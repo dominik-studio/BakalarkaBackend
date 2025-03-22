@@ -1,7 +1,7 @@
 using FluentValidation;
-using PromobayBackend.Domain.Enums;
+using CRMBackend.Domain.Enums;
 
-namespace PromobayBackend.Application.TodoLists.Commands.AddTodoItem;
+namespace CRMBackend.Application.TodoLists.Commands.AddTodoItem;
 
 public class AddTodoItemCommandValidator : AbstractValidator<AddTodoItemCommand>
 {

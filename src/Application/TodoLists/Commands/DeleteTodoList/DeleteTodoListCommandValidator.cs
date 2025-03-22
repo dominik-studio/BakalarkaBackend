@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace PromobayBackend.Application.TodoLists.Commands.DeleteTodoList;
+namespace CRMBackend.Application.TodoLists.Commands.DeleteTodoList;
 
 public class DeleteTodoListCommandValidator : AbstractValidator<DeleteTodoListCommand>
 {

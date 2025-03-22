@@ -1,11 +1,11 @@
 ﻿using Plainquire.Filter;
 using Plainquire.Page;
 using Plainquire.Sort;
-using PromobayBackend.Application.Common.Interfaces.Data;
-using PromobayBackend.Application.Common.Mappings;
-using PromobayBackend.Domain.Entities;
+using CRMBackend.Application.Common.Interfaces.Data;
+using CRMBackend.Application.Common.Mappings;
+using CRMBackend.Domain.Entities;
 
-namespace PromobayBackend.Application.TodoLists.Queries.GetTodos;
+namespace CRMBackend.Application.TodoLists.Queries.GetTodos;
 
 public record GetTodosQuery : IRequest<IReadOnlyCollection<TodoListDto>>
 {

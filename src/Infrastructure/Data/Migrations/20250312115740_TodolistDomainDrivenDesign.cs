@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace PromobayBackend.Infrastructure.Data.Migrations
+namespace CRMBackend.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
     public partial class TodolistDomainDrivenDesign : Migration

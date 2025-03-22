@@ -1,4 +1,4 @@
-﻿namespace PromobayBackend.Application.TodoItems.Queries.GetTodoItemsWithPagination;
+﻿namespace CRMBackend.Application.TodoItems.Queries.GetTodoItemsWithPagination;
 
 public class GetTodoItemsQueryValidator : AbstractValidator<GetTodoItemsQuery>
 {

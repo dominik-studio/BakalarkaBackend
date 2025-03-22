@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace PromobayBackend.Infrastructure.Data.Migrations
+namespace CRMBackend.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
     public partial class CreateCampaignsAndBrands : Migration

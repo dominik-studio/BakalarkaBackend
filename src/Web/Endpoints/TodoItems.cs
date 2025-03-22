@@ -1,8 +1,8 @@
-﻿using PromobayBackend.Application.Common.Models;
-using PromobayBackend.Application.TodoItems.Queries.GetTodoItemsWithPagination;
+﻿using CRMBackend.Application.Common.Models;
+using CRMBackend.Application.TodoItems.Queries.GetTodoItemsWithPagination;
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace PromobayBackend.Web.Endpoints;
+namespace CRMBackend.Web.Endpoints;
 
 public class TodoItems
 {

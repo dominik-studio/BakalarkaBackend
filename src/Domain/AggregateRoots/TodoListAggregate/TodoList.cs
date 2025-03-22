@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Plainquire.Filter.Abstractions;
-using PromobayBackend.Domain.Events;
+using CRMBackend.Domain.Events;
 
-namespace PromobayBackend.Domain.Entities;
+namespace CRMBackend.Domain.Entities;
 
 [EntityFilter(Prefix = "")]
 public class TodoList : BaseAuditableEntity, IAggregateRoot

@@ -1,4 +1,4 @@
-using PromobayBackend.Infrastructure.Data;
+using CRMBackend.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

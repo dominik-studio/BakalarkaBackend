@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>PromobayBackend.Application.UnitTests</RootNamespace>
-        <AssemblyName>PromobayBackend.Application.UnitTests</AssemblyName>
+        <RootNamespace>CRMBackend.Application.UnitTests</RootNamespace>
+        <AssemblyName>CRMBackend.Application.UnitTests</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

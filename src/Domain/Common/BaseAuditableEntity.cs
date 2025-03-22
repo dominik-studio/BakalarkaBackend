@@ -1,4 +1,4 @@
-﻿namespace PromobayBackend.Domain.Common;
+﻿namespace CRMBackend.Domain.Common;
 
 public abstract class BaseAuditableEntity : BaseEntity
 {

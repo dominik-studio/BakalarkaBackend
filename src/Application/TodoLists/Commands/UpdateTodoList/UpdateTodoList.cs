@@ -1,8 +1,8 @@
-﻿using PromobayBackend.Application.Common.Interfaces.Data;
-using PromobayBackend.Domain.Entities;
-using PromobayBackend.Domain.ValueObjects;
+﻿using CRMBackend.Application.Common.Interfaces.Data;
+using CRMBackend.Domain.Entities;
+using CRMBackend.Domain.ValueObjects;
 
-namespace PromobayBackend.Application.TodoLists.Commands.UpdateTodoList;
+namespace CRMBackend.Application.TodoLists.Commands.UpdateTodoList;
 
 public record UpdateTodoListCommand : IRequest
 {

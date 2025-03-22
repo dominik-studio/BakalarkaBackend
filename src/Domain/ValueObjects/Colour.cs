@@ -1,4 +1,4 @@
-﻿namespace PromobayBackend.Domain.ValueObjects;
+﻿namespace CRMBackend.Domain.ValueObjects;
 
 public class Colour(string code) : ValueObject
 {

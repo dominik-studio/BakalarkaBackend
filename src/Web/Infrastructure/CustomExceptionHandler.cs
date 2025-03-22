@@ -1,9 +1,9 @@
-﻿using PromobayBackend.Application.Common.Exceptions;
+﻿using CRMBackend.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using PromobayBackend.Domain.Exceptions;
+using CRMBackend.Domain.Exceptions;
 
-namespace PromobayBackend.Web.Infrastructure;
+namespace CRMBackend.Web.Infrastructure;
 
 public class CustomExceptionHandler : IExceptionHandler
 {

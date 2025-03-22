@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PromobayBackend.Infrastructure.Data;
+using CRMBackend.Infrastructure.Data;
 
 #nullable disable
 
-namespace PromobayBackend.Infrastructure.Data.Migrations
+namespace CRMBackend.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20250312115740_TodolistDomainDrivenDesign")]
@@ -25,7 +25,7 @@ namespace PromobayBackend.Infrastructure.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PromobayBackend.Domain.Entities.TodoItem", b =>
+            modelBuilder.Entity("CRMBackend.Domain.Entities.TodoItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,7 +72,7 @@ namespace PromobayBackend.Infrastructure.Data.Migrations
                     b.ToTable("TodoItems");
                 });
 
-            modelBuilder.Entity("PromobayBackend.Domain.Entities.TodoList", b =>
+            modelBuilder.Entity("CRMBackend.Domain.Entities.TodoList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,9 +105,9 @@ namespace PromobayBackend.Infrastructure.Data.Migrations
                     b.ToTable("TodoLists");
                 });
 
-            modelBuilder.Entity("PromobayBackend.Domain.Entities.TodoItem", b =>
+            modelBuilder.Entity("CRMBackend.Domain.Entities.TodoItem", b =>
                 {
-                    b.HasOne("PromobayBackend.Domain.Entities.TodoList", "List")
+                    b.HasOne("CRMBackend.Domain.Entities.TodoList", "List")
                         .WithMany("Items")
                         .HasForeignKey("ListId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -116,9 +116,9 @@ namespace PromobayBackend.Infrastructure.Data.Migrations
                     b.Navigation("List");
                 });
 
-            modelBuilder.Entity("PromobayBackend.Domain.Entities.TodoList", b =>
+            modelBuilder.Entity("CRMBackend.Domain.Entities.TodoList", b =>
                 {
-                    b.OwnsOne("PromobayBackend.Domain.ValueObjects.Colour", "Colour", b1 =>
+                    b.OwnsOne("CRMBackend.Domain.ValueObjects.Colour", "Colour", b1 =>
                         {
                             b1.Property<int>("TodoListId")
                                 .HasColumnType("integer");
@@ -138,7 +138,7 @@ namespace PromobayBackend.Infrastructure.Data.Migrations
                     b.Navigation("Colour");
                 });
 
-            modelBuilder.Entity("PromobayBackend.Domain.Entities.TodoList", b =>
+            modelBuilder.Entity("CRMBackend.Domain.Entities.TodoList", b =>
                 {
                     b.Navigation("Items");
                 });

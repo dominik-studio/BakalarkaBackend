@@ -1,6 +1,6 @@
 ﻿using System.Data.Common;
-using PromobayBackend.Application.Common.Interfaces;
-using PromobayBackend.Infrastructure.Data;
+using CRMBackend.Application.Common.Interfaces;
+using CRMBackend.Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace PromobayBackend.Application.FunctionalTests;
+namespace CRMBackend.Application.FunctionalTests;
 
 using static Testing;
 

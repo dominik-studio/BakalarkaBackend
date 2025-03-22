@@ -1,4 +1,4 @@
-namespace PromobayBackend.Application.TodoLists.Commands.RemoveTodoItem;
+namespace CRMBackend.Application.TodoLists.Commands.RemoveTodoItem;
 
 public class RemoveTodoItemCommandValidator : AbstractValidator<RemoveTodoItemCommand>
 {

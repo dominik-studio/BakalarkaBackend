@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace PromobayBackend.Application.TodoLists.Commands.UpdateTodoItem;
+namespace CRMBackend.Application.TodoLists.Commands.UpdateTodoItem;
 
 public class UpdateTodoItemCommandValidator : AbstractValidator<UpdateTodoItemCommand>
 {

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace PromobayBackend.Application.TodoLists.Commands.UpdateTodoListMaxItems;
+namespace CRMBackend.Application.TodoLists.Commands.UpdateTodoListMaxItems;
 
 public class UpdateTodoListMaxItemsCommandValidator : AbstractValidator<UpdateTodoListMaxItemsCommand>
 {

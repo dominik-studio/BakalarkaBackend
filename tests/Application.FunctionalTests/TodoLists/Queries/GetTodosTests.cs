@@ -1,8 +1,8 @@
-﻿using PromobayBackend.Application.TodoLists.Queries.GetTodos;
-using PromobayBackend.Domain.Entities;
-using PromobayBackend.Domain.ValueObjects;
+﻿using CRMBackend.Application.TodoLists.Queries.GetTodos;
+using CRMBackend.Domain.Entities;
+using CRMBackend.Domain.ValueObjects;
 
-namespace PromobayBackend.Application.FunctionalTests.TodoLists.Queries;
+namespace CRMBackend.Application.FunctionalTests.TodoLists.Queries;
 
 using static Testing;
 

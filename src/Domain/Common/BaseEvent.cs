@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace PromobayBackend.Domain.Common;
+namespace CRMBackend.Domain.Common;
 
 public abstract class BaseEvent : INotification
 {

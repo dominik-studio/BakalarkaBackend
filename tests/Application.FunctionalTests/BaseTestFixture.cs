@@ -1,4 +1,4 @@
-﻿namespace PromobayBackend.Application.FunctionalTests;
+﻿namespace CRMBackend.Application.FunctionalTests;
 
 using static Testing;
 

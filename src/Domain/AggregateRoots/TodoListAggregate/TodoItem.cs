@@ -1,6 +1,6 @@
 ﻿using Plainquire.Filter.Abstractions;
 
-namespace PromobayBackend.Domain.Entities;
+namespace CRMBackend.Domain.Entities;
 
 [EntityFilter(Prefix = "")]
 public class TodoItem : BaseAuditableEntity

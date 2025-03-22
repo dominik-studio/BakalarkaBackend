@@ -1,6 +1,6 @@
-﻿using PromobayBackend.Domain.Entities;
+﻿using CRMBackend.Domain.Entities;
 
-namespace PromobayBackend.Application.Common.Models;
+namespace CRMBackend.Application.Common.Models;
 
 public class LookupDto
 {

@@ -1,4 +1,4 @@
-﻿namespace PromobayBackend.Application.Common.Models;
+﻿namespace CRMBackend.Application.Common.Models;
 
 public class Result
 {

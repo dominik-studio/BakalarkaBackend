@@ -1,13 +1,13 @@
-﻿using PromobayBackend.Domain.Constants;
-using PromobayBackend.Domain.Entities;
+﻿using CRMBackend.Domain.Constants;
+using CRMBackend.Domain.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PromobayBackend.Domain.ValueObjects;
+using CRMBackend.Domain.ValueObjects;
 
-namespace PromobayBackend.Infrastructure.Data;
+namespace CRMBackend.Infrastructure.Data;
 
 public static class InitialiserExtensions
 {

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using PromobayBackend.Application.Common.Interfaces.Data;
+using CRMBackend.Application.Common.Interfaces.Data;
 
-namespace PromobayBackend.Infrastructure.Data.Repositories
+namespace CRMBackend.Infrastructure.Data.Repositories
 {
     public class ReadRepository<T> : IReadRepository<T> where T : class
     {

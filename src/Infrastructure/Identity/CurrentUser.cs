@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
-using PromobayBackend.Application.Common.Interfaces;
+using CRMBackend.Application.Common.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 
-namespace PromobayBackend.Infrastructure.Identity;
+namespace CRMBackend.Infrastructure.Identity;
 
 public class CurrentUser : ICurrentUser
 {

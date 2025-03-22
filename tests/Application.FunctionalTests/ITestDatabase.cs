@@ -1,6 +1,6 @@
 ﻿using System.Data.Common;
 
-namespace PromobayBackend.Application.FunctionalTests;
+namespace CRMBackend.Application.FunctionalTests;
 
 public interface ITestDatabase
 {

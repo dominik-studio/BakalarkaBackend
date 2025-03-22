@@ -1,4 +1,4 @@
-﻿namespace PromobayBackend.Application.Common.Interfaces;
+﻿namespace CRMBackend.Application.Common.Interfaces;
 
 public interface ICurrentUser
 {

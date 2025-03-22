@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>PromobayBackend.Domain</RootNamespace>
-    <AssemblyName>PromobayBackend.Domain</AssemblyName>
+    <RootNamespace>CRMBackend.Domain</RootNamespace>
+    <AssemblyName>CRMBackend.Domain</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

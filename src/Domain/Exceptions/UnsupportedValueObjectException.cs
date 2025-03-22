@@ -1,4 +1,4 @@
-namespace PromobayBackend.Domain.Exceptions;
+namespace CRMBackend.Domain.Exceptions;
 
 public class UnsupportedValueObjectException : Exception
 {

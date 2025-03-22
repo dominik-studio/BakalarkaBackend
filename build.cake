@@ -10,7 +10,7 @@ IProcess webProcess = null;
 Task("Build")
     .Does(() => {
         Information("Building project...");
-        DotNetBuild("./PromobayBackend.sln", new DotNetBuildSettings {
+        DotNetBuild("./CRMBackend.sln", new DotNetBuildSettings {
             Configuration = configuration
         });
     });
@@ -66,7 +66,7 @@ Task("Test")
         };
 
 
-        DotNetTest("./PromobayBackend.sln", testSettings);
+        DotNetTest("./CRMBackend.sln", testSettings);
     });
 
 Teardown(context =>

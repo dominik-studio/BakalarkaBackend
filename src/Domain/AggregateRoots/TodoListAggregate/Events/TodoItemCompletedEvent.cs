@@ -1,4 +1,4 @@
-﻿namespace PromobayBackend.Domain.Events;
+﻿namespace CRMBackend.Domain.Events;
 
 public class TodoItemCompletedEvent : BaseEvent
 {

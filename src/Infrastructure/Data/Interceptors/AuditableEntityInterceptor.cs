@@ -1,10 +1,10 @@
-﻿using PromobayBackend.Application.Common.Interfaces;
-using PromobayBackend.Domain.Common;
+﻿using CRMBackend.Application.Common.Interfaces;
+using CRMBackend.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace PromobayBackend.Infrastructure.Data.Interceptors;
+namespace CRMBackend.Infrastructure.Data.Interceptors;
 
 public class AuditableEntityInterceptor : SaveChangesInterceptor
 {

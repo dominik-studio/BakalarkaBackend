@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using PromobayBackend.Application.Common.Interfaces.Data;
-using PromobayBackend.Domain.Common;
+using CRMBackend.Application.Common.Interfaces.Data;
+using CRMBackend.Domain.Common;
 
-namespace PromobayBackend.Infrastructure.Data.Repositories
+namespace CRMBackend.Infrastructure.Data.Repositories
 {
     public class WriteRepository<T> : IWriteRepository<T> where T : class, IAggregateRoot
     {

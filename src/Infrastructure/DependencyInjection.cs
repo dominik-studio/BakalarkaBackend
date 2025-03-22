@@ -1,19 +1,19 @@
 ﻿using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using PromobayBackend.Application.Common.Interfaces;
-using PromobayBackend.Domain.Constants;
-using PromobayBackend.Infrastructure.Data;
-using PromobayBackend.Infrastructure.Data.Interceptors;
+using CRMBackend.Application.Common.Interfaces;
+using CRMBackend.Domain.Constants;
+using CRMBackend.Infrastructure.Data;
+using CRMBackend.Infrastructure.Data.Interceptors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using PromobayBackend.Application.Common.Interfaces.Data;
-using PromobayBackend.Domain.Entities;
-using PromobayBackend.Infrastructure.Data.Repositories;
-using PromobayBackend.Infrastructure.Identity;
+using CRMBackend.Application.Common.Interfaces.Data;
+using CRMBackend.Domain.Entities;
+using CRMBackend.Infrastructure.Data.Repositories;
+using CRMBackend.Infrastructure.Identity;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -21,8 +21,8 @@ public static class DependencyInjection
 {
     public static void AddInfrastructureServices(this IHostApplicationBuilder builder)
     {
-        var connectionString = builder.Configuration.GetConnectionString("PromobayBackendDb");
-        Guard.Against.Null(connectionString, message: "Connection string 'PromobayBackendDb' not found.");
+        var connectionString = builder.Configuration.GetConnectionString("CRMBackendDb");
+        Guard.Against.Null(connectionString, message: "Connection string 'CRMBackendDb' not found.");
         
         builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {

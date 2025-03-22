@@ -119,7 +119,7 @@ module pgsqldatabase 'core/database/postgresql/flexibleserver.bicep' = {
     databaseName:!empty(dbName) ? dbName : '${abbrs.postgreSQLServersDatabases}${resourceToken}'
     allowAzureIPsFirewall: true
     keyVaultName: keyVault.outputs.name
-    connectionStringKey: 'ConnectionStrings--PromobayBackendDb'
+    connectionStringKey: 'ConnectionStrings--CRMBackendDb'
   }
   scope: rg
 }

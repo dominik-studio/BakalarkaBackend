@@ -1,7 +1,7 @@
-﻿using PromobayBackend.Domain.Events;
+﻿using CRMBackend.Domain.Events;
 using Microsoft.Extensions.Logging;
 
-namespace PromobayBackend.Application.TodoItems.EventHandlers;
+namespace CRMBackend.Application.TodoItems.EventHandlers;
 
 public class TodoItemCompletedEventHandler : INotificationHandler<TodoItemCompletedEvent>
 {
@@ -14,7 +14,7 @@ public class TodoItemCompletedEventHandler : INotificationHandler<TodoItemComple
 
     public Task Handle(TodoItemCompletedEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("PromobayBackend Domain Event: {DomainEvent}", notification.GetType().Name);
+        _logger.LogInformation("CRMBackend Domain Event: {DomainEvent}", notification.GetType().Name);
 
         return Task.CompletedTask;
     }

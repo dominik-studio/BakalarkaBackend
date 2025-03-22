@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using PromobayBackend.Application.Common.Behaviours;
+using CRMBackend.Application.Common.Behaviours;
 using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.Extensions.DependencyInjection;

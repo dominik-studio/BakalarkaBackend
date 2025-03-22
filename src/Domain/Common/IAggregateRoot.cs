@@ -1,3 +1,3 @@
-namespace PromobayBackend.Domain.Common;
+namespace CRMBackend.Domain.Common;
 
 public interface IAggregateRoot { } 

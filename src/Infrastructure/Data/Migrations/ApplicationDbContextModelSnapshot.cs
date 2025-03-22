@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PromobayBackend.Infrastructure.Data;
+using CRMBackend.Infrastructure.Data;
 
 #nullable disable
 
-namespace PromobayBackend.Infrastructure.Data.Migrations
+namespace CRMBackend.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace PromobayBackend.Infrastructure.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PromobayBackend.Domain.AggregateRoots.BrandAggregate.Brand", b =>
+            modelBuilder.Entity("CRMBackend.Domain.AggregateRoots.BrandAggregate.Brand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,7 @@ namespace PromobayBackend.Infrastructure.Data.Migrations
                     b.ToTable("Brand");
                 });
 
-            modelBuilder.Entity("PromobayBackend.Domain.AggregateRoots.CampaignAggregate.Campaign", b =>
+            modelBuilder.Entity("CRMBackend.Domain.AggregateRoots.CampaignAggregate.Campaign", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,7 +109,7 @@ namespace PromobayBackend.Infrastructure.Data.Migrations
                     b.ToTable("Campaign");
                 });
 
-            modelBuilder.Entity("PromobayBackend.Domain.Entities.TodoItem", b =>
+            modelBuilder.Entity("CRMBackend.Domain.Entities.TodoItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -156,7 +156,7 @@ namespace PromobayBackend.Infrastructure.Data.Migrations
                     b.ToTable("TodoItems");
                 });
 
-            modelBuilder.Entity("PromobayBackend.Domain.Entities.TodoList", b =>
+            modelBuilder.Entity("CRMBackend.Domain.Entities.TodoList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -192,9 +192,9 @@ namespace PromobayBackend.Infrastructure.Data.Migrations
                     b.ToTable("TodoLists");
                 });
 
-            modelBuilder.Entity("PromobayBackend.Domain.AggregateRoots.CampaignAggregate.Campaign", b =>
+            modelBuilder.Entity("CRMBackend.Domain.AggregateRoots.CampaignAggregate.Campaign", b =>
                 {
-                    b.HasOne("PromobayBackend.Domain.AggregateRoots.BrandAggregate.Brand", "Brand")
+                    b.HasOne("CRMBackend.Domain.AggregateRoots.BrandAggregate.Brand", "Brand")
                         .WithMany("Campaigns")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -203,9 +203,9 @@ namespace PromobayBackend.Infrastructure.Data.Migrations
                     b.Navigation("Brand");
                 });
 
-            modelBuilder.Entity("PromobayBackend.Domain.Entities.TodoItem", b =>
+            modelBuilder.Entity("CRMBackend.Domain.Entities.TodoItem", b =>
                 {
-                    b.HasOne("PromobayBackend.Domain.Entities.TodoList", "List")
+                    b.HasOne("CRMBackend.Domain.Entities.TodoList", "List")
                         .WithMany("Items")
                         .HasForeignKey("ListId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -214,9 +214,9 @@ namespace PromobayBackend.Infrastructure.Data.Migrations
                     b.Navigation("List");
                 });
 
-            modelBuilder.Entity("PromobayBackend.Domain.Entities.TodoList", b =>
+            modelBuilder.Entity("CRMBackend.Domain.Entities.TodoList", b =>
                 {
-                    b.OwnsOne("PromobayBackend.Domain.ValueObjects.Colour", "Colour", b1 =>
+                    b.OwnsOne("CRMBackend.Domain.ValueObjects.Colour", "Colour", b1 =>
                         {
                             b1.Property<int>("TodoListId")
                                 .HasColumnType("integer");
@@ -237,12 +237,12 @@ namespace PromobayBackend.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PromobayBackend.Domain.AggregateRoots.BrandAggregate.Brand", b =>
+            modelBuilder.Entity("CRMBackend.Domain.AggregateRoots.BrandAggregate.Brand", b =>
                 {
                     b.Navigation("Campaigns");
                 });
 
-            modelBuilder.Entity("PromobayBackend.Domain.Entities.TodoList", b =>
+            modelBuilder.Entity("CRMBackend.Domain.Entities.TodoList", b =>
                 {
                     b.Navigation("Items");
                 });

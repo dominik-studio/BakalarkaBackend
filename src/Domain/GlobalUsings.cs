@@ -1,6 +1,6 @@
-﻿global using PromobayBackend.Domain.Common;
-global using PromobayBackend.Domain.Entities;
-global using PromobayBackend.Domain.Enums;
-global using PromobayBackend.Domain.Events;
-global using PromobayBackend.Domain.Exceptions;
-global using PromobayBackend.Domain.ValueObjects;
+﻿global using CRMBackend.Domain.Common;
+global using CRMBackend.Domain.Entities;
+global using CRMBackend.Domain.Enums;
+global using CRMBackend.Domain.Events;
+global using CRMBackend.Domain.Exceptions;
+global using CRMBackend.Domain.ValueObjects;

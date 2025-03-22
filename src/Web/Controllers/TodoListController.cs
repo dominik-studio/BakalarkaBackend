@@ -1,20 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
-using PromobayBackend.Application.TodoLists.Commands.CreateTodoList;
-using PromobayBackend.Application.TodoLists.Commands.DeleteTodoList;
-using PromobayBackend.Application.TodoLists.Commands.UpdateTodoList;
-using PromobayBackend.Application.TodoLists.Commands.UpdateTodoListMaxItems;
-using PromobayBackend.Application.TodoLists.Commands.AddTodoItem;
-using PromobayBackend.Application.TodoLists.Commands.RemoveTodoItem;
-using PromobayBackend.Application.TodoLists.Commands.UpdateTodoItem;
-using PromobayBackend.Application.TodoLists.Queries.GetTodos;
+using CRMBackend.Application.TodoLists.Commands.CreateTodoList;
+using CRMBackend.Application.TodoLists.Commands.DeleteTodoList;
+using CRMBackend.Application.TodoLists.Commands.UpdateTodoList;
+using CRMBackend.Application.TodoLists.Commands.UpdateTodoListMaxItems;
+using CRMBackend.Application.TodoLists.Commands.AddTodoItem;
+using CRMBackend.Application.TodoLists.Commands.RemoveTodoItem;
+using CRMBackend.Application.TodoLists.Commands.UpdateTodoItem;
+using CRMBackend.Application.TodoLists.Queries.GetTodos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Plainquire.Filter;
 using Plainquire.Page;
 using Plainquire.Sort;
-using PromobayBackend.Domain.Entities;
+using CRMBackend.Domain.Entities;
 
-namespace PromobayBackend.Web.Controllers;
+namespace CRMBackend.Web.Controllers;
 
 [Authorize]
 [ApiController]

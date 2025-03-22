@@ -1,8 +1,8 @@
-﻿using PromobayBackend.Application.Common.Exceptions;
-using PromobayBackend.Application.TodoLists.Commands.CreateTodoList;
-using PromobayBackend.Domain.Entities;
+﻿using CRMBackend.Application.Common.Exceptions;
+using CRMBackend.Application.TodoLists.Commands.CreateTodoList;
+using CRMBackend.Domain.Entities;
 
-namespace PromobayBackend.Application.FunctionalTests.TodoLists.Commands;
+namespace CRMBackend.Application.FunctionalTests.TodoLists.Commands;
 
 using static Testing;
 

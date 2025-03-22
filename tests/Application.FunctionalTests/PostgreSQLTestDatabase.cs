@@ -1,12 +1,12 @@
 ﻿using System.Data.Common;
-using PromobayBackend.Infrastructure.Data;
+using CRMBackend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Respawn;
 
-namespace PromobayBackend.Application.FunctionalTests;
+namespace CRMBackend.Application.FunctionalTests;
 
 public class PostgreSQLTestDatabase : ITestDatabase
 {
@@ -21,7 +21,7 @@ public class PostgreSQLTestDatabase : ITestDatabase
             .AddEnvironmentVariables()
             .Build();
 
-        var connectionString = configuration.GetConnectionString("PromobayBackendDb");
+        var connectionString = configuration.GetConnectionString("CRMBackendDb");
 
         Guard.Against.Null(connectionString);
 

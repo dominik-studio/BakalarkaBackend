@@ -1,4 +1,4 @@
-﻿namespace PromobayBackend.Domain.Constants;
+﻿namespace CRMBackend.Domain.Constants;
 
 public abstract class Policies
 {

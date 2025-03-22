@@ -1,9 +1,9 @@
-﻿using PromobayBackend.Domain.Exceptions;
-using PromobayBackend.Domain.ValueObjects;
+﻿using CRMBackend.Domain.Exceptions;
+using CRMBackend.Domain.ValueObjects;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace PromobayBackend.Domain.UnitTests.ValueObjects;
+namespace CRMBackend.Domain.UnitTests.ValueObjects;
 
 public class ColourTests
 {

@@ -1,5 +1,5 @@
 ﻿using Azure.Identity;
-using PromobayBackend.Infrastructure.Data;
+using CRMBackend.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 
 using NSwag;
@@ -39,7 +39,7 @@ public static class DependencyInjection
 
         builder.Services.AddOpenApiDocument((configure, sp) =>
         {
-            configure.Title = "PromobayBackend API";
+            configure.Title = "CRMBackend API";
 
             // Add JWT
             configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme

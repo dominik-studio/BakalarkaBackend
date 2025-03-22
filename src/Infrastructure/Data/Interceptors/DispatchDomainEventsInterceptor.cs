@@ -1,9 +1,9 @@
-﻿using PromobayBackend.Domain.Common;
+﻿using CRMBackend.Domain.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace PromobayBackend.Infrastructure.Data.Interceptors;
+namespace CRMBackend.Infrastructure.Data.Interceptors;
 
 public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
 {

@@ -1,9 +1,9 @@
-﻿using PromobayBackend.Application.Common.Exceptions;
+﻿using CRMBackend.Application.Common.Exceptions;
 using FluentAssertions;
 using FluentValidation.Results;
 using NUnit.Framework;
 
-namespace PromobayBackend.Application.UnitTests.Common.Exceptions;
+namespace CRMBackend.Application.UnitTests.Common.Exceptions;
 
 public class ValidationExceptionTests
 {

@@ -1,6 +1,6 @@
-using PromobayBackend.Domain.Common;
+using CRMBackend.Domain.Common;
 
-namespace PromobayBackend.Application.Common.Interfaces.Data
+namespace CRMBackend.Application.Common.Interfaces.Data
 {
     public interface IWriteRepository<T> where T : class, IAggregateRoot
     {

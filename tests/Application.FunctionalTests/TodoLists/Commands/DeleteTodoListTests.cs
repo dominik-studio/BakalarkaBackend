@@ -1,8 +1,8 @@
-﻿using PromobayBackend.Application.TodoLists.Commands.CreateTodoList;
-using PromobayBackend.Application.TodoLists.Commands.DeleteTodoList;
-using PromobayBackend.Domain.Entities;
+﻿using CRMBackend.Application.TodoLists.Commands.CreateTodoList;
+using CRMBackend.Application.TodoLists.Commands.DeleteTodoList;
+using CRMBackend.Domain.Entities;
 
-namespace PromobayBackend.Application.FunctionalTests.TodoLists.Commands;
+namespace CRMBackend.Application.FunctionalTests.TodoLists.Commands;
 
 using static Testing;
 

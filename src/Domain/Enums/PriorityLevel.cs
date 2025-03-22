@@ -1,4 +1,4 @@
-﻿namespace PromobayBackend.Domain.Enums;
+﻿namespace CRMBackend.Domain.Enums;
 
 public enum PriorityLevel
 {

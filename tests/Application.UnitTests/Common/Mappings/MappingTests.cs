@@ -1,14 +1,14 @@
 ﻿// using System.Reflection;
 // using System.Runtime.CompilerServices;
 // using AutoMapper;
-// using PromobayBackend.Application.Common.Interfaces;
-// using PromobayBackend.Application.Common.Models;
-// using PromobayBackend.Application.TodoItems.Queries.GetTodoItemsWithPagination;
-// using PromobayBackend.Application.TodoLists.Queries.GetTodos;
-// using PromobayBackend.Domain.Entities;
+// using CRMBackend.Application.Common.Interfaces;
+// using CRMBackend.Application.Common.Models;
+// using CRMBackend.Application.TodoItems.Queries.GetTodoItemsWithPagination;
+// using CRMBackend.Application.TodoLists.Queries.GetTodos;
+// using CRMBackend.Domain.Entities;
 // using NUnit.Framework;
 //
-// namespace PromobayBackend.Application.UnitTests.Common.Mappings;
+// namespace CRMBackend.Application.UnitTests.Common.Mappings;
 //
 // public class MappingTests
 // {

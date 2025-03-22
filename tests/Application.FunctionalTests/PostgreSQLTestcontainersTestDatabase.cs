@@ -1,5 +1,5 @@
 ﻿using System.Data.Common;
-using PromobayBackend.Infrastructure.Data;
+using CRMBackend.Infrastructure.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -8,11 +8,11 @@ using Npgsql;
 using Respawn;
 using Testcontainers.PostgreSql;
 
-namespace PromobayBackend.Application.FunctionalTests;
+namespace CRMBackend.Application.FunctionalTests;
 
 public class PostgreSQLTestcontainersTestDatabase : ITestDatabase
 {
-    private const string DefaultDatabase = "PromobayBackendTestDb";
+    private const string DefaultDatabase = "CRMBackendTestDb";
     private readonly PostgreSqlContainer _container;
     private DbConnection _connection = null!;
     private string _connectionString = null!;

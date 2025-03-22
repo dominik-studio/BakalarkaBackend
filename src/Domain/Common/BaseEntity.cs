@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PromobayBackend.Domain.Common;
+namespace CRMBackend.Domain.Common;
 
 public abstract class BaseEntity
 {
