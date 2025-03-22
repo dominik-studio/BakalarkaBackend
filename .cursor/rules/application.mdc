@@ -35,8 +35,9 @@ communication with database
     - important: do not use read repositories in requests, use that only in queries
 
 communication with domain
-- you should respect what methods does domain expose and what parameters do they accept
+- !important: you should respect what methods does domain expose and what parameters do they accept
     - when updating some fields, you can not access them directly but have to set them via methods f.e `SetMaxItems(int maxItems)` or when adding todoitem to todolist `AddItem(TodoItem item)`
+    - or when calling method in domain that accepts nullable parameter also provide nullable variable
 
 
 ## Commands and queries
@@ -52,6 +53,11 @@ commands and queries are grouped by entities
 default values
 - Set default values in domain project. Do not set default values in requests in application layer, unless the value is not tied to domain but used elsewhere f.e calling services in infrastructure
 
+important: which keywords should properties use in requests
+- it should reflect domain, if property in domain is required, property in request should also be required
+- if property in domain has default value, set property in request to nullable. since if the value will in provided request will be null, we want to skip setting value in order for domain to set its default value
+    - when you would check, whether value is null: for reference types use `is not null`, for value types use `.HasValue`
+
 
 ### Structure of api and requests
 
@@ -66,84 +72,18 @@ update(PUT) requests
         - such as in todo list example `SetMaxItems(int maxItems)`, create seperate update method `PUT "{id}/MaxItems"`
         - `PUT "{listid}/Items/{itemid}"` when changing list id, which moves todoitem to difference todo list and checks if `MaxItems` are not reached, when item moves
         - otherwise if all properties are set via main method it would be fragile and chaotic
-    - updating fields, that are not domain significant such as `Description` or `Colour` may be updated in main patch method `PATCH "{id}"`, since not all fields are usually required in request body
-        - also name the request `PatchTodoList` instead of `UpdateTodoList` to distinguish which HTTP method should you use
+    - updating fields, that are not domain significant such as `Description` or `Colour` may be updated in main put method `PUT "{id}"`, since not all fields are usually required in request body
+        - also name the request `UpdateTodoList` instead of `UpdateTodoList` to distinguish which HTTP method should you use
 
 
 ### Validation
 
 general rules:
-- which keywords should properties use in requests
-    - it should reflect domain, if property in domain is required, property in request should also be required
-    - if property in domain has default value, set property in request to nullable. since if the value will in provided request will be null, we want to skip setting value in order for domain to set its default value
-        - when you would check, whether value is null: for reference types use `is not null`, for value types use `.HasValue`
+- important: all properties are required in requests
 - important: Do not forget to create and update command validators
 
 - if you have int or enum in request, try to make it nullable or required
     - f.e when the user does not provide value for it, then it would map to zero. how should backend know if zero was provided by user or the value was zero, because it was not provided
-
-
-#### POST Request
-
-- tied to CreateCommand
-
-- below is snippet example, that shows how to set properties in requests and call domain
-    ```c#
-    ... // request
-    public required string Title { get; init; }
-    public Optional<string?> Description { get; set; }
-    public Optional<Colour> Colour { get; init; }
-    public Optional<int> MaxItems { get; init; }
-
-    ... // handler
-    var entity = new TodoList
-    {
-        Title = request.Title
-    };
-    
-    if (request.Description.HasValue)
-        entity.SetDescription(request.Description.Value);
-
-    if (request.Colour.HasValue)
-        entity.SetColour(request.Colour.Value);
-
-    if (request.MaxItems.HasValue)
-        entity.SetMaxItems(request.MaxItems.Value);
-    ...
-    ```
-- similarly to PATCH, not everything has to provided in request body, unlike PUT update requests
-- `Title` is required, since aggregate root `TodoList` needs `Title` to be set, when creating new `TodoList`
-- `Description` has to use custom struct Optional<string?> and json converter
-    - otherwise if we used only nullable `string? Description`, there would be ambiguity, it could mean two things: 
-        1. the field was ommited in request body and was set to null by json converter
-        2. the field was explicitly set to null by client
-    - use this only for properties, that maps to properties in domain, where are set using set method such as `SetDescription(string? description)`, that accepts nullable parameter
-    - [Optional.cs](mdc:src/Domain/Common/Optional.cs)
-- `Colour` and `MaxItems` are optional, when we look into `TodoList` aggregate root, therefore we also use `Optional<T>`. they have default values set in domain, what means they dont have to be set.
-- important: set everything to `Optional<T>`, unless the property in request maps to property in domain, that is required, when creating object such as `Title`.
-
-
-#### PUT Request
-
-```c#
-    public required int Id { get; init; }
-    public required DateTime Start { get; init; }
-    public required DateTime End { get; init; }
-```
-- everything has to be set to required, since PUT request requires all fields, since it should not do partial updates
-- important: do not skip setting properties, if they are null, set all if possible
-
-
-#### PATCH Request
-
-```c#
-    public required int Id { get; init; }
-    public Optional<string> Title { get; init; }
-    public Optional<Colour> Colour { get; init; }
-
-```
-- similar structure as POST request, but also accepts Id property, which has to be required `required int Id`
-- now `Title` is optional, because it is required to be set only when initializing object, but when patching/updating object is already initialized.
 
 
 ### Enums, value objects
