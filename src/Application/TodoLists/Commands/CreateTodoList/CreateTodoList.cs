@@ -1,19 +1,15 @@
-﻿using System.Text.Json.Serialization;
-using CRMBackend.Application.Common.Interfaces.Data;
+﻿using CRMBackend.Application.Common.Interfaces.Data;
 using CRMBackend.Domain.Entities;
 using CRMBackend.Domain.Enums;
 using CRMBackend.Domain.ValueObjects;
-using CRMBackend.Application.Common.Interfaces;
-using CRMBackend.Domain.Common;
+using MediatR;
 
 namespace CRMBackend.Application.TodoLists.Commands.CreateTodoList;
 
 public record CreateTodoListCommand : IRequest<int>
 {
     public required string Title { get; init; }
-    
-    [JsonConverter(typeof(OptionalConverter<string?>))]
-    public Optional<string?> Description { get; set; }
+    public string? Description { get; init; }
     public Colour? Colour { get; init; }
     public int? MaxItems { get; init; }
 }
@@ -33,9 +29,9 @@ public class CreateTodoListCommandHandler : IRequestHandler<CreateTodoListComman
         {
             Title = request.Title
         };
-        
-        if (request.Description.HasValue)
-            entity.SetDescription(request.Description.Value);
+
+        if (request.Description is not null)
+            entity.SetDescription(request.Description);
 
         if (request.Colour is not null)
             entity.SetColour(request.Colour);
@@ -45,7 +41,7 @@ public class CreateTodoListCommandHandler : IRequestHandler<CreateTodoListComman
 
         _repository.Add(entity);
         await _repository.SaveAsync(cancellationToken);
-        
+
         return entity.Id;
     }
 }

@@ -1,13 +1,15 @@
 ﻿using CRMBackend.Application.Common.Interfaces.Data;
 using CRMBackend.Domain.Entities;
 using CRMBackend.Domain.ValueObjects;
+using MediatR;
+using Ardalis.GuardClauses;
 
 namespace CRMBackend.Application.TodoLists.Commands.UpdateTodoList;
 
 public record UpdateTodoListCommand : IRequest
 {
-    public int Id { get; init; }
-    public string? Title { get; init; }
+    public required int Id { get; init; }
+    public required string Title { get; init; }
     public Colour? Colour { get; init; }
 }
 
@@ -22,11 +24,8 @@ public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListComman
 
     public async Task Handle(UpdateTodoListCommand request, CancellationToken cancellationToken)
     {
-        Guard.Against.Null(request.Id);
-        Guard.Against.Null(request.Title);
-        
-        var entity = await _repository.GetByIdAsync(request.Id.Value, cancellationToken);
-        Guard.Against.NotFound(request.Id.Value, entity);
+        var entity = await _repository.GetByIdAsync(request.Id, cancellationToken);
+        Guard.Against.NotFound(request.Id, entity);
 
         entity.Title = request.Title;
         

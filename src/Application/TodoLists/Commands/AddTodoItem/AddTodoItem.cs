@@ -6,18 +6,18 @@ namespace CRMBackend.Application.TodoLists.Commands.AddTodoItem
 {
     public class AddTodoItemCommand : IRequest<int>
     {
-        public int ListId { get; init; }
-        public string? Title { get; init; }
+        public required int ListId { get; init; }
+        public required string Title { get; init; }
         public string? Note { get; init; }
         public PriorityLevel Priority { get; init; }
         public DateTime Reminder { get; init; }
     }
 
-    public class AddTodoItemCommandHandler : IRequestHandler<AddTodoItemCommand, int>
+    public class AddTodoItem : IRequestHandler<AddTodoItemCommand, int>
     {
         private readonly IWriteRepository<TodoList> _repository;
 
-        public AddTodoItemCommandHandler(IWriteRepository<TodoList> repository) => _repository = repository;
+        public AddTodoItem(IWriteRepository<TodoList> repository) => _repository = repository;
 
         public async Task<int> Handle(AddTodoItemCommand request, CancellationToken cancellationToken)
         {

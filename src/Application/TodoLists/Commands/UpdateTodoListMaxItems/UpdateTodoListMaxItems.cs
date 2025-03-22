@@ -1,12 +1,14 @@
 using CRMBackend.Application.Common.Interfaces.Data;
 using CRMBackend.Domain.Entities;
+using MediatR;
+using Ardalis.GuardClauses;
 
 namespace CRMBackend.Application.TodoLists.Commands.UpdateTodoListMaxItems
 {
     public record UpdateTodoListMaxItemsCommand : IRequest
     {
-        public int Id { get; init; }
-        public int? MaxItems { get; init; }
+        public required int Id { get; init; }
+        public required int MaxItems { get; init; }
     }
 
     public class UpdateTodoListMaxItemsCommandHandler : IRequestHandler<UpdateTodoListMaxItemsCommand>
