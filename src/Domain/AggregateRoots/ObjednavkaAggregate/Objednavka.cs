@@ -71,7 +71,7 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
         if (PoslednaCenovaPonuka.Stav != StavCenovejPonuky.Neriesene)
             throw new DomainValidationException("Cenová ponuka musí byť v stave Neriesene, aby sa dala označiť ako poslaná.");
         PoslednaCenovaPonuka.SetStav(StavCenovejPonuky.Poslane);
-        SetFaza(ObjednavkaFaza.NacenenieCaka);
+        Faza = ObjednavkaFaza.NacenenieCaka;
     }
 
     public void ZrusCenovuPonuku()
@@ -83,7 +83,7 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
         if (Faza != ObjednavkaFaza.Nacenenie && Faza != ObjednavkaFaza.NacenenieCaka)
             throw new DomainValidationException("Cenovú ponuku možno zrušiť iba vo fázach Nacenenie alebo NacenenieCaka.");
         PoslednaCenovaPonuka = null;
-        SetFaza(ObjednavkaFaza.Nacenenie);
+        Faza = ObjednavkaFaza.Nacenenie;
     }
 
     public void SchvalitCenovuPonuku()
@@ -93,11 +93,14 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
         if (PoslednaCenovaPonuka.Stav != StavCenovejPonuky.Poslane)
             throw new DomainValidationException("Cenová ponuka musí byť v stave Poslane, aby sa dala schváliť.");
         PoslednaCenovaPonuka.SetStav(StavCenovejPonuky.Schvalene);
-        SetFaza(ObjednavkaFaza.VyrobaNeriesene);
+        Faza = ObjednavkaFaza.VyrobaNeriesene;
     }
 
-    private void SetFaza(ObjednavkaFaza novaFaza)
+    public void SetFaza(ObjednavkaFaza novaFaza)
     {
+        if (Faza == novaFaza)
+            throw new DomainValidationException("Nemôžete nastaviť rovnakú fázu, v ktorej sa objednávka už nachádza.");
+
         if (Zrusene)
             throw new DomainValidationException("Zrušená objednávka nemôže meniť fázu.");
 
@@ -121,8 +124,8 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
                     throw new DomainValidationException("Z fázy 'VyrobaNemozna' môžete prejsť iba do fázy 'VyrobaNeriesene'.");
                 break;
             case ObjednavkaFaza.VyrobaCaka:
-                if (novaFaza != ObjednavkaFaza.OdoslanieCaka)
-                    throw new DomainValidationException("Z fázy 'VyrobaCaka' môžete prejsť iba do fázy 'OdoslanieCaka'.");
+                if (novaFaza != ObjednavkaFaza.OdoslanieCaka && novaFaza != ObjednavkaFaza.VyrobaNemozna)
+                    throw new DomainValidationException("Z fázy 'VyrobaCaka' môžete prejsť iba do fázy 'OdoslanieCaka' alebo 'VyrobaNemozna'.");
                 break;
             case ObjednavkaFaza.OdoslanieCaka:
                 if (novaFaza != ObjednavkaFaza.PlatbaCaka && !(novaFaza == ObjednavkaFaza.Vybavene && Zaplatene))

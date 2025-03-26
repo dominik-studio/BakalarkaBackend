@@ -25,12 +25,13 @@ public class CenovaPonuka : BaseEntity
     {
         if (Stav == StavCenovejPonuky.Schvalene && novyStav != StavCenovejPonuky.Schvalene)
             throw new DomainValidationException("Schválený stav nemožno zmeniť.");
-        Stav = novyStav;
-
+        
         if (novyStav == StavCenovejPonuky.Poslane)
         {
             AktualizujPovodneCeny();
         }
+        
+        Stav = novyStav;
     }
 
     public void AddPolozka(CenovaPonukaTovar polozka)

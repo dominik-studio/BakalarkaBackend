@@ -22,17 +22,32 @@ public class CenovaPonukaTovar : BaseEntity
     private int _mnozstvo;
     public decimal PovodnaCena { get; private set; }
 
+    public CenovaPonukaTovar(Tovar? tovar = null, VariantTovar? variantTovar = null)
+    {
+        if (tovar == null && variantTovar == null)
+            throw new DomainValidationException("Musí byť nastavený tovar alebo variant.");
+        if (tovar != null && variantTovar != null)
+            throw new DomainValidationException("Tovar a variant nemôžu byť nastavené súčasne.");
+
+        Tovar = tovar;
+        VariantTovar = variantTovar;
+    }
+
     public void SetTovar(Tovar? tovar)
     {
         if (tovar != null && VariantTovar != null)
-            throw new DomainValidationException("Tovar a variant nemôžu byť nastavené súčasne.");
+        {
+            VariantTovar = null;
+        }
         Tovar = tovar;
     }
 
     public void SetVariantTovar(VariantTovar? variantTovar)
     {
         if (variantTovar != null && Tovar != null)
-            throw new DomainValidationException("Tovar a variant nemôžu byť nastavené súčasne.");
+        {
+            Tovar = null;
+        }
         VariantTovar = variantTovar;
     }
 

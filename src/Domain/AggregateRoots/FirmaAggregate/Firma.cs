@@ -24,21 +24,21 @@ public class Firma : BaseAuditableEntity, IAggregateRoot
     public void UpdateSkoreSpolahlivosti(decimal newSkore)
     {
         if (newSkore < 0 || newSkore > 1)
-            throw new DomainValidationException("Skore spolahlivosti must be between 0 and 1");
+            throw new DomainValidationException("Skóre spoľahlivosti musí byť medzi 0 a 1");
         SkoreSpolahlivosti = newSkore;
     }
 
     public void UpdateHodnotaObjednavok(decimal newHodnota)
     {
         if (newHodnota < 0)
-            throw new DomainValidationException("Hodnota objednavok cannot be negative");
+            throw new DomainValidationException("Hodnota objednávok nemôže byť záporná");
         HodnotaObjednavok = newHodnota;
     }
 
     public void AddKontaktnaOsoba(KontaktnaOsoba osoba)
     {
-        if (_kontaktneOsoby.Any(o => o.Email == osoba.Email))
-            throw new DomainValidationException("Duplicate email not allowed");
+        if (_kontaktneOsoby.Any(o => o.Email.Equals(osoba.Email, StringComparison.OrdinalIgnoreCase)))
+            throw new DomainValidationException("Duplicitný email nie je povolený");
 
         _kontaktneOsoby.Add(osoba);
     }
@@ -46,9 +46,9 @@ public class Firma : BaseAuditableEntity, IAggregateRoot
     public void RemoveKontaktnaOsoba(int osobaId)
     {
         var osoba = _kontaktneOsoby.FirstOrDefault(o => o.Id == osobaId);
-        if (osoba != null)
-        {
-            _kontaktneOsoby.Remove(osoba);
-        }
+        if (osoba == null)
+            throw new DomainValidationException("Kontaktna osoba s danym ID neexistuje");
+
+        _kontaktneOsoby.Remove(osoba);
     }
 } 

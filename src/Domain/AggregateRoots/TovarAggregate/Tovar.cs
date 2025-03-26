@@ -19,7 +19,7 @@ public class Tovar : BaseAuditableEntity, IAggregateRoot
         set
         {
             if (value < 0)
-                throw new DomainValidationException("Cena cannot be negative");
+                throw new DomainValidationException("Cena nemôže byť záporná");
             _cena = value;
         }
     }
@@ -41,8 +41,8 @@ public class Tovar : BaseAuditableEntity, IAggregateRoot
 
     public void AddVariant(VariantTovar variant)
     {
-        if (_varianty.Any(v => v.Farba == variant.Farba && v.Velkost == variant.Velkost))
-            throw new DomainValidationException("Duplicate variant");
+        if (_varianty.Any(v => v.Farba == variant.Farba && Equals(v.Velkost, variant.Velkost)))
+            throw new DomainValidationException("Duplicitná varianta");
         _varianty.Add(variant);
     }
 
@@ -50,7 +50,7 @@ public class Tovar : BaseAuditableEntity, IAggregateRoot
     {
         var variant = _varianty.FirstOrDefault(v => v.Id == variantId);
         if (variant == null)
-            throw new DomainValidationException("Variant not found");
+            throw new DomainValidationException("Varianta nebola nájdená");
         _varianty.Remove(variant);
     }
 } 
