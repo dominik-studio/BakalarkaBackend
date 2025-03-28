@@ -84,7 +84,12 @@ public class ObjednavkaTests
             .WithMessage("Hotovú objednávku nemožno zrušiť.");
     }
 
-    
+    [Test]
+    public void ZrusObjednavku_SetsZruseneToTrue_WhenInValidFaza()
+    {
+        // Arrange: Objednávka v platnej fáze pre zrušenie (napr. NacenenieCaka)
+        _objednavka.AddCenovaPonuka(_cenovaPonuka);
+        _objednavka.PoslanaCenovaPonuka(); // Faza: NacenenieCaka
     [Test]
     public void OznacAkoZaplatene_Throws_WhenAlreadyZaplatene()
     {

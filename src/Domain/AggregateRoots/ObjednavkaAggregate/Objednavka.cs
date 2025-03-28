@@ -45,8 +45,6 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
         if (Faza != ObjednavkaFaza.VyrobaNeriesene && Faza != ObjednavkaFaza.VyrobaCaka)
             throw new DomainValidationException("Dátum výroby sa dá nastaviť iba vo fázach Vyroba.");
         NaplanovanyDatumVyroby = datum;
-        if (datum.HasValue && Faza == ObjednavkaFaza.VyrobaNeriesene)
-            SetFaza(ObjednavkaFaza.VyrobaCaka);
     }
 
     public void SetPoznamka(string? poznamka)
@@ -64,17 +62,16 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
         PoslednaCenovaPonuka = cenovaPonuka;
     }
 
-    public void PoslanaCenovaPonuka()
+    private void PoslanaCenovaPonuka()
     {
         if (PoslednaCenovaPonuka == null)
             throw new DomainValidationException("Žiadna cenová ponuka na označenie ako poslaná.");
         if (PoslednaCenovaPonuka.Stav != StavCenovejPonuky.Neriesene)
             throw new DomainValidationException("Cenová ponuka musí byť v stave Neriesene, aby sa dala označiť ako poslaná.");
         PoslednaCenovaPonuka.SetStav(StavCenovejPonuky.Poslane);
-        Faza = ObjednavkaFaza.NacenenieCaka;
     }
 
-    public void ZrusCenovuPonuku()
+    private void ZrusCenovuPonuku()
     {
         if (PoslednaCenovaPonuka == null)
             throw new DomainValidationException("Žiadna cenová ponuka na zrušenie.");
@@ -83,17 +80,15 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
         if (Faza != ObjednavkaFaza.Nacenenie && Faza != ObjednavkaFaza.NacenenieCaka)
             throw new DomainValidationException("Cenovú ponuku možno zrušiť iba vo fázach Nacenenie alebo NacenenieCaka.");
         PoslednaCenovaPonuka = null;
-        Faza = ObjednavkaFaza.Nacenenie;
     }
 
-    public void SchvalitCenovuPonuku()
+    private void SchvalitCenovuPonuku()
     {
         if (PoslednaCenovaPonuka == null)
             throw new DomainValidationException("Žiadna cenová ponuka na schválenie.");
         if (PoslednaCenovaPonuka.Stav != StavCenovejPonuky.Poslane)
             throw new DomainValidationException("Cenová ponuka musí byť v stave Poslane, aby sa dala schváliť.");
         PoslednaCenovaPonuka.SetStav(StavCenovejPonuky.Schvalene);
-        Faza = ObjednavkaFaza.VyrobaNeriesene;
     }
 
     public void SetFaza(ObjednavkaFaza novaFaza)
@@ -107,36 +102,35 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
         if (novaFaza == ObjednavkaFaza.PlatbaCaka && Zaplatene)
             throw new DomainValidationException("Nemôžete nastaviť fázu 'PlatbaCaka', keď je objednávka už zaplatená.");
 
-        if (novaFaza == ObjednavkaFaza.Nacenenie || novaFaza == ObjednavkaFaza.NacenenieCaka)
-            throw new DomainValidationException("Fázy 'Nacenenie' a 'NacenenieCaka' sa nedajú nastaviť priamo.");
+        var allowedTransitions = new Dictionary<ObjednavkaFaza, List<ObjednavkaFaza>>
+        {
+            { ObjednavkaFaza.Nacenenie, [ObjednavkaFaza.NacenenieCaka] },
+            { ObjednavkaFaza.NacenenieCaka, [ObjednavkaFaza.Nacenenie, ObjednavkaFaza.VyrobaNeriesene] },
+            { ObjednavkaFaza.VyrobaNeriesene, [ObjednavkaFaza.VyrobaNemozna, ObjednavkaFaza.VyrobaCaka] },
+            
+            // Keď výrobný manažér určí, že výroba je opäť možná po úprave
+            // očakávaného dátumu dodania alebo vyriešení technických problémov. Detaily je možné pridať do poznámky.
+            { ObjednavkaFaza.VyrobaNemozna, [ObjednavkaFaza.VyrobaNeriesene] },
 
-        // Validate allowed phase transitions
+            { ObjednavkaFaza.VyrobaCaka, [ObjednavkaFaza.OdoslanieCaka, ObjednavkaFaza.VyrobaNemozna] },
+            { ObjednavkaFaza.OdoslanieCaka, [ObjednavkaFaza.PlatbaCaka, ObjednavkaFaza.Vybavene] },
+            { ObjednavkaFaza.PlatbaCaka, [ObjednavkaFaza.Vybavene] }
+        };
+
+        if (!allowedTransitions.ContainsKey(Faza) || !allowedTransitions[Faza].Contains(novaFaza))
+            throw new DomainValidationException($"Neplatný prechod z fázy '{Faza}' do fázy '{novaFaza}'.");
+
         switch (Faza)
         {
-            case ObjednavkaFaza.VyrobaNeriesene:
-                if (novaFaza != ObjednavkaFaza.VyrobaNemozna && novaFaza != ObjednavkaFaza.VyrobaCaka)
-                    throw new DomainValidationException("Z fázy 'VyrobaNeriesene' môžete prejsť iba do fázy 'VyrobaNemozna' alebo 'VyrobaCaka'.");
+            case ObjednavkaFaza.NacenenieCaka when novaFaza == ObjednavkaFaza.Nacenenie:
+                ZrusCenovuPonuku();
                 break;
-            /// Keď výrobný manažér určí, že výroba je opäť možná po úprave
-            /// očakávaného dátumu dodania alebo vyriešení technických problémov. Detaily je možné pridať do poznámky.
-            case ObjednavkaFaza.VyrobaNemozna:
-                if (novaFaza != ObjednavkaFaza.VyrobaNeriesene)
-                    throw new DomainValidationException("Z fázy 'VyrobaNemozna' môžete prejsť iba do fázy 'VyrobaNeriesene'.");
+            case ObjednavkaFaza.NacenenieCaka when novaFaza == ObjednavkaFaza.VyrobaNeriesene:
+                SchvalitCenovuPonuku();
                 break;
-            case ObjednavkaFaza.VyrobaCaka:
-                if (novaFaza != ObjednavkaFaza.OdoslanieCaka && novaFaza != ObjednavkaFaza.VyrobaNemozna)
-                    throw new DomainValidationException("Z fázy 'VyrobaCaka' môžete prejsť iba do fázy 'OdoslanieCaka' alebo 'VyrobaNemozna'.");
+            case ObjednavkaFaza.Nacenenie when novaFaza == ObjednavkaFaza.NacenenieCaka:
+                PoslanaCenovaPonuka();
                 break;
-            case ObjednavkaFaza.OdoslanieCaka:
-                if (novaFaza != ObjednavkaFaza.PlatbaCaka && !(novaFaza == ObjednavkaFaza.Vybavene && Zaplatene))
-                    throw new DomainValidationException("Z fázy 'OdoslanieCaka' môžete prejsť iba do fázy 'PlatbaCaka' alebo 'Vybavene' (ak je objednávka zaplatená).");
-                break;
-            case ObjednavkaFaza.PlatbaCaka:
-                if (novaFaza != ObjednavkaFaza.Vybavene)
-                    throw new DomainValidationException("Z fázy 'PlatbaCaka' môžete prejsť iba do fázy 'Vybavene'.");
-                break;
-            default:
-                throw new DomainValidationException("Neplatná fáza.");
         }
 
         Faza = novaFaza;
