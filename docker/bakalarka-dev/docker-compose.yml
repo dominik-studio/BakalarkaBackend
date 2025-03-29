@@ -3,7 +3,6 @@ version: '3.6'
 services:
   keycloak_web:
     image: quay.io/keycloak/keycloak:23.0.7
-    container_name: keycloak_web
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
@@ -35,7 +34,7 @@ services:
     image: postgres:15
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./create_db_promobay.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./create_db_bakalarka.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: admin
