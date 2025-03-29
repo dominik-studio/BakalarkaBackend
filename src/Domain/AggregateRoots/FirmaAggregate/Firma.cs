@@ -15,6 +15,8 @@ public class Firma : BaseAuditableEntity, IAggregateRoot
     public decimal HodnotaObjednavok { get; private set; }
     private readonly List<KontaktnaOsoba> _kontaktneOsoby = new();
     public IEnumerable<KontaktnaOsoba> KontaktneOsoby => _kontaktneOsoby.AsReadOnly();
+    private readonly List<Objednavka> _objednavky = new();
+    public IEnumerable<Objednavka> Objednavky => _objednavky.AsReadOnly();
 
     public void SetIcDph(string? icDph)
     {
@@ -51,4 +53,22 @@ public class Firma : BaseAuditableEntity, IAggregateRoot
 
         _kontaktneOsoby.Remove(osoba);
     }
+
+    // Optional: Methods to manage orders if needed within the Firma aggregate
+    // public void AddObjednavka(Objednavka objednavka)
+    // {
+    //     if (objednavka.FirmaId != Id)
+    //         throw new DomainValidationException("Objednávka nepatrí tejto firme.");
+    //     _objednavky.Add(objednavka);
+    //     // Potentially update HodnotaObjednavok here or via domain event
+    // }
+
+    // public void RemoveObjednavka(int objednavkaId)
+    // {
+    //     var objednavka = _objednavky.FirstOrDefault(o => o.Id == objednavkaId);
+    //     if (objednavka == null)
+    //         throw new DomainValidationException("Objednávka s daným ID neexistuje v rámci tejto firmy.");
+    //     _objednavky.Remove(objednavka);
+    //     // Potentially update HodnotaObjednavok here or via domain event
+    // }
 } 

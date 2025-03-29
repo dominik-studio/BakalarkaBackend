@@ -19,6 +19,12 @@ public class ObjednavkaConfiguration : IEntityTypeConfiguration<Objednavka>
                .IsRequired(false)
                .OnDelete(DeleteBehavior.SetNull);
 
+        builder.HasOne(o => o.Firma)
+               .WithMany(f => f.Objednavky)
+               .HasForeignKey(o => o.FirmaId)
+               .IsRequired()
+               .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasOne(o => o.KontaktnaOsoba)
                .WithMany()
                .HasForeignKey(o => o.KontaktnaOsobaId)

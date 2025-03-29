@@ -29,6 +29,11 @@ public class FirmaConfiguration : IEntityTypeConfiguration<Firma>
                .HasForeignKey(ko => ko.FirmaId)
                .OnDelete(DeleteBehavior.Cascade);
 
+        builder.HasMany(f => f.Objednavky)
+               .WithOne(o => o.Firma)
+               .HasForeignKey(o => o.FirmaId)
+               .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasIndex(f => f.Nazov);
         builder.HasIndex(f => f.ICO).IsUnique();
         builder.HasIndex(f => f.SkoreSpolahlivosti);
