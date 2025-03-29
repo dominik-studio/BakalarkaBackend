@@ -11,6 +11,8 @@ public class Dodavatel : BaseAuditableEntity, IAggregateRoot
     public Adresa? Adresa { get; private set; }
     public string? Poznamka { get; private set; }
     public bool Aktivny { get; set; } = true;
+    private readonly List<Tovar> _tovary = new();
+    public IEnumerable<Tovar> Tovary => _tovary.AsReadOnly();
 
     public void SetAdresa(Adresa? adresa)
     {
@@ -20,5 +22,20 @@ public class Dodavatel : BaseAuditableEntity, IAggregateRoot
     public void SetPoznamka(string? poznamka)
     {
         Poznamka = poznamka;
+    }
+
+    public void AddTovar(Tovar tovar)
+    {
+        if (tovar.DodavatelId != Id)
+            throw new DomainValidationException("Tovar nepatrí tomuto dodávateľovi.");
+        _tovary.Add(tovar);
+    }
+
+    public void RemoveTovar(int tovarId)
+    {
+        var tovar = _tovary.FirstOrDefault(t => t.Id == tovarId);
+        if (tovar == null)
+            throw new DomainValidationException("Tovar s daným ID neexistuje v rámci tohto dodávateľa.");
+        _tovary.Remove(tovar);
     }
 } 

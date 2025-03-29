@@ -25,8 +25,19 @@ public class Tovar : BaseAuditableEntity, IAggregateRoot
         }
     }
     private decimal _cena;
-    public required Dodavatel Dodavatel { get; set; }
-    public int DodavatelId { get; set; }
+    private Dodavatel? _dodavatel;
+    public int DodavatelId { get; private set; }
+
+    public required Dodavatel Dodavatel 
+    { 
+        get => _dodavatel ?? throw new DomainValidationException("Dodávateľ nie je nastavený.");
+        set
+        {
+            if (_dodavatel != null)
+                throw new DomainValidationException("Dodávateľa možno nastaviť iba raz pri vytvorení tovaru.");
+            _dodavatel = value;
+        }
+    }
 
     private bool _aktivny = true;
     public bool Aktivny

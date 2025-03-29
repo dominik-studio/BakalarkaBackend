@@ -36,13 +36,13 @@ public class TovarConfiguration : IEntityTypeConfiguration<Tovar>
             .WithMany()
             .HasForeignKey(t => t.DodavatelId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(t => t.Varianty)
             .WithOne(v => v.Tovar)
             .HasForeignKey(v => v.TovarId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasIndex(t => t.InterneId).IsUnique();
         builder.HasIndex(t => t.Nazov);

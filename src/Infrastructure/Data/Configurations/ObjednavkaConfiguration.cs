@@ -17,7 +17,7 @@ public class ObjednavkaConfiguration : IEntityTypeConfiguration<Objednavka>
                .WithOne()
                .HasForeignKey<Objednavka>(o => o.PoslednaCenovaPonukaId)
                .IsRequired(false)
-               .OnDelete(DeleteBehavior.SetNull);
+               .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(o => o.Firma)
                .WithMany(f => f.Objednavky)

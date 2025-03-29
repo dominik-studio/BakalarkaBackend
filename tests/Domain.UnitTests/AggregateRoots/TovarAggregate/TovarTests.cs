@@ -9,21 +9,25 @@ namespace CRMBackend.Domain.UnitTests.AggregateRoots.TovarAggregate;
 public class TovarTests
 {
     private Tovar _tovar;
+    private Dodavatel _testDodavatel;
 
     [SetUp]
     public void Setup()
     {
+        _testDodavatel = new Dodavatel 
+        {
+            NazovFirmy = "Test Dodavatel",
+            Email = "dodavatel@test.com",
+            Telefon = "987654321"
+        };
+
         _tovar = new Tovar
         {
+            Dodavatel = _testDodavatel,
             InterneId = "TEST123",
             Nazov = "Test Tovar",
             Kategoria = new KategorieProduktov { Nazov = "Elektronika" },
-            Cena = 100.0m,
-            Dodavatel = new Dodavatel {
-                NazovFirmy = "Test Dodavatel",
-                Email = "dodavatel@test.com",
-                Telefon = "987654321"
-            }
+            Cena = 100.0m
         };
     }
 
@@ -98,5 +102,20 @@ public class TovarTests
         _tovar.RemoveVariant(1);
         _tovar.Varianty.Should().NotContain(variant1);
         _tovar.Varianty.Should().Contain(variant2);
+    }
+
+    [Test]
+    public void SetDodavatel_ShouldThrow_WhenDodavatelIsAlreadySet()
+    {
+        var newDodavatel = new Dodavatel 
+        {
+            NazovFirmy = "New Dodavatel",
+            Email = "new@test.com",
+            Telefon = "123456789"
+        };
+
+        FluentActions.Invoking(() => _tovar.Dodavatel = newDodavatel)
+            .Should().Throw<DomainValidationException>()
+            .WithMessage("Dodávateľa možno nastaviť iba raz pri vytvorení tovaru.");
     }
 } 
