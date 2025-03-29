@@ -24,6 +24,9 @@ public class VariantTovar : BaseEntity
     public string? ObrazokURL { get; private set; }
     public bool Aktivny { get; set; } = true;
 
+    // Private parameterless constructor for EF Core
+    private VariantTovar() { }
+
     public VariantTovar(string? farba, Velkost? velkost)
     {
         SetFarbaVelkost(farba, velkost);

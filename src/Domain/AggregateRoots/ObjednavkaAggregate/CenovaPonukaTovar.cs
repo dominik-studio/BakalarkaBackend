@@ -24,6 +24,9 @@ public class CenovaPonukaTovar : BaseEntity
     private int _mnozstvo;
     public decimal PovodnaCena { get; private set; }
 
+    // Private parameterless constructor for EF Core
+    private CenovaPonukaTovar() { }
+
     public CenovaPonukaTovar(Tovar? tovar = null, VariantTovar? variantTovar = null)
     {
         if (tovar == null && variantTovar == null)
