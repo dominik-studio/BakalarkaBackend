@@ -79,6 +79,7 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
             throw new DomainValidationException("Schválenú cenovú ponuku nemožno zrušiť. Musíte vytvoriť novú objednávku a túto zrušiť.");
         if (Faza != ObjednavkaFaza.Nacenenie && Faza != ObjednavkaFaza.NacenenieCaka)
             throw new DomainValidationException("Cenovú ponuku možno zrušiť iba vo fázach Nacenenie alebo NacenenieCaka.");
+        PoslednaCenovaPonuka.SetStav(StavCenovejPonuky.Zrusene);
         PoslednaCenovaPonuka = null;
     }
 
