@@ -12,6 +12,7 @@ public class Tovar : BaseAuditableEntity, IAggregateRoot
     public required string Nazov { get; set; }
     public string? ObrazokURL { get; private set; }
     public required KategorieProduktov Kategoria { get; set; }
+    public int KategoriaId { get; set; }
     public string? Ean { get; private set; }
     public required decimal Cena
     {
@@ -25,6 +26,24 @@ public class Tovar : BaseAuditableEntity, IAggregateRoot
     }
     private decimal _cena;
     public required Dodavatel Dodavatel { get; set; }
+    public int DodavatelId { get; set; }
+
+    private bool _aktivny = true;
+    public bool Aktivny
+    {
+        get => _aktivny;
+        set
+        {
+            if (_aktivny == value) return;
+
+            _aktivny = value;
+
+            foreach (var variant in _varianty)
+            {
+                variant.Aktivny = value;
+            }
+        }
+    }
 
     private readonly List<VariantTovar> _varianty = new();
     public IEnumerable<VariantTovar> Varianty => _varianty.AsReadOnly();
@@ -41,8 +60,11 @@ public class Tovar : BaseAuditableEntity, IAggregateRoot
 
     public void AddVariant(VariantTovar variant)
     {
-        if (_varianty.Any(v => v.Farba == variant.Farba && Equals(v.Velkost, variant.Velkost)))
+        if (_varianty.Any(v => v.FarbaHex == variant.FarbaHex && Equals(v.Velkost, variant.Velkost)))
             throw new DomainValidationException("Duplicitná varianta");
+
+        variant.Aktivny = this.Aktivny;
+
         _varianty.Add(variant);
     }
 

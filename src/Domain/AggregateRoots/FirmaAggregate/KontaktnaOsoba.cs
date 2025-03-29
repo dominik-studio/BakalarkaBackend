@@ -4,7 +4,7 @@ namespace CRMBackend.Domain.AggregateRoots;
 
 public class KontaktnaOsoba : BaseEntity
 {
-    public int FirmaId { get; set; }
+    public int FirmaId { get; private set; }
     public Firma Firma { get; set; } = null!;
     public required string Meno { get; set; }
     public required string Priezvisko { get; set; }

@@ -7,7 +7,8 @@ namespace CRMBackend.Domain.AggregateRoots;
 public class VariantTovar : BaseEntity
 {
     public required Tovar Tovar { get; set; }
-    public string? Farba { get; private set; }
+    public int TovarId { get; set; }
+    public string? FarbaHex { get; private set; }
     public Velkost? Velkost { get; private set; }
     public required decimal Cena
     {
@@ -21,6 +22,7 @@ public class VariantTovar : BaseEntity
     }
     private decimal _cena;
     public string? ObrazokURL { get; private set; }
+    public bool Aktivny { get; set; } = true;
 
     public VariantTovar(string? farba, Velkost? velkost)
     {
@@ -35,7 +37,7 @@ public class VariantTovar : BaseEntity
         if (!string.IsNullOrEmpty(farba) && !IsValidHexColor(farba))
             throw new DomainValidationException("Farba musí byť platný hexadecimálny kód farby");
 
-        Farba = farba;
+        FarbaHex = farba;
         Velkost = velkost;
     }
 

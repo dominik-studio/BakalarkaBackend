@@ -5,8 +5,12 @@ namespace CRMBackend.Domain.AggregateRoots;
 
 public class Objednavka : BaseAuditableEntity, IAggregateRoot
 {
+    public required Firma Firma { get; set; }
+    public int FirmaId { get; private set; }
     public required KontaktnaOsoba KontaktnaOsoba { get; set; }
+    public int KontaktnaOsobaId { get; private set; }
     public CenovaPonuka? PoslednaCenovaPonuka { get; private set; }
+    public int? PoslednaCenovaPonukaId { get; private set; }
     public ObjednavkaFaza Faza { get; private set; } = ObjednavkaFaza.Nacenenie;
     public bool Zrusene { get; private set; } = false;
     public bool Zaplatene { get; private set; } = false;

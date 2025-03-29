@@ -33,10 +33,10 @@ public class CenovaPonukaTests
         {
             Objednavka = new Objednavka()
             {
+                Firma = firma,
                 KontaktnaOsoba = new KontaktnaOsoba
                 {
                     Id = 1,
-                    FirmaId = 1,
                     Firma = firma,
                     Meno = "Test Meno",
                     Priezvisko = "Test Priezvisko",
@@ -55,7 +55,11 @@ public class CenovaPonukaTests
                 Nazov = "Kategoria Tovar",
             },
             Cena = 100.0m,
-            Dodavatel = new Dodavatel { NazovFirmy = "Test Dodavatel" }
+            Dodavatel = new Dodavatel {
+                NazovFirmy = "Test Dodavatel",
+                Email = "dodavatel@test.com",
+                Telefon = "987654321"
+            }
         };
         
         _polozka = new CenovaPonukaTovar(tovar)

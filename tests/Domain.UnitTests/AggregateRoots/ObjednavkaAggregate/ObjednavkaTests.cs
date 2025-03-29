@@ -35,7 +35,6 @@ public class ObjednavkaTests
         var kontaktnaOsoba = new KontaktnaOsoba
         {
             Id = 1,
-            FirmaId = 1,
             Firma = firma,
             Meno = "Test Meno",
             Priezvisko = "Test Priezvisko",
@@ -47,12 +46,14 @@ public class ObjednavkaTests
         {
             Objednavka = new Objednavka()
             {
+                Firma = firma,
                 KontaktnaOsoba = kontaktnaOsoba
             }
         };
 
         _objednavka = new Objednavka
         {
+            Firma = firma,
             KontaktnaOsoba = kontaktnaOsoba
         };
     }
@@ -115,14 +116,27 @@ public class ObjednavkaTests
 
     private CenovaPonuka CreateCenovuPonuku()
     {
+        var firma = new Firma
+        {
+            Nazov = "Test Firma",
+            ICO = "12345678",
+            Adresa = new Adresa
+            {
+                Ulica = "Test Ulica",
+                Mesto = "Test Mesto",
+                PSC = "12345",
+                Krajina = "Test Krajina"
+            }
+        };
+        
         return new CenovaPonuka()
         {
             Objednavka = new Objednavka()
             {
+                Firma = firma,
                 KontaktnaOsoba = new KontaktnaOsoba
                 {
                     Id = 1,
-                    FirmaId = 1,
                     Firma = new Firma
                     {
                         Nazov = "Test Firma",

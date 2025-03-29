@@ -5,6 +5,7 @@ namespace CRMBackend.Domain.AggregateRoots;
 
 public class CenovaPonuka : BaseEntity
 {
+    public int ObjednavkaId { get; private set; }
     public required Objednavka Objednavka { get; set; }
     public decimal FinalnaCena { get; private set; }
     public StavCenovejPonuky Stav { get; private set; } = StavCenovejPonuky.Neriesene;

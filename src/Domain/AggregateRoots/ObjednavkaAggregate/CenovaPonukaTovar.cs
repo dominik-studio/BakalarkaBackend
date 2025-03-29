@@ -5,10 +5,12 @@ namespace CRMBackend.Domain.AggregateRoots;
 
 public class CenovaPonukaTovar : BaseEntity
 {
-    public int CenovaPonukaId { get; set; }
+    public int CenovaPonukaId { get; private set; }
     public CenovaPonuka CenovaPonuka { get; set; } = null!;
     public Tovar? Tovar { get; private set; }
+    public int? TovarId { get; private set; }
     public VariantTovar? VariantTovar { get; private set; }
+    public int? VariantTovarId { get; private set; }
     public required int Mnozstvo
     {
         get => _mnozstvo;
@@ -30,7 +32,9 @@ public class CenovaPonukaTovar : BaseEntity
             throw new DomainValidationException("Tovar a variant nemôžu byť nastavené súčasne.");
 
         Tovar = tovar;
+        TovarId = tovar?.Id;
         VariantTovar = variantTovar;
+        VariantTovarId = variantTovar?.Id;
     }
 
     public void SetTovar(Tovar? tovar)
@@ -38,8 +42,10 @@ public class CenovaPonukaTovar : BaseEntity
         if (tovar != null && VariantTovar != null)
         {
             VariantTovar = null;
+            VariantTovarId = null;
         }
         Tovar = tovar;
+        TovarId = tovar?.Id;
     }
 
     public void SetVariantTovar(VariantTovar? variantTovar)
@@ -47,8 +53,10 @@ public class CenovaPonukaTovar : BaseEntity
         if (variantTovar != null && Tovar != null)
         {
             Tovar = null;
+            TovarId = null;
         }
         VariantTovar = variantTovar;
+        VariantTovarId = variantTovar?.Id;
     }
 
     public void SetPovodnaCena(decimal cena)

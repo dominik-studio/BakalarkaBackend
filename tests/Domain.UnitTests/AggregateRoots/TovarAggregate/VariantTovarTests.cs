@@ -19,7 +19,11 @@ public class VariantTovarTests
             Nazov = "Test Tovar",
             Kategoria = new KategorieProduktov { Nazov = "Elektronika" },
             Cena = 100.0m,
-            Dodavatel = new Dodavatel { NazovFirmy = "Test Dodavatel" }
+            Dodavatel = new Dodavatel {
+                NazovFirmy = "Test Dodavatel",
+                Email = "dodavatel@test.com",
+                Telefon = "987654321"
+            }
         };
     }
 
@@ -43,7 +47,7 @@ public class VariantTovarTests
     public void Constructor_ShouldAcceptValidFarba()
     {
         var variant = new VariantTovar("#FFFFFF", null) { Tovar = _tovar, Cena = 50.0m };
-        variant.Farba.Should().Be("#FFFFFF");
+        variant.FarbaHex.Should().Be("#FFFFFF");
         variant.Velkost.Should().BeNull();
     }
 
@@ -51,7 +55,7 @@ public class VariantTovarTests
     public void Constructor_ShouldAcceptValidVelkost()
     {
         var variant = new VariantTovar(null, Velkost.M) { Tovar = _tovar, Cena = 50.0m };
-        variant.Farba.Should().BeNull();
+        variant.FarbaHex.Should().BeNull();
         variant.Velkost.Should().Be(Velkost.M);
     }
 
@@ -59,7 +63,7 @@ public class VariantTovarTests
     public void Constructor_ShouldAcceptBothFarbaAndVelkost()
     {
         var variant = new VariantTovar("#000000", Velkost.L) { Tovar = _tovar, Cena = 50.0m };
-        variant.Farba.Should().Be("#000000");
+        variant.FarbaHex.Should().Be("#000000");
         variant.Velkost.Should().Be(Velkost.L);
     }
 

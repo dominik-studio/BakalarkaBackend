@@ -20,7 +20,11 @@ public class CenovaPonukaTovarTests
             Nazov = "Test Tovar",
             Kategoria = new KategorieProduktov { Nazov = "Elektronika" },
             Cena = 100.0m,
-            Dodavatel = new Dodavatel { NazovFirmy = "Test Dodavatel" }
+            Dodavatel = new Dodavatel {
+                NazovFirmy = "Test Dodavatel",
+                Email = "dodavatel@test.com",
+                Telefon = "987654321"
+            }
         };
 
         _variant = new VariantTovar("#FFFFFF", Velkost.M)
