@@ -9,22 +9,40 @@ namespace CRMBackend.Domain.UnitTests.AggregateRoots.TovarAggregate;
 public class TovarTests
 {
     private Tovar _tovar;
+    private Dodavatel _dodavatel;
 
     [SetUp]
     public void Setup()
     {
-        _tovar = new Tovar
+        _dodavatel = new Dodavatel 
+        {
+            NazovFirmy = "Test Dodavatel",
+            Email = "dodavatel@test.com",
+            Telefon = "987654321"
+        };
+
+        _tovar = new Tovar(_dodavatel)
         {
             InterneId = "TEST123",
             Nazov = "Test Tovar",
             Kategoria = new KategorieProduktov { Nazov = "Elektronika" },
-            Cena = 100.0m,
-            Dodavatel = new Dodavatel {
-                NazovFirmy = "Test Dodavatel",
-                Email = "dodavatel@test.com",
-                Telefon = "987654321"
-            }
+            Cena = 100.0m
         };
+    }
+
+    [Test]
+    public void Constructor_ShouldSetDodavatel()
+    {
+        var tovar = new Tovar(_dodavatel)
+        {
+            InterneId = "NEW123",
+            Nazov = "New Tovar",
+            Kategoria = new KategorieProduktov { Nazov = "Oblecenie" },
+            Cena = 200.0m
+        };
+
+        tovar.Dodavatel.Should().Be(_dodavatel);
+        tovar.DodavatelId.Should().Be(_dodavatel.Id);
     }
 
     [Test]

@@ -46,7 +46,12 @@ public class CenovaPonukaTests
             }
         };
 
-        var tovar = new Tovar
+        var tovar = new Tovar(new Dodavatel 
+        {
+            NazovFirmy = "Test Dodavatel",
+            Email = "dodavatel@test.com",
+            Telefon = "987654321"
+        })
         {
             InterneId = "TEST123",
             Nazov = "Test Tovar",
@@ -54,12 +59,7 @@ public class CenovaPonukaTests
             {
                 Nazov = "Kategoria Tovar",
             },
-            Cena = 100.0m,
-            Dodavatel = new Dodavatel {
-                NazovFirmy = "Test Dodavatel",
-                Email = "dodavatel@test.com",
-                Telefon = "987654321"
-            }
+            Cena = 100.0m
         };
         
         _polozka = new CenovaPonukaTovar(tovar)

@@ -14,17 +14,17 @@ public class CenovaPonukaTovarTests
     [SetUp]
     public void Setup()
     {
-        _tovar = new Tovar
+        _tovar = new Tovar(new Dodavatel 
+        {
+            NazovFirmy = "Test Dodavatel",
+            Email = "dodavatel@test.com",
+            Telefon = "987654321"
+        })
         {
             InterneId = "TEST123",
             Nazov = "Test Tovar",
             Kategoria = new KategorieProduktov { Nazov = "Elektronika" },
-            Cena = 100.0m,
-            Dodavatel = new Dodavatel {
-                NazovFirmy = "Test Dodavatel",
-                Email = "dodavatel@test.com",
-                Telefon = "987654321"
-            }
+            Cena = 100.0m
         };
 
         _variant = new VariantTovar("#FFFFFF", Velkost.M)

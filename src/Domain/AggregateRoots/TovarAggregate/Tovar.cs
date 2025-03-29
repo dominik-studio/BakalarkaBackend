@@ -25,8 +25,8 @@ public class Tovar : BaseAuditableEntity, IAggregateRoot
         }
     }
     private decimal _cena;
-    public required Dodavatel Dodavatel { get; set; }
-    public int DodavatelId { get; set; }
+    public Dodavatel Dodavatel { get; private set; }
+    public int DodavatelId { get; private set; }
 
     private bool _aktivny = true;
     public bool Aktivny
@@ -47,6 +47,12 @@ public class Tovar : BaseAuditableEntity, IAggregateRoot
 
     private readonly List<VariantTovar> _varianty = new();
     public IEnumerable<VariantTovar> Varianty => _varianty.AsReadOnly();
+
+    public Tovar(Dodavatel dodavatel)
+    {
+        Dodavatel = dodavatel;
+        DodavatelId = dodavatel.Id;
+    }
 
     public void SetObrazok(string? obrazok)
     {
