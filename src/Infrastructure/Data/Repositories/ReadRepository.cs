@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using CRMBackend.Application.Common.Interfaces.Data;
+using CRMBackend.Application.Common.Interfaces.Repositories;
 
 namespace CRMBackend.Infrastructure.Data.Repositories
 {

@@ -1,4 +1,5 @@
 using CRMBackend.Domain.AggregateRoots;
+using CRMBackend.Domain.AggregateRoots.FirmaAggregate;
 using CRMBackend.Domain.Entities;
 using CRMBackend.Domain.Exceptions;
 using CRMBackend.Domain.ValueObjects;

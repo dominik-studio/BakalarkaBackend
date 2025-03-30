@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using MediatR;
-using CRMBackend.Application.Common.Interfaces.Data;
+using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Domain.Entities;
 using CRMBackend.Domain.Enums;
 using Ardalis.GuardClauses;

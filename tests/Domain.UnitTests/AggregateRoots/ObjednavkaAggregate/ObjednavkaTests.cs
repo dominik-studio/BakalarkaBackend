@@ -7,6 +7,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using System;
 using System.Linq;
+using CRMBackend.Domain.AggregateRoots.FirmaAggregate;
+using CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
 
 namespace CRMBackend.Domain.UnitTests.AggregateRoots.ObjednavkaAggregate;
 

@@ -1,10 +1,9 @@
-using CRMBackend.Domain.Common;
-using CRMBackend.Domain.Exceptions;
-using CRMBackend.Domain.Events;
-using CRMBackend.Domain.Enums;
+using CRMBackend.Domain.AggregateRoots.FirmaAggregate;
+using Plainquire.Filter.Abstractions;
 
-namespace CRMBackend.Domain.AggregateRoots;
+namespace CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
 
+[EntityFilter(Prefix = "")]
 public class Objednavka : BaseAuditableEntity, IAggregateRoot
 {
     public required Firma Firma { get; set; }

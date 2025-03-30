@@ -1,9 +1,8 @@
-using CRMBackend.Domain.Common;
-using CRMBackend.Domain.Exceptions;
-using CRMBackend.Domain.ValueObjects;
+using Plainquire.Filter.Abstractions;
 
-namespace CRMBackend.Domain.AggregateRoots;
+namespace CRMBackend.Domain.AggregateRoots.TovarAggregate;
 
+[EntityFilter(Prefix = "")]
 public class VariantTovar : BaseEntity
 {
     public required Tovar Tovar { get; set; }

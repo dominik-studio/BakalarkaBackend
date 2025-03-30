@@ -1,7 +1,8 @@
-using CRMBackend.Domain.Common;
+using Plainquire.Filter.Abstractions;
 
-namespace CRMBackend.Domain.AggregateRoots;
+namespace CRMBackend.Domain.AggregateRoots.FirmaAggregate;
 
+[EntityFilter(Prefix = "")]
 public class KontaktnaOsoba : BaseEntity
 {
     public int FirmaId { get; private set; }

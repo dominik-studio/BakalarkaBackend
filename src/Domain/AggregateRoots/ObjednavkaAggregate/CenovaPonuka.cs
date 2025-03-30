@@ -1,8 +1,8 @@
-using CRMBackend.Domain.Common;
-using CRMBackend.Domain.Exceptions;
+using Plainquire.Filter.Abstractions;
 
-namespace CRMBackend.Domain.AggregateRoots;
+namespace CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
 
+[EntityFilter(Prefix = "")]
 public class CenovaPonuka : BaseEntity
 {
     public int ObjednavkaId { get; private set; }

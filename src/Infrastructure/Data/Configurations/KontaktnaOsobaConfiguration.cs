@@ -1,4 +1,5 @@
 using CRMBackend.Domain.AggregateRoots;
+using CRMBackend.Domain.AggregateRoots.FirmaAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

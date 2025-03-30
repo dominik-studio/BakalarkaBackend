@@ -1,11 +1,10 @@
-using CRMBackend.Domain.Common;
-using CRMBackend.Domain.Exceptions;
-using CRMBackend.Domain.ValueObjects;
-using System.Collections.Generic;
-using System.Linq;
+using CRMBackend.Domain.AggregateRoots.DodavatelAggregate;
+using CRMBackend.Domain.AggregateRoots.KategorieProduktovAggregate;
+using Plainquire.Filter.Abstractions;
 
-namespace CRMBackend.Domain.AggregateRoots;
+namespace CRMBackend.Domain.AggregateRoots.TovarAggregate;
 
+[EntityFilter(Prefix = "")]
 public class Tovar : BaseAuditableEntity, IAggregateRoot
 {
     public required string InterneId { get; set; }

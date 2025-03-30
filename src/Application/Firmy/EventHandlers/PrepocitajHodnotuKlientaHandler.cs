@@ -1,5 +1,7 @@
-using CRMBackend.Application.Common.Interfaces.Data;
+using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Domain.AggregateRoots;
+using CRMBackend.Domain.AggregateRoots.FirmaAggregate;
+using CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
 using CRMBackend.Domain.Entities;
 using CRMBackend.Domain.Enums;
 using CRMBackend.Domain.Events;

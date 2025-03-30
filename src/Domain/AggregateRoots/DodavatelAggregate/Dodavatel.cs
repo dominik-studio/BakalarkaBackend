@@ -1,8 +1,9 @@
-using CRMBackend.Domain.Common;
-using CRMBackend.Domain.ValueObjects;
+using CRMBackend.Domain.AggregateRoots.TovarAggregate;
+using Plainquire.Filter.Abstractions;
 
-namespace CRMBackend.Domain.AggregateRoots;
+namespace CRMBackend.Domain.AggregateRoots.DodavatelAggregate;
 
+[EntityFilter(Prefix = "")]
 public class Dodavatel : BaseAuditableEntity, IAggregateRoot
 {
     public required string NazovFirmy { get; set; }

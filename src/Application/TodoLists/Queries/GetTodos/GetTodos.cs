@@ -1,7 +1,7 @@
 ﻿using Plainquire.Filter;
 using Plainquire.Page;
 using Plainquire.Sort;
-using CRMBackend.Application.Common.Interfaces.Data;
+using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Application.Common.Mappings;
 using CRMBackend.Domain.Entities;
 

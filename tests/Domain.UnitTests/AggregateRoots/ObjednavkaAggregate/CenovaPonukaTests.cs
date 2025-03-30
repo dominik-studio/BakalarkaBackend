@@ -1,4 +1,9 @@
 using CRMBackend.Domain.AggregateRoots;
+using CRMBackend.Domain.AggregateRoots.DodavatelAggregate;
+using CRMBackend.Domain.AggregateRoots.FirmaAggregate;
+using CRMBackend.Domain.AggregateRoots.KategorieProduktovAggregate;
+using CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
+using CRMBackend.Domain.AggregateRoots.TovarAggregate;
 using CRMBackend.Domain.Entities;
 using CRMBackend.Domain.Enums;
 using CRMBackend.Domain.Exceptions;

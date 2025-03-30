@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using CRMBackend.Application.Common.Interfaces.Data;
+using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Domain.Entities;
 using CRMBackend.Infrastructure.Data.Repositories;
 using CRMBackend.Infrastructure.Identity;

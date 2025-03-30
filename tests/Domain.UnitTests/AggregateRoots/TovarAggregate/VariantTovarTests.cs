@@ -1,4 +1,7 @@
 using CRMBackend.Domain.AggregateRoots;
+using CRMBackend.Domain.AggregateRoots.DodavatelAggregate;
+using CRMBackend.Domain.AggregateRoots.KategorieProduktovAggregate;
+using CRMBackend.Domain.AggregateRoots.TovarAggregate;
 using CRMBackend.Domain.Exceptions;
 using CRMBackend.Domain.ValueObjects;
 using FluentAssertions;

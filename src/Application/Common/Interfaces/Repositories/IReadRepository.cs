@@ -1,5 +1,5 @@
 
-namespace CRMBackend.Application.Common.Interfaces.Data
+namespace CRMBackend.Application.Common.Interfaces.Repositories
 {
     public interface IReadRepository<T>
     {

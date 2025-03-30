@@ -1,6 +1,6 @@
 using CRMBackend.Domain.Common;
 
-namespace CRMBackend.Application.Common.Interfaces.Data
+namespace CRMBackend.Application.Common.Interfaces.Repositories
 {
     public interface IWriteRepository<T> where T : class, IAggregateRoot
     {
