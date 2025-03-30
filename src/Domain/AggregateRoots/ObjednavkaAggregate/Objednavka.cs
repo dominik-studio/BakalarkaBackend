@@ -12,9 +12,6 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
     public required KontaktnaOsoba KontaktnaOsoba { get; set; }
     public int KontaktnaOsobaId { get; private set; }
 
-    public CenovaPonuka? PoslednaCenovaPonuka { get; private set; }
-    public int? PoslednaCenovaPonukaId { get; private set; }
-
     public ObjednavkaFaza Faza { get; private set; } = ObjednavkaFaza.Nacenenie;
 
     public string? Poznamka { get; private set; }
@@ -60,6 +57,9 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
                 SetFaza(ObjednavkaFaza.Vybavene);
         }
     }
+    
+    public CenovaPonuka? PoslednaCenovaPonuka { get; private set; }
+    public int? PoslednaCenovaPonukaId { get; private set; }
 
     private readonly List<CenovaPonuka> _cenovePonuky = new();
     public IEnumerable<CenovaPonuka> CenovePonuky => _cenovePonuky.AsReadOnly();
@@ -95,9 +95,19 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
             throw new DomainValidationException("Cenovú ponuku možno pridať iba vo fáze Nacenenie.");
         if (PoslednaCenovaPonuka != null && PoslednaCenovaPonuka.Stav != StavCenovejPonuky.Zrusene)
             throw new DomainValidationException("Nemôžete pridať novú cenovú ponuku, pokiaľ posledná cenová ponuka nie je zrušená.");
+        if (cenovaPonuka.Stav != StavCenovejPonuky.Neriesene)
+            throw new DomainValidationException("Cenovú ponuku možno pridať iba v stave Neriesene.");
         _cenovePonuky.Add(cenovaPonuka);
         PoslednaCenovaPonuka = cenovaPonuka;
     }
+    
+    public void UpdateCenovaPonuka(CenovaPonuka cenovaPonuka)
+    {
+        if (Faza != ObjednavkaFaza.Nacenenie)
+            throw new DomainValidationException("Cenovú ponuku možno upraviť iba vo fáze Nacenenie.");
+        PoslednaCenovaPonuka = cenovaPonuka;
+    }
+    
 
     private void PoslanaCenovaPonuka()
     {
@@ -117,7 +127,6 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
         if (Faza != ObjednavkaFaza.Nacenenie && Faza != ObjednavkaFaza.NacenenieCaka)
             throw new DomainValidationException("Cenovú ponuku možno zrušiť iba vo fázach Nacenenie alebo NacenenieCaka.");
         PoslednaCenovaPonuka.SetStav(StavCenovejPonuky.Zrusene);
-        PoslednaCenovaPonuka = null;
     }
 
     private void SchvalitCenovuPonuku()

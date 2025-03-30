@@ -28,7 +28,5 @@ public class KontaktnaOsobaConfiguration : IEntityTypeConfiguration<KontaktnaOso
 
         builder.HasIndex(ko => ko.Email);
         builder.HasIndex(ko => ko.FirmaId);
-
-        builder.HasIndex(ko => new { ko.FirmaId, ko.Email }).IsUnique();
     }
 }
