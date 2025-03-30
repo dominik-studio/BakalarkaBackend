@@ -11,7 +11,24 @@ public class Dodavatel : BaseAuditableEntity, IAggregateRoot
     public required string Telefon { get; set; }
     public Adresa? Adresa { get; private set; }
     public string? Poznamka { get; private set; }
-    public bool Aktivny { get; set; } = true;
+    
+    private bool _aktivny = true;
+    public bool Aktivny
+    {
+        get => _aktivny;
+        set
+        {
+            if (_aktivny == value) return;
+
+            _aktivny = value;
+
+            foreach (var tovar in _tovary)
+            {
+                tovar.Aktivny = value;
+            }
+        }
+    }
+    
     private readonly List<Tovar> _tovary = new();
     public IEnumerable<Tovar> Tovary => _tovary.AsReadOnly();
 
