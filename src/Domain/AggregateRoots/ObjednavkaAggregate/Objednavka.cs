@@ -8,37 +8,74 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
 {
     public required Firma Firma { get; set; }
     public int FirmaId { get; private set; }
+
     public required KontaktnaOsoba KontaktnaOsoba { get; set; }
     public int KontaktnaOsobaId { get; private set; }
+
     public CenovaPonuka? PoslednaCenovaPonuka { get; private set; }
     public int? PoslednaCenovaPonukaId { get; private set; }
+
     public ObjednavkaFaza Faza { get; private set; } = ObjednavkaFaza.Nacenenie;
-    public bool Zrusene { get; private set; } = false;
-    public bool Zaplatene { get; private set; } = false;
-    public DateTime? OcakavanyDatumDorucenia { get; private set; }
-    public DateTime? NaplanovanyDatumVyroby { get; private set; }
+
     public string? Poznamka { get; private set; }
     public ChybaKlienta? ChybaKlienta { get; private set; }
+
+    public DateTime? OcakavanyDatumDorucenia { get; private set; }
+    
+    private DateTime? _naplanovanyDatumVyroby;
+    public DateTime? NaplanovanyDatumVyroby
+    {
+        get => _naplanovanyDatumVyroby;
+        set
+        {
+            if (value == null && Faza == ObjednavkaFaza.VyrobaCaka)
+                throw new DomainValidationException("Plánovaný dátum výroby nemožno odstrániť, keď je objednávka vo fáze 'VyrobaCaka'.");
+                        
+            _naplanovanyDatumVyroby = value;
+        }
+    }
+
+    private bool _zrusene;
+    public bool Zrusene
+    {
+        get => _zrusene;
+        set
+        {
+            if (value == true && Faza == ObjednavkaFaza.Vybavene)
+                throw new DomainValidationException("Hotovú objednávku nemožno zrušiť.");
+            _zrusene = value;
+        }
+    }
+
+    private bool _zaplatene;
+    public bool Zaplatene
+    {
+        get => _zaplatene;
+        set
+        {
+            if(value == false && _zaplatene == true && Faza == ObjednavkaFaza.Vybavene)
+                throw new DomainValidationException("Objednávku nemožno nastaviť ako nezaplatenú, keď je vybavená.");
+            _zaplatene = value;
+            if (value == true && Faza == ObjednavkaFaza.PlatbaCaka)
+                SetFaza(ObjednavkaFaza.Vybavene);
+        }
+    }
 
     private readonly List<CenovaPonuka> _cenovePonuky = new();
     public IEnumerable<CenovaPonuka> CenovePonuky => _cenovePonuky.AsReadOnly();
 
-    public void ZrusObjednavku()
-    {
-        if (Zrusene)
-            throw new DomainValidationException("Objednávka je už zrušená.");
-        if (Faza == ObjednavkaFaza.Vybavene)
-            throw new DomainValidationException("Hotovú objednávku nemožno zrušiť.");
-        Zrusene = true;
-    }
 
-    public void OznacAkoZaplatene()
+    public void SetChybaKlienta(ChybaKlienta? chybaKlienta)
     {
-        if (Zaplatene)
-            throw new DomainValidationException("Objednávka je už zaplatená.");
-        Zaplatene = true;
-        if (Faza == ObjednavkaFaza.PlatbaCaka)
-            SetFaza(ObjednavkaFaza.Vybavene);
+        if (chybaKlienta.HasValue && ChybaKlienta == null)
+        {
+            ChybaKlienta = chybaKlienta;
+            AddDomainEvent(new ChybaKlientaZaznamenanaEvent(FirmaId, chybaKlienta.Value));
+        }
+        else
+        {
+            ChybaKlienta = chybaKlienta;
+        }
     }
 
     public void SetOcakavanyDatumDorucenia(DateTime? datum)
@@ -46,17 +83,11 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
         OcakavanyDatumDorucenia = datum;
     }
 
-    public void SetNaplanovanyDatumVyroby(DateTime? datum)
-    {
-        if (Faza != ObjednavkaFaza.VyrobaNeriesene && Faza != ObjednavkaFaza.VyrobaCaka)
-            throw new DomainValidationException("Dátum výroby sa dá nastaviť iba vo fázach Vyroba.");
-        NaplanovanyDatumVyroby = datum;
-    }
-
     public void SetPoznamka(string? poznamka)
     {
         Poznamka = poznamka;
     }
+
 
     public void AddCenovaPonuka(CenovaPonuka cenovaPonuka)
     {
@@ -101,13 +132,16 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
     public void SetFaza(ObjednavkaFaza novaFaza)
     {
         if (Faza == novaFaza)
-            throw new DomainValidationException("Nemôžete nastaviť rovnakú fázu, v ktorej sa objednávka už nachádza.");
-
+            return;
+            
         if (Zrusene)
             throw new DomainValidationException("Zrušená objednávka nemôže meniť fázu.");
 
         if (novaFaza == ObjednavkaFaza.PlatbaCaka && Zaplatene)
             throw new DomainValidationException("Nemôžete nastaviť fázu 'PlatbaCaka', keď je objednávka už zaplatená.");
+        
+        if (novaFaza == ObjednavkaFaza.VyrobaCaka && NaplanovanyDatumVyroby == null)
+            throw new DomainValidationException("Pre nastavenie fázy 'VyrobaCaka' musí byť nastavený plánovaný dátum výroby.");
 
         var allowedTransitions = new Dictionary<ObjednavkaFaza, List<ObjednavkaFaza>>
         {
@@ -117,11 +151,12 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
             
             // Keď výrobný manažér určí, že výroba je opäť možná po úprave
             // očakávaného dátumu dodania alebo vyriešení technických problémov. Detaily je možné pridať do poznámky.
-            { ObjednavkaFaza.VyrobaNemozna, [ObjednavkaFaza.VyrobaNeriesene] },
+            { ObjednavkaFaza.VyrobaNemozna, [ObjednavkaFaza.VyrobaNeriesene, ObjednavkaFaza.VyrobaCaka] },
 
-            { ObjednavkaFaza.VyrobaCaka, [ObjednavkaFaza.OdoslanieCaka, ObjednavkaFaza.VyrobaNemozna] },
-            { ObjednavkaFaza.OdoslanieCaka, [ObjednavkaFaza.PlatbaCaka, ObjednavkaFaza.Vybavene] },
-            { ObjednavkaFaza.PlatbaCaka, [ObjednavkaFaza.Vybavene] }
+            { ObjednavkaFaza.VyrobaCaka, [ObjednavkaFaza.OdoslanieCaka, ObjednavkaFaza.VyrobaNemozna, ObjednavkaFaza.VyrobaNeriesene] },
+            { ObjednavkaFaza.OdoslanieCaka, [ObjednavkaFaza.PlatbaCaka, ObjednavkaFaza.Vybavene, ObjednavkaFaza.VyrobaCaka] },
+            { ObjednavkaFaza.PlatbaCaka, [ObjednavkaFaza.Vybavene, ObjednavkaFaza.OdoslanieCaka] },
+            { ObjednavkaFaza.Vybavene, [ObjednavkaFaza.PlatbaCaka, ObjednavkaFaza.OdoslanieCaka] }
         };
 
         if (!allowedTransitions.ContainsKey(Faza) || !allowedTransitions[Faza].Contains(novaFaza))
@@ -146,18 +181,5 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
         }
 
         Faza = novaFaza;
-    }
-
-    public void SetChybaKlienta(ChybaKlienta? chybaKlienta)
-    {
-        if (chybaKlienta.HasValue && ChybaKlienta == null)
-        {
-            ChybaKlienta = chybaKlienta;
-            AddDomainEvent(new ChybaKlientaZaznamenanaEvent(FirmaId, chybaKlienta.Value));
-        }
-        else
-        {
-            ChybaKlienta = chybaKlienta;
-        }
     }
 } 
