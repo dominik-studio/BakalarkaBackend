@@ -11,8 +11,8 @@ public class Firma : BaseAuditableEntity, IAggregateRoot
     public required string ICO { get; set; }
     public required Adresa Adresa { get; set; }
     public string? IcDph { get; private set; }
-    public decimal SkoreSpolahlivosti { get; private set; } = 0.75m;
-    public decimal HodnotaObjednavok { get; private set; }
+    public decimal SkoreSpolahlivosti { get; private set; } = 0;
+    public decimal HodnotaObjednavok { get; private set; } = 0;
     private readonly List<KontaktnaOsoba> _kontaktneOsoby = new();
     public IEnumerable<KontaktnaOsoba> KontaktneOsoby => _kontaktneOsoby.AsReadOnly();
     private readonly List<Objednavka> _objednavky = new();
@@ -58,7 +58,10 @@ public class Firma : BaseAuditableEntity, IAggregateRoot
     {
         if (objednavka.FirmaId != Id)
             throw new DomainValidationException("Objednávka nepatrí tejto firme.");
+        
         _objednavky.Add(objednavka);
+        
+        AddDomainEvent(new ObjednavkaVytvorenaEvent(Id, objednavka.Created.UtcDateTime));
     }
 
     public void RemoveObjednavka(int objednavkaId)

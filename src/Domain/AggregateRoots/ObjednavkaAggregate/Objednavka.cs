@@ -1,5 +1,7 @@
 using CRMBackend.Domain.Common;
 using CRMBackend.Domain.Exceptions;
+using CRMBackend.Domain.Events;
+using CRMBackend.Domain.Enums;
 
 namespace CRMBackend.Domain.AggregateRoots;
 
@@ -17,6 +19,7 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
     public DateTime? OcakavanyDatumDorucenia { get; private set; }
     public DateTime? NaplanovanyDatumVyroby { get; private set; }
     public string? Poznamka { get; private set; }
+    public ChybaKlienta? ChybaKlienta { get; private set; }
 
     private readonly List<CenovaPonuka> _cenovePonuky = new();
     public IEnumerable<CenovaPonuka> CenovePonuky => _cenovePonuky.AsReadOnly();
@@ -138,6 +141,24 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
                 break;
         }
 
+        if (novaFaza == ObjednavkaFaza.Vybavene && Faza != ObjednavkaFaza.Vybavene)
+        {
+            AddDomainEvent(new ObjednavkaVybavenaEvent(FirmaId));
+        }
+
         Faza = novaFaza;
+    }
+
+    public void SetChybaKlienta(ChybaKlienta? chybaKlienta)
+    {
+        if (chybaKlienta.HasValue && ChybaKlienta == null)
+        {
+            ChybaKlienta = chybaKlienta;
+            AddDomainEvent(new ChybaKlientaZaznamenanaEvent(FirmaId, chybaKlienta.Value));
+        }
+        else
+        {
+            ChybaKlienta = chybaKlienta;
+        }
     }
 } 

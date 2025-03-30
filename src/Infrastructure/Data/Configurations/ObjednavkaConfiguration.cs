@@ -34,6 +34,9 @@ public class ObjednavkaConfiguration : IEntityTypeConfiguration<Objednavka>
         builder.Property(o => o.Faza)
                .HasConversion<string>();
 
+        builder.Property(o => o.ChybaKlienta)
+               .HasConversion<string>();
+
         builder.Property(o => o.Poznamka);
 
         builder.HasIndex(o => o.Faza);
