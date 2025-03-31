@@ -59,7 +59,7 @@ public class PrepocitajSkoreSpolahlivostiHandler :
         var objednavky = await _objednavkaReadRepository
             .GetQueryableNoTracking()
             .Where(o => o.FirmaId == firmaId)
-            .OrderByDescending(o => o.Created)
+            .OrderByDescending(o => o.VytvoreneDna)
             .Take(MaximumObjednavokNaVypocet)
             .ToListAsync(cancellationToken);
 

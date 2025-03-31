@@ -42,7 +42,7 @@ public class PrepocitajHodnotuKlientaHandler : INotificationHandler<ObjednavkaVy
 
         var objednavky = await _objednavkaReadRepository
             .GetQueryableNoTracking()
-            .Where(o => o.FirmaId == firmaId && o.Created >= datumOd && o.Faza == ObjednavkaFaza.Vybavene)
+            .Where(o => o.FirmaId == firmaId && o.VytvoreneDna >= datumOd && o.Faza == ObjednavkaFaza.Vybavene)
             .ToListAsync(cancellationToken);
 
         if (!objednavky.Any())
@@ -63,7 +63,7 @@ public class PrepocitajHodnotuKlientaHandler : INotificationHandler<ObjednavkaVy
                 return o.PoslednaCenovaPonuka.FinalnaCena;
             });
 
-        var datumRegistracieFirmy = firma.Created;
+        var datumRegistracieFirmy = firma.VytvoreneDna;
         var vekFirmyVMesiacoch = (DateTime.UtcNow - datumRegistracieFirmy).TotalDays / 30;
 
         if (vekFirmyVMesiacoch < PocetRokovNaHistoriu * 12)

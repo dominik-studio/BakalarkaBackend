@@ -2,11 +2,11 @@
 
 public abstract class BaseAuditableEntity : BaseEntity
 {
-    public DateTimeOffset Created { get; set; }
+    public DateTimeOffset VytvoreneDna { get; set; }
 
-    public string? CreatedBy { get; set; }
+    public string? VytvorilUzivatel { get; set; }
 
-    public DateTimeOffset LastModified { get; set; }
+    public DateTimeOffset UpraveneDna { get; set; }
 
-    public string? LastModifiedBy { get; set; }
+    public string? UpravilUzivatel { get; set; }
 }

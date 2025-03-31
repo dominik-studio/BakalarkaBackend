@@ -60,7 +60,7 @@ public class Firma : BaseAuditableEntity, IAggregateRoot
         
         _objednavky.Add(objednavka);
         
-        AddDomainEvent(new ObjednavkaVytvorenaEvent(Id, objednavka.Created.UtcDateTime));
+        AddDomainEvent(new ObjednavkaVytvorenaEvent(Id, objednavka.VytvoreneDna.UtcDateTime));
     }
 
     public void RemoveObjednavka(int objednavkaId)
