@@ -24,6 +24,12 @@ namespace CRMBackend.Infrastructure.Data.Configurations
                 .IsRequired()
                 .HasDefaultValue(true);
 
+            builder.HasMany(d => d.Tovary)
+                .WithOne(t => t.Dodavatel)
+                .HasForeignKey(t => t.DodavatelId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasIndex(d => d.Aktivny);
         }
     }

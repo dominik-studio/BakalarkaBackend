@@ -33,12 +33,6 @@ public class TovarConfiguration : IEntityTypeConfiguration<Tovar>
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(t => t.Dodavatel)
-            .WithMany()
-            .HasForeignKey(t => t.DodavatelId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
-
         builder.HasMany(t => t.Varianty)
             .WithOne(v => v.Tovar)
             .HasForeignKey(v => v.TovarId)
@@ -48,7 +42,6 @@ public class TovarConfiguration : IEntityTypeConfiguration<Tovar>
         builder.HasIndex(t => t.InterneId).IsUnique();
         builder.HasIndex(t => t.Nazov);
         builder.HasIndex(t => t.KategoriaId);
-        builder.HasIndex(t => t.DodavatelId);
         builder.HasIndex(t => t.Aktivny);
     }
 } 
