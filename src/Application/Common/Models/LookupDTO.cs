@@ -2,7 +2,7 @@
 
 namespace CRMBackend.Application.Common.Models;
 
-public class LookupDto
+public class LookupDTO
 {
     public int Id { get; init; }
 
@@ -12,8 +12,8 @@ public class LookupDto
     {
         public Mapping()
         {
-            CreateMap<TodoList, LookupDto>();
-            CreateMap<TodoItem, LookupDto>();
+            CreateMap<TodoList, LookupDTO>();
+            CreateMap<TodoItem, LookupDTO>();
         }
     }
 }
