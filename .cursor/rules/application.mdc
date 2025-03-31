@@ -85,6 +85,10 @@ general rules:
 - if you have int or enum in request, try to make it nullable or required
     - f.e when the user does not provide value for it, then it would map to zero. how should backend know if zero was provided by user or the value was zero, because it was not provided
 
+- important: Pozor na databazove obmedzenie ako unique alebo relationship medzi entitami, vsetko treba zvalidovat v CommandValidators. 
+    - nachadza sa EF Core konfiguracnych suboroch ako napr. [CenovaPonukaConfiguration.cs](mdc:src/Infrastructure/Data/Configurations/CenovaPonukaConfiguration.cs)
+    - Ak je v domene entita unique zvaliduj to
+
 
 ### Enums, value objects
 
