@@ -1,6 +1,6 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
 
-namespace CRMBackend.Application.FirmaAggregate.Commands.Firma.DeleteFirma
+namespace CRMBackend.Application.FirmaAggregate.Commands.Firmy.DeleteFirma
 {
     public record DeleteFirmaCommand : IRequest
     {

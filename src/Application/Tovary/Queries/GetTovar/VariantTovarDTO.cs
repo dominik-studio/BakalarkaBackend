@@ -1,7 +1,7 @@
 using CRMBackend.Application.Common.Models;
 using CRMBackend.Domain.ValueObjects;
 
-namespace CRMBackend.Application.Tovar.Queries.GetTovar;
+namespace CRMBackend.Application.Tovary.Queries.GetTovar;
 
 public record VariantTovarDTO : BaseAuditableDto
 {

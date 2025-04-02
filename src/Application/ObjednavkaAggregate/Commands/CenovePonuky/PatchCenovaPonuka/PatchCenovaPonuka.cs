@@ -4,21 +4,21 @@ using CRMBackend.Domain.AggregateRoots.TovarAggregate;
 
 namespace CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.PatchCenovaPonuka
 {
-    public record UpdateCenovaPonukaCommand : IRequest
+    public record PatchCenovaPonukaCommand : IRequest
     {
         public required int ObjednavkaId { get; init; }
-        public required int PonukaId { get; init; }
+        public required int CenovaPonukaId { get; init; }
         public decimal? FinalnaCena { get; init; }
         public List<CenovaPonukaTovarCommandDto>? Polozky { get; init; }
     }
 
-    public class UpdateCenovaPonukaCommandHandler : IRequestHandler<UpdateCenovaPonukaCommand>
+    public class PatchCenovaPonukaCommandHandler : IRequestHandler<PatchCenovaPonukaCommand>
     {
         private readonly IWriteRepository<Objednavka> _objednavkaRepository;
         private readonly IReadRepository<Tovar> _tovarRepository;
         private readonly IReadRepository<VariantTovar> _variantTovarRepository;
 
-        public UpdateCenovaPonukaCommandHandler(IWriteRepository<Objednavka> objednavkaRepository,
+        public PatchCenovaPonukaCommandHandler(IWriteRepository<Objednavka> objednavkaRepository,
             IReadRepository<Tovar> tovarRepository,
             IReadRepository<VariantTovar> variantTovarRepository)
         {
@@ -27,13 +27,13 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.Patch
             _variantTovarRepository = variantTovarRepository;
         }
 
-        public async Task Handle(UpdateCenovaPonukaCommand request, CancellationToken cancellationToken)
+        public async Task Handle(PatchCenovaPonukaCommand request, CancellationToken cancellationToken)
         {
             var objednavka = await _objednavkaRepository.GetByIdAsync(request.ObjednavkaId, cancellationToken);
             Guard.Against.NotFound(request.ObjednavkaId, objednavka);
 
-            var cenovaPonuka = objednavka.CenovePonuky.FirstOrDefault(x => x.Id == request.PonukaId);
-            Guard.Against.NotFound(request.PonukaId, cenovaPonuka);
+            var cenovaPonuka = objednavka.CenovePonuky.FirstOrDefault(x => x.Id == request.CenovaPonukaId);
+            Guard.Against.NotFound(request.CenovaPonukaId, cenovaPonuka);
 
             bool updated = false;
 

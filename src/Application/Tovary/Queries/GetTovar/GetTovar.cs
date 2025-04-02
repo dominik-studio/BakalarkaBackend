@@ -1,6 +1,6 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
 
-namespace CRMBackend.Application.Tovar.Queries.GetTovar;
+namespace CRMBackend.Application.Tovary.Queries.GetTovar;
 
 public record GetTovarQuery : IRequest<TovarDetailDTO>
 {

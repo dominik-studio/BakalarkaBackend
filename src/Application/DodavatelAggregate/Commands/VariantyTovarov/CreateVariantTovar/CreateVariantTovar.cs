@@ -18,7 +18,7 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.VariantyTovarov.Cre
     {
         private readonly IWriteRepository<Domain.AggregateRoots.TovarAggregate.Tovar> _repository;
 
-        public CreateVariantTovarCommandHandler(IWriteRepository<Tovar> repository)
+        public CreateVariantTovarCommandHandler(IWriteRepository<Domain.AggregateRoots.TovarAggregate.Tovar> repository)
         {
             _repository = repository;
         }

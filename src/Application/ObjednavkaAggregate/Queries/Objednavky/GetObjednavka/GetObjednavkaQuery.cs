@@ -8,7 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CRMBackend.Application.ObjednavkaAggregate.Queries.Objednavky.GetObjednavka;
 
-public record GetObjednavkaQuery(int Id) : IRequest<ObjednavkaDetailDTO>;
+public record GetObjednavkaQuery : IRequest<ObjednavkaDetailDTO>
+{
+    public required int Id { get; init; }
+}
 
 public class GetObjednavkaQueryHandler : IRequestHandler<GetObjednavkaQuery, ObjednavkaDetailDTO>
 {

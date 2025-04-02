@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <Folder Include="DodavatelAggregate\Commands\Dodavatelia\" />
-    <Folder Include="FirmaAggregate\Commands\Firma\" />
+    <Folder Include="FirmaAggregate\Commands\Firmy\" />
     <Folder Include="TodoItems\Commands\" />
   </ItemGroup>
 

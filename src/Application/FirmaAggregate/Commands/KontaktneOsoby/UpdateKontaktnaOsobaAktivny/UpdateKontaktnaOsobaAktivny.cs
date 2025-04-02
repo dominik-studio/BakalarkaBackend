@@ -1,7 +1,6 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
-using CRMBackend.Domain.AggregateRoots.FirmaAggregate;
 
-namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.UpdateKontaktnaOsobaAktivny
+namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.UpdateKontaktnaOsobaAktivny
 {
     public record UpdateKontaktnaOsobaAktivnyCommand : IRequest
     {

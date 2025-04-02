@@ -1,7 +1,7 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Domain.ValueObjects;
 
-namespace CRMBackend.Application.FirmaAggregate.Commands.Firma.UpdateFirma
+namespace CRMBackend.Application.FirmaAggregate.Commands.Firmy.UpdateFirma
 {
     public record UpdateFirmaCommand : IRequest
     {

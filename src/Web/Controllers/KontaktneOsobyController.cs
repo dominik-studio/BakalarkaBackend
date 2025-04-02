@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.CreateKontaktnaOsoba;
-using CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.UpdateKontaktnaOsoba;
-using CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.UpdateKontaktnaOsobaAktivny;
-using CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.DeleteKontaktnaOsoba;
+using CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.CreateKontaktnaOsoba;
+using CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.DeleteKontaktnaOsoba;
+using CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.UpdateKontaktnaOsoba;
+using CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.UpdateKontaktnaOsobaAktivny;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 

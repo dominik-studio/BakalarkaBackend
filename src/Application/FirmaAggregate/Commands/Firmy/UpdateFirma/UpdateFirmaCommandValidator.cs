@@ -1,9 +1,6 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
-using CRMBackend.Domain.AggregateRoots.FirmaAggregate;
-using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 
-namespace CRMBackend.Application.FirmaAggregate.Commands.Firma.UpdateFirma;
+namespace CRMBackend.Application.FirmaAggregate.Commands.Firmy.UpdateFirma;
 
 public class UpdateFirmaCommandValidator : AbstractValidator<UpdateFirmaCommand>
 {

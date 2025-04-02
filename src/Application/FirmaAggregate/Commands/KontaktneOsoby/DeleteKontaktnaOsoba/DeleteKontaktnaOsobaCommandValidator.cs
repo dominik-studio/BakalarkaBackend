@@ -1,7 +1,7 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
 
-namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.DeleteKontaktnaOsoba;
+namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.DeleteKontaktnaOsoba;
 
 public class DeleteKontaktnaOsobaCommandValidator : AbstractValidator<DeleteKontaktnaOsobaCommand>
 {

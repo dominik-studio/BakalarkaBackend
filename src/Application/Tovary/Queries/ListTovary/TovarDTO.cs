@@ -1,8 +1,8 @@
 using CRMBackend.Application.Common.Models;
 
-namespace CRMBackend.Application.Tovar.Queries.GetTovar;
+namespace CRMBackend.Application.Tovary.Queries.ListTovary;
 
-public record TovarDetailDTO : BaseAuditableDto
+public record TovarDTO : BaseAuditableDto
 {
     public required string InterneId { get; init; }
     public required string Nazov { get; init; }
@@ -12,14 +12,12 @@ public record TovarDetailDTO : BaseAuditableDto
     public required decimal Cena { get; init; }
     public required int DodavatelId { get; init; }
     public required bool Aktivny { get; init; }
-    public required List<VariantTovarDTO> Varianty { get; init; }
 
     private class Mapping : Profile
     {
         public Mapping()
         {
-            CreateMap<Domain.AggregateRoots.TovarAggregate.Tovar, TovarDetailDTO>()
-                .ForMember(dest => dest.Varianty, opt => opt.MapFrom(src => src.Varianty));
+            CreateMap<Domain.AggregateRoots.TovarAggregate.Tovar, TovarDTO>();
         }
     }
 } 

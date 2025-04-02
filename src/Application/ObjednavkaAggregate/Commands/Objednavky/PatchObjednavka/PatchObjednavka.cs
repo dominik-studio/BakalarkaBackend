@@ -6,7 +6,7 @@ using ValidationException = CRMBackend.Application.Common.Exceptions.ValidationE
 
 namespace CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.PatchObjednavka
 {
-    public record UpdateObjednavkaCommand : IRequest
+    public record PatchObjednavkaCommand : IRequest
     {
         public required int ObjednavkaId { get; init; }
         public int? KontaktnaOsobaId { get; init; }
@@ -15,19 +15,19 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.PatchOb
         public string? Poznamka { get; init; }
     }
 
-    public class UpdateObjednavkaCommandHandler : IRequestHandler<UpdateObjednavkaCommand>
+    public class PatchObjednavkaCommandHandler : IRequestHandler<PatchObjednavkaCommand>
     {
         private readonly IWriteRepository<Objednavka> _objednavkaRepository;
         private readonly IReadRepository<KontaktnaOsoba> _kontaktnaOsobaRepository;
 
-        public UpdateObjednavkaCommandHandler(
+        public PatchObjednavkaCommandHandler(
             IWriteRepository<Objednavka> objednavkaRepository,
             IReadRepository<KontaktnaOsoba> kontaktnaOsobaRepository)
         {
             _objednavkaRepository = objednavkaRepository;
             _kontaktnaOsobaRepository = kontaktnaOsobaRepository;
         }
-        public async Task Handle(UpdateObjednavkaCommand request, CancellationToken cancellationToken)
+        public async Task Handle(PatchObjednavkaCommand request, CancellationToken cancellationToken)
         {
             var objednavka = await _objednavkaRepository.GetByIdAsync(request.ObjednavkaId, cancellationToken);
             Guard.Against.NotFound(request.ObjednavkaId, objednavka);

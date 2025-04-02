@@ -1,7 +1,7 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Domain.ValueObjects;
 
-namespace CRMBackend.Application.FirmaAggregate.Commands.Firma.CreateFirma
+namespace CRMBackend.Application.FirmaAggregate.Commands.Firmy.CreateFirma
 {
     public record CreateFirmaCommand : IRequest<int>
     {

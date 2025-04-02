@@ -1,6 +1,6 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
 
-namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.CreateKontaktnaOsoba
+namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.CreateKontaktnaOsoba
 {
     public record CreateKontaktnaOsobaCommand : IRequest<int>
     {

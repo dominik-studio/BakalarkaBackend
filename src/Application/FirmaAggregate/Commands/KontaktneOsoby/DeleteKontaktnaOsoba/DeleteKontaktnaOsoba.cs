@@ -1,6 +1,6 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
 
-namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.DeleteKontaktnaOsoba
+namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.DeleteKontaktnaOsoba
 {
     public record DeleteKontaktnaOsobaCommand : IRequest
     {

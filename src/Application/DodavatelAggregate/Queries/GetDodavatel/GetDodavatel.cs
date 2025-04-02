@@ -7,7 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CRMBackend.Application.DodavatelAggregate.Queries.GetDodavatel;
 
-public record GetDodavatelQuery(int Id) : IRequest<DodavatelDetailDTO>;
+public record GetDodavatelQuery : IRequest<DodavatelDetailDTO>
+{
+    public required int Id { get; init; }
+}
 
 public class GetDodavatelQueryHandler : IRequestHandler<GetDodavatelQuery, DodavatelDetailDTO>
 {

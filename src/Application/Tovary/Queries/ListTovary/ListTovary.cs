@@ -1,16 +1,10 @@
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Application.Common.Models;
-using MediatR;
 using Plainquire.Filter;
-using Plainquire.Filter.Abstractions;
-using Plainquire.Page.Abstractions;
-using Plainquire.Sort.Abstractions;
 using Plainquire.Page;
 using Plainquire.Sort;
 
-namespace CRMBackend.Application.Tovar.Queries.ListTovary;
+namespace CRMBackend.Application.Tovary.Queries.ListTovary;
 
 public record ListTovaryQuery : IRequest<PaginatedList<TovarDTO>>
 {
