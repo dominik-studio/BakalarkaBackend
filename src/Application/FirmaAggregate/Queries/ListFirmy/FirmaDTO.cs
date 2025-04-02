@@ -5,7 +5,7 @@ using CRMBackend.Domain.ValueObjects;
 
 namespace CRMBackend.Application.FirmaAggregate.Queries.ListFirmy;
 
-public class FirmaDTO : BaseAuditableDto
+public record FirmaDTO : BaseAuditableDto
 {
     public int Id { get; init; }
     public required string Nazov { get; init; }

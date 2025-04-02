@@ -1,6 +1,6 @@
 namespace CRMBackend.Application.Common.Models;
 
-public abstract class BaseAuditableDto
+public abstract record BaseAuditableDto
 {
     public DateTimeOffset VytvoreneDna { get; set; }
     public string? VytvorilUzivatel { get; set; }

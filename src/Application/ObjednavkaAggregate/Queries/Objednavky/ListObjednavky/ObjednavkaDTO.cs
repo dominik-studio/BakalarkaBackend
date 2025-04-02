@@ -1,15 +1,18 @@
 using AutoMapper;
+using CRMBackend.Application.Common.Mappings;
 using CRMBackend.Application.Common.Models;
+using CRMBackend.Application.FirmaAggregate.Queries.ListFirmy; // Assuming FirmaDTO location
+using CRMBackend.Application.FirmaAggregate.Queries.GetFirma; // Assuming KontaktnaOsobaDTO location
+using CRMBackend.Domain.AggregateRoots.FirmaAggregate;
 using CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
 using CRMBackend.Domain.Enums;
 
-namespace CRMBackend.Application.FirmaAggregate.Queries.GetFirma;
+namespace CRMBackend.Application.ObjednavkaAggregate.Queries.Objednavky.ListObjednavky;
 
 public record ObjednavkaDTO : BaseAuditableDto
 {
-    public int Id { get; init; }
-    public int FirmaId { get; init; }
-    public int KontaktnaOsobaId { get; init; }
+    public required FirmaDTO Firma { get; init; }
+    public required KontaktnaOsobaDTO KontaktnaOsoba { get; init; }
     public ObjednavkaFaza Faza { get; init; }
     public string? Poznamka { get; init; }
     public ChybaKlienta? ChybaKlienta { get; init; }
@@ -23,7 +26,7 @@ public record ObjednavkaDTO : BaseAuditableDto
     {
         public Mapping()
         {
-            CreateMap< Objednavka, ObjednavkaDTO >();
+            CreateMap<Objednavka, ObjednavkaDTO>();
         }
     }
 } 
