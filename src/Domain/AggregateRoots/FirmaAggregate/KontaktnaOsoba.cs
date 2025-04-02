@@ -11,4 +11,6 @@ public class KontaktnaOsoba : BaseEntity
     public required string Priezvisko { get; set; }
     public required string Telefon { get; set; }
     public required string Email { get; set; }
+
+    public bool Aktivny { get; set; } = true;
 } 

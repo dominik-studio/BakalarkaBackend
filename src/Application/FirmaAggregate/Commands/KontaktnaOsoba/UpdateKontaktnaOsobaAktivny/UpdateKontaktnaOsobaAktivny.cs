@@ -1,0 +1,33 @@
+using CRMBackend.Application.Common.Interfaces.Repositories;
+using CRMBackend.Domain.AggregateRoots.FirmaAggregate;
+
+namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.UpdateKontaktnaOsobaAktivny
+{
+    public record UpdateKontaktnaOsobaAktivnyCommand : IRequest
+    {
+        public required int FirmaId { get; init; }
+        public required int OsobaId { get; init; }
+        public required bool Aktivny { get; init; }
+    }
+
+    public class UpdateKontaktnaOsobaAktivnyCommandHandler : IRequestHandler<UpdateKontaktnaOsobaAktivnyCommand>
+    {
+        private readonly IWriteRepository<Domain.AggregateRoots.FirmaAggregate.Firma> _repository;
+
+        public UpdateKontaktnaOsobaAktivnyCommandHandler(IWriteRepository<Domain.AggregateRoots.FirmaAggregate.Firma> repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task Handle(UpdateKontaktnaOsobaAktivnyCommand request, CancellationToken cancellationToken)
+        {
+            var firma = await _repository.GetByIdAsync(request.FirmaId, cancellationToken);
+            Guard.Against.NotFound(request.FirmaId, firma);
+            var kontaktnaOsoba = firma.KontaktneOsoby.FirstOrDefault(o => o.Id == request.OsobaId);
+            Guard.Against.NotFound(request.OsobaId, kontaktnaOsoba);
+            kontaktnaOsoba.Aktivny = request.Aktivny;
+            _repository.Update(firma);
+            await _repository.SaveAsync(cancellationToken);
+        }
+    }
+} 

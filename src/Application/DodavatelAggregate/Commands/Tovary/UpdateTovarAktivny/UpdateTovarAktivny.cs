@@ -1,24 +1,24 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
 
-namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.ToggleTovarAktivny
+namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.UpdateTovarAktivny
 {
-    public record ToggleTovarAktivnyCommand : IRequest
+    public record UpdateTovarAktivnyCommand : IRequest
     {
         public required int DodavatelId { get; init; }
         public required int TovarId { get; init; }
         public required bool Aktivny { get; init; }
     }
 
-    public class ToggleTovarAktivnyCommandHandler : IRequestHandler<ToggleTovarAktivnyCommand>
+    public class UpdateTovarAktivnyCommandHandler : IRequestHandler<UpdateTovarAktivnyCommand>
     {
         private readonly IWriteRepository<Domain.AggregateRoots.DodavatelAggregate.Dodavatel> _dodavatelRepository;
 
-        public ToggleTovarAktivnyCommandHandler(IWriteRepository<Domain.AggregateRoots.DodavatelAggregate.Dodavatel> dodavatelRepository)
+        public UpdateTovarAktivnyCommandHandler(IWriteRepository<Domain.AggregateRoots.DodavatelAggregate.Dodavatel> dodavatelRepository)
         {
             _dodavatelRepository = dodavatelRepository;
         }
 
-        public async Task Handle(ToggleTovarAktivnyCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateTovarAktivnyCommand request, CancellationToken cancellationToken)
         {
             var dodavatel = await _dodavatelRepository.GetByIdAsync(request.DodavatelId, cancellationToken);
             Guard.Against.NotFound(request.DodavatelId, dodavatel);

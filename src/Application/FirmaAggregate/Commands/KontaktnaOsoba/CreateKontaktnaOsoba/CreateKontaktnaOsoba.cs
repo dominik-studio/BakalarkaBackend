@@ -9,6 +9,7 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.CreateKo
         public required string Priezvisko { get; init; }
         public required string Telefon { get; init; }
         public required string Email { get; init; }
+        public bool? Aktivny { get; init; }
     }
 
     public class CreateKontaktnaOsobaCommandHandler : IRequestHandler<CreateKontaktnaOsobaCommand, int>
@@ -29,7 +30,8 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.CreateKo
                 Meno = request.Meno,
                 Priezvisko = request.Priezvisko,
                 Telefon = request.Telefon,
-                Email = request.Email
+                Email = request.Email,
+                Aktivny = request.Aktivny ?? true,
             };
             firma.AddKontaktnaOsoba(kontaktnaOsoba);
             _repository.Update(firma);

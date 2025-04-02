@@ -11,6 +11,7 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.VariantyTovarov.Cre
         public Velkost? Velkost { get; init; }
         public required decimal Cena { get; init; }
         public string? ObrazokURL { get; init; }
+        public bool? Aktivny { get; init; }
     }
 
     public class CreateVariantTovarCommandHandler : IRequestHandler<CreateVariantTovarCommand, int>
@@ -30,7 +31,8 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.VariantyTovarov.Cre
             var variant = new VariantTovar(request.FarbaHex, request.Velkost)
             {
                 Tovar = tovar,
-                Cena = request.Cena
+                Cena = request.Cena,
+                Aktivny = request.Aktivny ?? true,
             };
             variant.SetCena(request.Cena);
             variant.SetObrazok(request.ObrazokURL);

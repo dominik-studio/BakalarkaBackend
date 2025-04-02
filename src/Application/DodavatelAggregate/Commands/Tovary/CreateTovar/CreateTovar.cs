@@ -12,6 +12,7 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.CreateTovar
         public required decimal Cena { get; init; }
         public string? ObrazokURL { get; init; }
         public string? Ean { get; init; }
+        public bool? Aktivny { get; init; }
     }
 
     public class CreateTovarCommandHandler : IRequestHandler<CreateTovarCommand, int>
@@ -38,7 +39,8 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.CreateTovar
                 Nazov = request.Nazov,
                 Cena = request.Cena,
                 KategoriaId = request.KategoriaId,
-                Kategoria = kategoria
+                Kategoria = kategoria,
+                Aktivny = request.Aktivny ?? true,
             };
             if (request.ObrazokURL is not null)
             {

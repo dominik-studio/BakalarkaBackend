@@ -25,6 +25,10 @@ public class KontaktnaOsobaConfiguration : IEntityTypeConfiguration<KontaktnaOso
                .WithMany(f => f.KontaktneOsoby)
                .HasForeignKey(ko => ko.FirmaId)
                .IsRequired();
+        
+        builder.Property(t => t.Aktivny)
+            .IsRequired()
+            .HasDefaultValue(true);
 
         builder.HasIndex(ko => ko.Email);
         builder.HasIndex(ko => ko.FirmaId);
