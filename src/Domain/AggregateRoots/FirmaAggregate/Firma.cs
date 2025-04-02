@@ -44,9 +44,9 @@ public class Firma : BaseAuditableEntity, IAggregateRoot
         _kontaktneOsoby.Add(osoba);
     }
 
-    public void RemoveKontaktnaOsoba(int osobaId)
+    public void RemoveKontaktnaOsoba(int kontaktnaOsobaId)
     {
-        var osoba = _kontaktneOsoby.FirstOrDefault(o => o.Id == osobaId);
+        var osoba = _kontaktneOsoby.FirstOrDefault(o => o.Id == kontaktnaOsobaId);
         if (osoba == null)
             throw new DomainValidationException("Kontaktna osoba s danym ID neexistuje");
 

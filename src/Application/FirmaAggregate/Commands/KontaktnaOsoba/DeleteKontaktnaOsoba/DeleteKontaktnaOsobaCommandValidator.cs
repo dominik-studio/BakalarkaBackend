@@ -1,15 +1,7 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
-using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 
-namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.DeleteKontaktnaOsoba;
-
-public record DeleteKontaktnaOsobaCommand : IRequest
-{
-    public required int KontaktnaOsobaId { get; init; }
-}
-
+namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.DeleteKontaktnaOsoba;
 
 public class DeleteKontaktnaOsobaCommandValidator : AbstractValidator<DeleteKontaktnaOsobaCommand>
 {

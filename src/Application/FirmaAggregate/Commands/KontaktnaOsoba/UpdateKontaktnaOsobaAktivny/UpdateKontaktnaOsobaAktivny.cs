@@ -6,7 +6,7 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.UpdateKo
     public record UpdateKontaktnaOsobaAktivnyCommand : IRequest
     {
         public required int FirmaId { get; init; }
-        public required int OsobaId { get; init; }
+        public required int KontaktnaOsobaId { get; init; }
         public required bool Aktivny { get; init; }
     }
 
@@ -23,8 +23,8 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.UpdateKo
         {
             var firma = await _repository.GetByIdAsync(request.FirmaId, cancellationToken);
             Guard.Against.NotFound(request.FirmaId, firma);
-            var kontaktnaOsoba = firma.KontaktneOsoby.FirstOrDefault(o => o.Id == request.OsobaId);
-            Guard.Against.NotFound(request.OsobaId, kontaktnaOsoba);
+            var kontaktnaOsoba = firma.KontaktneOsoby.FirstOrDefault(o => o.Id == request.KontaktnaOsobaId);
+            Guard.Against.NotFound(request.KontaktnaOsobaId, kontaktnaOsoba);
             kontaktnaOsoba.Aktivny = request.Aktivny;
             _repository.Update(firma);
             await _repository.SaveAsync(cancellationToken);

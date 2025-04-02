@@ -5,7 +5,7 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.DeleteKo
     public record DeleteKontaktnaOsobaCommand : IRequest
     {
         public required int FirmaId { get; init; }
-        public required int OsobaId { get; init; }
+        public required int KontaktnaOsobaId { get; init; }
     }
 
     public class DeleteKontaktnaOsobaCommandHandler : IRequestHandler<DeleteKontaktnaOsobaCommand>
@@ -21,9 +21,9 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktnaOsoba.DeleteKo
         {
             var firma = await _repository.GetByIdAsync(request.FirmaId, cancellationToken);
             Guard.Against.NotFound(request.FirmaId, firma);
-            var kontaktnaOsoba = firma.KontaktneOsoby.FirstOrDefault(o => o.Id == request.OsobaId);
-            Guard.Against.NotFound(request.OsobaId, kontaktnaOsoba);
-            firma.RemoveKontaktnaOsoba(request.OsobaId);
+            var kontaktnaOsoba = firma.KontaktneOsoby.FirstOrDefault(o => o.Id == request.KontaktnaOsobaId);
+            Guard.Against.NotFound(request.KontaktnaOsobaId, kontaktnaOsoba);
+            firma.RemoveKontaktnaOsoba(request.KontaktnaOsobaId);
             _repository.Update(firma);
             await _repository.SaveAsync(cancellationToken);
         }
