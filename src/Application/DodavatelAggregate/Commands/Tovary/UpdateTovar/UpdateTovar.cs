@@ -1,5 +1,5 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
-using CRMBackend.Domain.AggregateRoots.KategorieProduktovAggregate;
+using CRMBackend.Domain.AggregateRoots.KategoriaProduktuAggregate;
 
 namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.UpdateTovar
 {
@@ -18,9 +18,9 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.UpdateTovar
     public class UpdateTovarCommandHandler : IRequestHandler<UpdateTovarCommand>
     {
         private readonly IWriteRepository<Domain.AggregateRoots.DodavatelAggregate.Dodavatel> _dodavatelRepository;
-        private readonly IWriteRepository<KategorieProduktov> _kategorieRepository;
+        private readonly IWriteRepository<KategoriaProduktu> _kategorieRepository;
 
-        public UpdateTovarCommandHandler(IWriteRepository<Domain.AggregateRoots.DodavatelAggregate.Dodavatel> dodavatelRepository, IWriteRepository<KategorieProduktov> kategorieRepository)
+        public UpdateTovarCommandHandler(IWriteRepository<Domain.AggregateRoots.DodavatelAggregate.Dodavatel> dodavatelRepository, IWriteRepository<KategoriaProduktu> kategorieRepository)
         {
             _dodavatelRepository = dodavatelRepository;
             _kategorieRepository = kategorieRepository;

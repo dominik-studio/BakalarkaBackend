@@ -1,5 +1,5 @@
 using CRMBackend.Domain.AggregateRoots.DodavatelAggregate;
-using CRMBackend.Domain.AggregateRoots.KategorieProduktovAggregate;
+using CRMBackend.Domain.AggregateRoots.KategoriaProduktuAggregate;
 using Plainquire.Filter.Abstractions;
 
 namespace CRMBackend.Domain.AggregateRoots.TovarAggregate;
@@ -10,7 +10,7 @@ public class Tovar : BaseAuditableEntity, IAggregateRoot
     public required string InterneId { get; set; }
     public required string Nazov { get; set; }
     public string? ObrazokURL { get; private set; }
-    public required KategorieProduktov Kategoria { get; set; }
+    public required KategoriaProduktu Kategoria { get; set; }
     public int KategoriaId { get; set; }
     public string? Ean { get; private set; }
     public required decimal Cena

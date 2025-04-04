@@ -3,7 +3,7 @@ using CRMBackend.Application.Common.Interfaces;
 using CRMBackend.Domain.AggregateRoots;
 using CRMBackend.Domain.AggregateRoots.DodavatelAggregate;
 using CRMBackend.Domain.AggregateRoots.FirmaAggregate;
-using CRMBackend.Domain.AggregateRoots.KategorieProduktovAggregate;
+using CRMBackend.Domain.AggregateRoots.KategoriaProduktuAggregate;
 using CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
 using CRMBackend.Domain.AggregateRoots.TovarAggregate;
 using CRMBackend.Domain.Entities;
@@ -29,7 +29,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Tovar> Tovary => Set<Tovar>();
     public DbSet<VariantTovar> VariantyTovarov => Set<VariantTovar>();
     public DbSet<Dodavatel> Dodavatelia => Set<Dodavatel>();
-    public DbSet<KategorieProduktov> KategorieProduktov => Set<KategorieProduktov>();
+    public DbSet<KategoriaProduktu> KategorieProduktov => Set<KategoriaProduktu>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

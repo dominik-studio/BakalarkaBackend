@@ -1,5 +1,5 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
-using CRMBackend.Domain.AggregateRoots.KategorieProduktovAggregate;
+using CRMBackend.Domain.AggregateRoots.KategoriaProduktuAggregate;
 
 namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.CreateTovar
 {
@@ -18,9 +18,9 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.CreateTovar
     public class CreateTovarCommandHandler : IRequestHandler<CreateTovarCommand, int>
     {
         private readonly IWriteRepository<Domain.AggregateRoots.DodavatelAggregate.Dodavatel> _dodavatelRepository;
-        private readonly IWriteRepository<KategorieProduktov> _kategorieRepository;
+        private readonly IWriteRepository<KategoriaProduktu> _kategorieRepository;
 
-        public CreateTovarCommandHandler(IWriteRepository<Domain.AggregateRoots.DodavatelAggregate.Dodavatel> dodavatelRepository, IWriteRepository<KategorieProduktov> kategorieRepository)
+        public CreateTovarCommandHandler(IWriteRepository<Domain.AggregateRoots.DodavatelAggregate.Dodavatel> dodavatelRepository, IWriteRepository<KategoriaProduktu> kategorieRepository)
         {
             _dodavatelRepository = dodavatelRepository;
             _kategorieRepository = kategorieRepository;
