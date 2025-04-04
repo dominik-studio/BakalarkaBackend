@@ -5,6 +5,7 @@ using CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.PatchObjedn
 using CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.UpdateObjednavkaFaza;
 using CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.UpdateObjednavkaNaplanovanyDatumVyroby;
 using CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.UpdateObjednavkaOcakavanyDatumDorucenia;
+using CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.UpdateObjednavkaChybaKlienta;
 using CRMBackend.Application.ObjednavkaAggregate.Queries.Objednavky.GetObjednavka;
 using CRMBackend.Application.ObjednavkaAggregate.Queries.Objednavky.ListObjednavky;
 using CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
@@ -50,8 +51,8 @@ public class ObjednavkyController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateObjednavkaCommand command)
     {
-        var result = await _sender.Send(command);
-        return Created();
+        var entityId = await _sender.Send(command);
+        return CreatedAtAction(nameof(GetById), new { id = entityId });
     }
 
     [HttpPatch("{id}")]

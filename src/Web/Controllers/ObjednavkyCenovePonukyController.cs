@@ -19,9 +19,8 @@ public class ObjednavkyCenovePonukyController : ControllerBase
     public async Task<IActionResult> Create(int objednavkaId, CreateCenovaPonukaCommand command)
     {
         if (command.ObjednavkaId != objednavkaId) return BadRequest("Route objednavkaId does not match command objednavkaId");
-        
-        var result = await _sender.Send(command);
-        return Created();
+        var entityId = await _sender.Send(command);
+        return CreatedAtAction("", new { ponukaId = entityId });
     }
 
     [HttpPatch("{ponukaId}")]

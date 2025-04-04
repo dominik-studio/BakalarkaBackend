@@ -21,8 +21,8 @@ public class KontaktneOsobyController : ControllerBase
     public async Task<IActionResult> Create(int firmaId, CreateKontaktnaOsobaCommand command)
     {
         if (command.FirmaId != firmaId) return BadRequest("Route ID does not match command ID");
-        var result = await _sender.Send(command);
-        return Created();
+        var entityId = await _sender.Send(command);
+        return CreatedAtAction("", new { id = entityId });
     }
 
     [HttpPut("{osobaId}")]

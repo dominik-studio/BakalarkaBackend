@@ -20,9 +20,8 @@ public class DodavatelTovaryController : ControllerBase
     public async Task<IActionResult> Create(int dodavatelId, CreateTovarCommand command)
     {
         if (command.DodavatelId != dodavatelId) return BadRequest("Route dodavatelId does not match command dodavatelId");
-        
-        var result = await _sender.Send(command);
-        return Created();
+        var entityId = await _sender.Send(command);
+        return CreatedAtAction("", new { tovarId = entityId });
     }
 
     [HttpPut("{tovarId}")]

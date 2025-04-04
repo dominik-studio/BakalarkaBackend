@@ -23,8 +23,8 @@ public class VariantTovarController : ControllerBase
         if (command.TovarId != tovarId)
             return BadRequest("Route IDs do not match command IDs");
             
-        var result = await _sender.Send(command);
-        return Created();
+        var entityId = await _sender.Send(command);
+        return CreatedAtAction("", new { variantId = entityId });
     }
 
     [HttpPut("{variantId}")]

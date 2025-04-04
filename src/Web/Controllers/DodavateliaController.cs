@@ -48,8 +48,8 @@ public class DodavateliaController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateDodavatelCommand command)
     {
-        var result = await _sender.Send(command);
-        return Created();
+        var entityId = await _sender.Send(command);
+        return CreatedAtAction(nameof(GetById), new { id = entityId });
     }
 
     [HttpPut("{id}")]

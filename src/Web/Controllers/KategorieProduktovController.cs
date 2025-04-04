@@ -27,8 +27,8 @@ public class KategorieProduktovController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateKategorieProduktovCommand command)
     {
-        var result = await _sender.Send(command);
-        return CreatedAtAction(nameof(Get), new { id = result }, result);
+        var entityId = await _sender.Send(command);
+        return CreatedAtAction("", new { id = entityId });
     }
 
     [HttpPut("{id}")]
