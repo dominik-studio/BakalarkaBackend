@@ -10,6 +10,7 @@ public class KontaktnaOsobaDTO
     public required string Priezvisko { get; init; }
     public required string Telefon { get; init; }
     public required string Email { get; init; }
+    public required bool Aktivny { get; init; }
 
     private class Mapping : Profile
     {
