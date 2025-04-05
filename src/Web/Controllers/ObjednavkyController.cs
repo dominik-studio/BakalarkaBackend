@@ -87,6 +87,14 @@ public class ObjednavkyController : ControllerBase
         return NoContent();
     }
 
+    [HttpPut("{id}/chyba-klienta")]
+    public async Task<IActionResult> UpdateChybaKlienta(int id, UpdateObjednavkaChybaKlientaCommand command)
+    {
+        if (command.ObjednavkaId != id) return BadRequest("Route ID does not match command ID");
+        await _sender.Send(command);
+        return NoContent();
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
