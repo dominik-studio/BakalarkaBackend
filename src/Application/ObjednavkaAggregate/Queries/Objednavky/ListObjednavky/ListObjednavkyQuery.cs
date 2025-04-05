@@ -4,6 +4,7 @@ using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Application.Common.Models;
 using CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Plainquire.Filter;
 using Plainquire.Filter.Abstractions;
 using Plainquire.Page;
@@ -34,6 +35,8 @@ public class ListObjednavkyQueryHandler : IRequestHandler<ListObjednavkyQuery, P
     public async Task<PaginatedList<ObjednavkaDTO>> Handle(ListObjednavkyQuery request, CancellationToken cancellationToken)
     {
         var query = _readRepository.GetQueryableNoTracking()
+            .Include(o => o.Firma)
+            .Include(o => o.KontaktnaOsoba)
             .Where(request.Filter)
             .OrderBy(request.Sort)
             .ProjectTo<ObjednavkaDTO>(_mapper.ConfigurationProvider);
