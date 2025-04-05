@@ -30,13 +30,15 @@ public class ObjednavkyController : ControllerBase
     public async Task<IActionResult> Get(
         [FromQuery] EntityFilter<Objednavka> filter,
         [FromQuery] EntitySort<Objednavka> sort,
-        [FromQuery] EntityPage<Objednavka> page)
+        [FromQuery] EntityPage<Objednavka> page,
+        [FromQuery] string? search)
     {
         var result = await _sender.Send(new ListObjednavkyQuery()
         {
             Filter = filter,
             Sort = sort,
-            Page = page
+            Page = page,
+            Search = search
         });
         return Ok(result);
     }

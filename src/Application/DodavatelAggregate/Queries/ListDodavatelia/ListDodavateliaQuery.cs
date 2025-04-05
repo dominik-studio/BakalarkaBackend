@@ -4,12 +4,14 @@ using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Application.Common.Models;
 using CRMBackend.Domain.AggregateRoots.DodavatelAggregate;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Plainquire.Filter;
 using Plainquire.Filter.Abstractions;
 using Plainquire.Page;
 using Plainquire.Page.Abstractions;
 using Plainquire.Sort;
 using Plainquire.Sort.Abstractions;
+using System.Linq.Expressions;
 
 namespace CRMBackend.Application.DodavatelAggregate.Queries.ListDodavatelia;
 
@@ -18,6 +20,7 @@ public record ListDodavateliaQuery : IRequest<PaginatedList<DodavatelDTO>>
     public required EntityFilter<Dodavatel> Filter { get; init; }
     public required EntitySort<Dodavatel> Sort { get; init; }
     public required EntityPage Page { get; init; }
+    public string? Search { get; init; }
 }
 
 public class ListDodavateliaQueryHandler : IRequestHandler<ListDodavateliaQuery, PaginatedList<DodavatelDTO>>
@@ -33,11 +36,28 @@ public class ListDodavateliaQueryHandler : IRequestHandler<ListDodavateliaQuery,
 
     public async Task<PaginatedList<DodavatelDTO>> Handle(ListDodavateliaQuery request, CancellationToken cancellationToken)
     {
-        var query = _readRepository.GetQueryableNoTracking()
+        IQueryable<Dodavatel> query = _readRepository.GetQueryableNoTracking();
+
+        query = query.Include(d => d.Adresa);
+
+        if (!string.IsNullOrWhiteSpace(request.Search))
+        {
+            var searchTerm = request.Search.Trim().ToLowerInvariant();
+
+            query = query.Where(d =>
+                (d.NazovFirmy != null && d.NazovFirmy.ToLowerInvariant().Contains(searchTerm)) ||
+                (d.Adresa != null && d.Adresa.Ulica != null && d.Adresa.Ulica.ToLowerInvariant().Contains(searchTerm)) ||
+                (d.Email != null && d.Email.ToLowerInvariant().Contains(searchTerm)) ||
+                (d.Telefon != null && d.Telefon.ToLowerInvariant().Contains(searchTerm))
+            );
+        }
+
+        var orderedQuery = query
             .Where(request.Filter)
-            .OrderBy(request.Sort)
-            .ProjectTo<DodavatelDTO>(_mapper.ConfigurationProvider);
-        
-        return await PaginatedList<DodavatelDTO>.CreateAsync(query, request.Page, cancellationToken);
+            .OrderBy(request.Sort);
+
+        var projectedQuery = orderedQuery.ProjectTo<DodavatelDTO>(_mapper.ConfigurationProvider);
+
+        return await PaginatedList<DodavatelDTO>.CreateAsync(projectedQuery, request.Page, cancellationToken);
     }
-} 
+}

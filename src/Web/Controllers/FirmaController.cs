@@ -27,13 +27,15 @@ public class FirmyController : ControllerBase
     public async Task<IActionResult> Get(
         [FromQuery] EntityFilter<Firma> filter,
         [FromQuery] EntitySort<Firma> sort,
-        [FromQuery] EntityPage<Firma> page)
+        [FromQuery] EntityPage<Firma> page,
+        [FromQuery] string? search)
     {
         var result = await _sender.Send(new ListFirmyQuery()
         {
             Filter = filter,
             Sort = sort,
-            Page = page
+            Page = page,
+            Search = search
         });
         return Ok(result);
     }

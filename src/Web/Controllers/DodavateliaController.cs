@@ -27,13 +27,15 @@ public class DodavateliaController : ControllerBase
     public async Task<IActionResult> Get(
         [FromQuery] EntityFilter<Dodavatel> filter,
         [FromQuery] EntitySort<Dodavatel> sort,
-        [FromQuery] EntityPage<Dodavatel> page)
+        [FromQuery] EntityPage<Dodavatel> page,
+        [FromQuery] string? search)
     {
         var result = await _sender.Send(new ListDodavateliaQuery()
         {
             Filter = filter,
             Sort = sort,
-            Page = page
+            Page = page,
+            Search = search
         });
         return Ok(result);
     }

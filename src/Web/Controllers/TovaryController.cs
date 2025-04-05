@@ -24,13 +24,15 @@ public class TovaryController : ControllerBase
     public async Task<IActionResult> Get(
         [FromQuery] EntityFilter<Tovar> filter,
         [FromQuery] EntitySort<Tovar> sort,
-        [FromQuery] EntityPage<Tovar> page)
+        [FromQuery] EntityPage<Tovar> page,
+        [FromQuery] string? search)
     {
         var result = await _sender.Send(new ListTovaryQuery()
         {
             Filter = filter,
             Sort = sort,
-            Page = page
+            Page = page,
+            Search = search
         });
         return Ok(result);
     }

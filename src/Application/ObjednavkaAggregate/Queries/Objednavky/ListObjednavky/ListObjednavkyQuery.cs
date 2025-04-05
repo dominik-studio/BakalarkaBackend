@@ -11,6 +11,7 @@ using Plainquire.Page;
 using Plainquire.Page.Abstractions;
 using Plainquire.Sort;
 using Plainquire.Sort.Abstractions;
+using System.Linq.Expressions;
 
 namespace CRMBackend.Application.ObjednavkaAggregate.Queries.Objednavky.ListObjednavky;
 
@@ -19,6 +20,7 @@ public record ListObjednavkyQuery : IRequest<PaginatedList<ObjednavkaDTO>>
     public required EntityFilter<Objednavka> Filter { get; init; }
     public required EntitySort<Objednavka> Sort { get; init; }
     public required EntityPage Page { get; init; }
+    public string? Search { get; init; }
 }
 
 public class ListObjednavkyQueryHandler : IRequestHandler<ListObjednavkyQuery, PaginatedList<ObjednavkaDTO>>
@@ -34,13 +36,34 @@ public class ListObjednavkyQueryHandler : IRequestHandler<ListObjednavkyQuery, P
 
     public async Task<PaginatedList<ObjednavkaDTO>> Handle(ListObjednavkyQuery request, CancellationToken cancellationToken)
     {
-        var query = _readRepository.GetQueryableNoTracking()
-            .Include(o => o.Firma)
-            .Include(o => o.KontaktnaOsoba)
-            .Where(request.Filter)
-            .OrderBy(request.Sort)
-            .ProjectTo<ObjednavkaDTO>(_mapper.ConfigurationProvider);
+        IQueryable<Objednavka> query = _readRepository.GetQueryableNoTracking();
 
-        return await PaginatedList<ObjednavkaDTO>.CreateAsync(query, request.Page, cancellationToken);
+        query = query
+            .Include(o => o.Firma)
+                .ThenInclude(f => f!.Adresa)
+            .Include(o => o.KontaktnaOsoba);
+
+        if (!string.IsNullOrWhiteSpace(request.Search))
+        {
+            var searchTerm = request.Search.Trim().ToLowerInvariant();
+
+            query = query.Where(o =>
+                (o.Firma != null && o.Firma.Nazov != null && o.Firma.Nazov.ToLowerInvariant().Contains(searchTerm)) ||
+                (o.Firma != null && o.Firma.ICO != null && o.Firma.ICO.ToLowerInvariant().Contains(searchTerm)) ||
+                (o.Firma != null && o.Firma.Adresa != null && o.Firma.Adresa.Ulica != null && o.Firma.Adresa.Ulica.ToLowerInvariant().Contains(searchTerm)) ||
+                (o.Firma != null && o.Firma.IcDph != null && o.Firma.IcDph.ToLowerInvariant().Contains(searchTerm)) ||
+                (o.KontaktnaOsoba != null && o.KontaktnaOsoba.Meno != null && o.KontaktnaOsoba.Priezvisko != null && (o.KontaktnaOsoba.Meno + " " + o.KontaktnaOsoba.Priezvisko).ToLowerInvariant().Contains(searchTerm)) ||
+                (o.KontaktnaOsoba != null && o.KontaktnaOsoba.Email != null && o.KontaktnaOsoba.Email.ToLowerInvariant().Contains(searchTerm)) ||
+                (o.KontaktnaOsoba != null && o.KontaktnaOsoba.Telefon != null && o.KontaktnaOsoba.Telefon.ToLowerInvariant().Contains(searchTerm))
+            );
+        }
+
+        var orderedQuery = query
+            .Where(request.Filter)
+            .OrderBy(request.Sort);
+
+        var projectedQuery = orderedQuery.ProjectTo<ObjednavkaDTO>(_mapper.ConfigurationProvider);
+
+        return await PaginatedList<ObjednavkaDTO>.CreateAsync(projectedQuery, request.Page, cancellationToken);
     }
 } 
