@@ -1,11 +1,10 @@
 ﻿using CRMBackend.Domain.Constants;
-using CRMBackend.Domain.Entities;
+using CRMBackend.Infrastructure.Data.Seeders;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using CRMBackend.Domain.ValueObjects;
+using System.Collections.Generic;
 
 namespace CRMBackend.Infrastructure.Data;
 
@@ -27,11 +26,16 @@ public class ApplicationDbContextInitialiser
 {
     private readonly ILogger<ApplicationDbContextInitialiser> _logger;
     private readonly ApplicationDbContext _context;
+    private readonly IEnumerable<IDataSeeder> _seeders;
     
-    public ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitialiser> logger, ApplicationDbContext context)
+    public ApplicationDbContextInitialiser(
+        ILogger<ApplicationDbContextInitialiser> logger, 
+        ApplicationDbContext context,
+        IEnumerable<IDataSeeder> seeders)
     {
         _logger = logger;
         _context = context;
+        _seeders = seeders;
     }
 
     public async Task InitialiseAsync()
@@ -62,31 +66,31 @@ public class ApplicationDbContextInitialiser
 
     public async Task TrySeedAsync()
     {
-        // Default data
-        // Seed, if necessary
-        if (!_context.TodoLists.Any())
+        if(_context.KategorieProduktov.Any() || _context.Tovary.Any() || _context.VariantyTovarov.Any() || 
+        _context.Dodavatelia.Any() || _context.Firmy.Any() || _context.Objednavky.Any() || _context.KontaktneOsoby.Any())
         {
-            var todoList = new TodoList
-            {
-                Title = "My Todo List",
-            };
+            Console.WriteLine("Skipping seeding as data already exists.");
+            return;
+        }
 
-            var items = new List<TodoItem>
-            {
-                new TodoItem { Title = "Make a todo list 📃" },
-                new TodoItem { Title = "Check off the first item ✅" },
-                new TodoItem { Title = "Realise you've already done two things on the list! 🤯" },
-                new TodoItem { Title = "Reward yourself with a nice, long nap 🏆" }
-            };
+        Console.WriteLine("Seeding initial data...");
 
-            foreach (var item in items)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
+        {
+            try
             {
-                todoList.AddItem(item);
+                foreach (var seeder in _seeders.OrderBy(s => s.Order))
+                {
+                    await seeder.SeedAsync(_context);
+                }
+
+                await transaction.CommitAsync();
             }
-
-            _context.TodoLists.Add(todoList);
-
-            await _context.SaveChangesAsync();
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
     }
 }

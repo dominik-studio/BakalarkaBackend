@@ -14,6 +14,7 @@ using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Domain.Entities;
 using CRMBackend.Infrastructure.Data.Repositories;
 using CRMBackend.Infrastructure.Identity;
+using CRMBackend.Infrastructure.Data.Seeders;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -57,5 +58,10 @@ public static class DependencyInjection
                 // });
             })
             .AddKeycloakAuthorization(builder.Configuration);
+
+        builder.Services.AddScoped<IDataSeeder, DodavatelSeeder>();
+        builder.Services.AddScoped<IDataSeeder, FirmaSeeder>();
+        builder.Services.AddScoped<IDataSeeder, TovarSeeder>();
+        builder.Services.AddScoped<IDataSeeder, ObjednavkaSeeder>();
     }
 }
