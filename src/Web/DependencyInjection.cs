@@ -15,6 +15,40 @@ public static class DependencyInjection
 {
     public static void AddWebServices(this IHostApplicationBuilder builder)
     {
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                if(builder.Environment.IsDevelopment())
+                {
+                    policy.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                }
+                else
+                {
+                    var allowedOrigins = builder.Configuration
+                        .GetSection("Cors:AllowedOrigins")
+                        .Get<string[]>();
+                
+                    if (allowedOrigins != null && allowedOrigins.Length > 0)
+                    {
+                        policy.WithOrigins(allowedOrigins)
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException(
+                            "Required CORS configuration 'Cors:AllowedOrigins' is missing, empty, " +
+                            "or could not be found in appsettings.json or other configuration sources. " +
+                            "Application cannot start without defined CORS origins."
+                        );
+                    }
+                }
+            });
+        });
+        
         builder.Services.Configure<PageConfiguration>(c => c.IgnoreParseExceptions = true);
 
         builder.Services.AddControllers()
@@ -40,8 +74,7 @@ public static class DependencyInjection
         builder.Services.AddOpenApiDocument((configure, sp) =>
         {
             configure.Title = "CRMBackend API";
-
-            // Add JWT
+            
             configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
             {
                 Type = OpenApiSecuritySchemeType.ApiKey,

@@ -45,10 +45,10 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
                 if (entry.State == EntityState.Added)
                 {
                     entry.Entity.VytvoreneDna = utcNow;
-                    entry.Entity.VytvorilUzivatel = _currentUser.Id;
+                    entry.Entity.VytvorilUzivatel = _currentUser.FullName;
                 }
                 entry.Entity.UpraveneDna = utcNow;
-                entry.Entity.UpravilUzivatel = _currentUser.Id;
+                entry.Entity.UpravilUzivatel = _currentUser.FullName;
             }
         }
     }
