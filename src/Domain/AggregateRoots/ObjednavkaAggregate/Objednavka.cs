@@ -28,7 +28,7 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
             if (value == null && Faza == ObjednavkaFaza.VyrobaCaka)
                 throw new DomainValidationException("Plánovaný dátum výroby nemožno odstrániť, keď je objednávka vo fáze 'VyrobaCaka'.");
                         
-            _naplanovanyDatumVyroby = value;
+            _naplanovanyDatumVyroby = value?.ToUniversalTime();
         }
     }
 
@@ -80,7 +80,7 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
 
     public void SetOcakavanyDatumDorucenia(DateTime? datum)
     {
-        OcakavanyDatumDorucenia = datum;
+        OcakavanyDatumDorucenia = datum?.ToUniversalTime();
     }
 
     public void SetPoznamka(string? poznamka)

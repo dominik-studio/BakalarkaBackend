@@ -218,7 +218,6 @@ namespace CRMBackend.Infrastructure.Data.Seeders
         {
             var allProducts = await dbContext.Tovary.ToListAsync();
             
-            
             var productsForVariants = allProducts
                 .OrderBy(_ => random.Next())
                 .Take(allProducts.Count / 2)
@@ -226,35 +225,37 @@ namespace CRMBackend.Infrastructure.Data.Seeders
                             
             foreach (var product in productsForVariants)
             {
-                
+                var usedCombinations = new HashSet<(string?, Velkost?)>();
                 int variantType = random.Next(1, 4);
-                
-                
                 int variantCount = random.Next(1, 6);
+                int attemptsLimit = variantCount * 3;
+                int currentAttempts = 0;
                 
-                for (int i = 0; i < variantCount; i++)
+                while (usedCombinations.Count < variantCount && currentAttempts < attemptsLimit)
                 {
+                    currentAttempts++;
                     
                     string? colorHex = null;
                     Velkost? size = null;
                     
-                    if (variantType == 2 || variantType == 3) 
-                    {
-                        
+                    if (variantType == 2 || variantType == 3)
                         colorHex = GenerateRandomHexColor(random);
-                    }
                     
-                    if (variantType == 1 || variantType == 3) 
-                    {
-                        
+                    if (variantType == 1 || variantType == 3)
                         size = GetRandomSize(random);
-                    }
-                       
+                    
+                    var combination = (colorHex, size);
+                    
+                    if (usedCombinations.Contains(combination))
+                        continue;
+                        
+                    usedCombinations.Add(combination);
+                    
                     var variant = new VariantTovar(colorHex, size)
                     {
                         Tovar = product,
                         TovarId = product.Id,
-                        Cena = random.Next(5) == 0 ? product.Cena * (decimal)(0.8 + random.NextDouble() * 0.4) : product.Cena 
+                        Cena = random.Next(5) == 0 ? product.Cena * (decimal)(0.8 + random.NextDouble() * 0.4) : product.Cena
                     };
                     
                     product.AddVariant(variant);

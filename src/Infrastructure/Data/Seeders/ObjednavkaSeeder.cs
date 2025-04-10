@@ -83,16 +83,14 @@ public class ObjednavkaSeeder : IDataSeeder
         };
 
         objednavka.SetPoznamka("Štandardná objednávka");
-        objednavka.SetOcakavanyDatumDorucenia(DateTime.Now.AddDays(_random.Next(10, 30)));
-        objednavka.NaplanovanyDatumVyroby = DateTime.Now.AddDays(_random.Next(5, 15));
+        objednavka.SetOcakavanyDatumDorucenia(DateTime.UtcNow.AddDays(_random.Next(10, 30)));
+        objednavka.NaplanovanyDatumVyroby = DateTime.UtcNow.AddDays(_random.Next(5, 15));
 
         dbContext.Objednavky.Add(objednavka);
         await dbContext.SaveChangesAsync();
 
-        
         var cenovaPonuka = CreateCenovaPonuka(objednavka, tovary);
         objednavka.AddCenovaPonuka(cenovaPonuka);
-
         
         objednavka.SetFaza(ObjednavkaFaza.NacenenieCaka);
         
@@ -209,11 +207,10 @@ public class ObjednavkaSeeder : IDataSeeder
         }
         else
         {
-            objednavka.SetOcakavanyDatumDorucenia(DateTime.Now.AddDays(_random.Next(5, 30)));
-            objednavka.NaplanovanyDatumVyroby = DateTime.Now.AddDays(_random.Next(2, 15));
+            objednavka.SetOcakavanyDatumDorucenia(DateTime.UtcNow.AddDays(_random.Next(5, 30)));
+            objednavka.NaplanovanyDatumVyroby = DateTime.UtcNow.AddDays(_random.Next(2, 15));
         }
 
-        dbContext.Objednavky.Add(objednavka);
         await dbContext.SaveChangesAsync();
         
         
@@ -569,11 +566,10 @@ public class ObjednavkaSeeder : IDataSeeder
     
     private void SetPastDates(Objednavka objednavka)
     {
-        
         int daysAgo = _random.Next(1, 365);
         int manufacturingDaysAgo = daysAgo + _random.Next(5, 15); 
         
-        objednavka.SetOcakavanyDatumDorucenia(DateTime.Now.AddDays(-daysAgo));
-        objednavka.NaplanovanyDatumVyroby = DateTime.Now.AddDays(-manufacturingDaysAgo);
+        objednavka.SetOcakavanyDatumDorucenia(DateTime.UtcNow.AddDays(-daysAgo));
+        objednavka.NaplanovanyDatumVyroby = DateTime.UtcNow.AddDays(-manufacturingDaysAgo);
     }
 } 
