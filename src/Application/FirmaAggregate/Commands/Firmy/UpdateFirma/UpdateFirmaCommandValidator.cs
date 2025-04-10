@@ -13,6 +13,10 @@ public class UpdateFirmaCommandValidator : AbstractValidator<UpdateFirmaCommand>
         RuleFor(v => v.ICO)
             .MustAsync(BeUniqueIco)
             .WithMessage("Firma s daným IČO už existuje.");
+
+        RuleFor(v => v.IcDph)
+            .MustAsync(BeUniqueIcDph)
+            .WithMessage("Firma s daným IČ DPH už existuje.");
     }
 
     private async Task<bool> BeUniqueIco(UpdateFirmaCommand command, string ico, CancellationToken cancellationToken)
@@ -20,5 +24,15 @@ public class UpdateFirmaCommandValidator : AbstractValidator<UpdateFirmaCommand>
         return await _firmaRepository.GetQueryableNoTracking()
             .Where(f => f.Id != command.Id)
             .AllAsync(f => f.ICO != ico, cancellationToken);
+    }
+
+    private async Task<bool> BeUniqueIcDph(UpdateFirmaCommand command, string? icDph, CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrEmpty(icDph))
+            return true;
+
+        return await _firmaRepository.GetQueryableNoTracking()
+            .Where(f => f.Id != command.Id)
+            .AllAsync(f => f.IcDph != icDph, cancellationToken);
     }
 } 

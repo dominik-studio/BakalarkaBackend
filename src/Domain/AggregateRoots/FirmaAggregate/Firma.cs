@@ -38,9 +38,6 @@ public class Firma : BaseAuditableEntity, IAggregateRoot
 
     public void AddKontaktnaOsoba(KontaktnaOsoba osoba)
     {
-        if (_kontaktneOsoby.Any(o => o.Email.Equals(osoba.Email, StringComparison.OrdinalIgnoreCase)))
-            throw new DomainValidationException("Duplicitný email nie je povolený");
-
         _kontaktneOsoby.Add(osoba);
     }
 

@@ -40,6 +40,7 @@ public class TovarConfiguration : IEntityTypeConfiguration<Tovar>
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasIndex(t => t.InterneId).IsUnique();
+        builder.HasIndex(t => t.Ean).IsUnique();
         builder.HasIndex(t => t.Nazov);
         builder.HasIndex(t => t.KategoriaId);
         builder.HasIndex(t => t.Aktivny);

@@ -16,6 +16,10 @@ public class UpdateTovarCommandValidator : AbstractValidator<UpdateTovarCommand>
         RuleFor(v => v.InterneId)
             .MustAsync(BeUniqueInterneId)
             .WithMessage("Tovar s daným Interným ID už existuje.");
+
+        RuleFor(v => v.Ean)
+            .MustAsync(BeUniqueEan)
+            .WithMessage("Tovar s daným EAN už existuje.");
     }
 
     private async Task<bool> BeUniqueInterneId(UpdateTovarCommand command, string interneId, CancellationToken cancellationToken)
@@ -23,5 +27,15 @@ public class UpdateTovarCommandValidator : AbstractValidator<UpdateTovarCommand>
         return await _tovarRepository.GetQueryableNoTracking()
             .Where(t => t.Id != command.TovarId)
             .AllAsync(t => t.InterneId != interneId, cancellationToken);
+    }
+
+    private async Task<bool> BeUniqueEan(UpdateTovarCommand command, string? ean, CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrEmpty(ean))
+            return true;
+
+        return await _tovarRepository.GetQueryableNoTracking()
+            .Where(t => t.Id != command.TovarId)
+            .AllAsync(t => t.Ean != ean, cancellationToken);
     }
 } 

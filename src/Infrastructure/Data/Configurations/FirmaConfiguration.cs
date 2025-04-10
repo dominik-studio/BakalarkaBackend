@@ -37,6 +37,7 @@ public class FirmaConfiguration : IEntityTypeConfiguration<Firma>
 
         builder.HasIndex(f => f.Nazov);
         builder.HasIndex(f => f.ICO).IsUnique();
+        builder.HasIndex(f => f.IcDph).IsUnique();
         builder.HasIndex(f => f.SkoreSpolahlivosti);
     }
 }

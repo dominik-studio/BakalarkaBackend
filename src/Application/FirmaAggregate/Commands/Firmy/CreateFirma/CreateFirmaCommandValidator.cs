@@ -13,11 +13,24 @@ public class CreateFirmaCommandValidator : AbstractValidator<CreateFirmaCommand>
         RuleFor(v => v.ICO)
             .MustAsync(BeUniqueIco)
             .WithMessage("Firma s daným IČO už existuje.");
+
+        RuleFor(v => v.IcDph)
+            .MustAsync(BeUniqueIcDph)
+            .WithMessage("Firma s daným IČ DPH už existuje.");
     }
 
     private async Task<bool> BeUniqueIco(string ico, CancellationToken cancellationToken)
     {
         return await _firmaRepository.GetQueryableNoTracking()
             .AllAsync(f => f.ICO != ico, cancellationToken);
+    }
+
+    private async Task<bool> BeUniqueIcDph(string? icDph, CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrEmpty(icDph))
+            return true;
+
+        return await _firmaRepository.GetQueryableNoTracking()
+            .AllAsync(f => f.IcDph != icDph, cancellationToken);
     }
 } 

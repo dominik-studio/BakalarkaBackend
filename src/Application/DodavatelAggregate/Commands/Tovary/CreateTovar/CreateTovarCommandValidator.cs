@@ -16,11 +16,24 @@ public class CreateTovarCommandValidator : AbstractValidator<CreateTovarCommand>
         RuleFor(v => v.InterneId)
             .MustAsync(BeUniqueInterneId)
             .WithMessage("Tovar s daným Interným ID už existuje.");
+
+        RuleFor(v => v.Ean)
+            .MustAsync(BeUniqueEan)
+            .WithMessage("Tovar s daným EAN už existuje.");
     }
 
     private async Task<bool> BeUniqueInterneId(string interneId, CancellationToken cancellationToken)
     {
         return await _tovarRepository.GetQueryableNoTracking()
             .AllAsync(t => t.InterneId != interneId, cancellationToken);
+    }
+
+    private async Task<bool> BeUniqueEan(string? ean, CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrEmpty(ean))
+            return true;
+
+        return await _tovarRepository.GetQueryableNoTracking()
+            .AllAsync(t => t.Ean != ean, cancellationToken);
     }
 } 
