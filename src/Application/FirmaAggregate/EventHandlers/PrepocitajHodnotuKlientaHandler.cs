@@ -78,13 +78,10 @@ public class PrepocitajHodnotuKlientaHandler : INotificationHandler<ObjednavkaVy
 
         firma.UpdateHodnotaObjednavok(hodnotaObjednavok);
         await _firmaWriteRepository.SaveAsync(cancellationToken);
-
-        _logger.LogInformation("Aktualizovaná hodnota objednávok pre firmu {FirmaId}: {Hodnota}", firmaId, hodnotaObjednavok);
     }
 
     public async Task Handle(ObjednavkaVybavenaEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Domain Event: {DomainEvent}", notification.GetType().Name);
         await PrepocitajHodnotu(notification.FirmaId, cancellationToken);
     }
 } 

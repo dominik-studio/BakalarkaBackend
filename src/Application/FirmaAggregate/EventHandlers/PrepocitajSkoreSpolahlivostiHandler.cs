@@ -85,26 +85,20 @@ public class PrepocitajSkoreSpolahlivostiHandler :
 
         firma.UpdateSkoreSpolahlivosti(skore);
         await _firmaWriteRepository.SaveAsync(cancellationToken);
-
-        _logger.LogInformation("Aktualizované skóre spoľahlivosti pre firmu {FirmaId}: {Skore}", firmaId, skore);
     }
 
     public async Task Handle(ObjednavkaVytvorenaEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Domain Event: {DomainEvent}", notification.GetType().Name);
         await PrepocitajSkore(notification.FirmaId, cancellationToken);
     }
 
     public async Task Handle(ChybaKlientaZaznamenanaEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Domain Event: {DomainEvent} - Chyba: {ChybaKlienta}", 
-            notification.GetType().Name, notification.ChybaKlienta);
         await PrepocitajSkore(notification.FirmaId, cancellationToken);
     }
 
     public async Task Handle(ObjednavkaVybavenaEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Domain Event: {DomainEvent}", notification.GetType().Name);
         await PrepocitajSkore(notification.FirmaId, cancellationToken);
     }
 } 

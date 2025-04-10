@@ -14,8 +14,6 @@ public class TodoItemCreatedEventHandler : INotificationHandler<TodoItemCreatedE
 
     public Task Handle(TodoItemCreatedEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("CRMBackend Domain Event: {DomainEvent}", notification.GetType().Name);
-
         return Task.CompletedTask;
     }
 }
