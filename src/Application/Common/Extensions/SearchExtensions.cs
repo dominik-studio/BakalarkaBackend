@@ -37,17 +37,17 @@ public static class SearchExtensions
             return query;
         }
 
-        var searchTerm = search.Trim().ToLowerInvariant();
+        var searchTerm = search.Trim().ToLower();
 
         ParameterExpression parameter = Expression.Parameter(typeof(T), "entity");
         Expression? combinedOrExpression = null;
 
         var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string) });
-        var toLowerMethod = typeof(string).GetMethod("ToLowerInvariant", Type.EmptyTypes);
+        var toLowerMethod = typeof(string).GetMethod("ToLower", Type.EmptyTypes);
 
         if (containsMethod == null || toLowerMethod == null)
         {
-            throw new InvalidOperationException("Required string methods (Contains, ToLowerInvariant) not found.");
+            throw new InvalidOperationException("Required string methods (Contains, ToLower) not found.");
         }
 
         var searchTermConstant = Expression.Constant(searchTerm);

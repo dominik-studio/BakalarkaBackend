@@ -42,13 +42,13 @@ public class ListDodavateliaQueryHandler : IRequestHandler<ListDodavateliaQuery,
 
         if (!string.IsNullOrWhiteSpace(request.Search))
         {
-            var searchTerm = request.Search.Trim().ToLowerInvariant();
+            var searchTerm = request.Search.Trim().ToLower();
 
             query = query.Where(d =>
-                (d.NazovFirmy != null && d.NazovFirmy.ToLowerInvariant().Contains(searchTerm)) ||
-                (d.Adresa != null && d.Adresa.Ulica != null && d.Adresa.Ulica.ToLowerInvariant().Contains(searchTerm)) ||
-                (d.Email != null && d.Email.ToLowerInvariant().Contains(searchTerm)) ||
-                (d.Telefon != null && d.Telefon.ToLowerInvariant().Contains(searchTerm))
+                (d.NazovFirmy != null && d.NazovFirmy.ToLower().Contains(searchTerm)) ||
+                (d.Adresa != null && d.Adresa.Ulica != null && d.Adresa.Ulica.ToLower().Contains(searchTerm)) ||
+                (d.Email != null && d.Email.ToLower().Contains(searchTerm)) ||
+                (d.Telefon != null && d.Telefon.ToLower().Contains(searchTerm))
             );
         }
 

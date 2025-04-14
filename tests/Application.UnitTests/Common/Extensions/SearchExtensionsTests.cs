@@ -116,8 +116,8 @@ public class SearchExtensionsTests
         resultList.Count.Should().Be(expectedCount);
         foreach (var item in resultList)
         {
-            bool nameMatch = item.Name?.ToLowerInvariant().Contains(searchTerm.Trim().ToLowerInvariant()) ?? false;
-            bool descMatch = item.Description?.ToLowerInvariant().Contains(searchTerm.Trim().ToLowerInvariant()) ?? false;
+            bool nameMatch = item.Name?.ToLower().Contains(searchTerm.Trim().ToLower()) ?? false;
+            bool descMatch = item.Description?.ToLower().Contains(searchTerm.Trim().ToLower()) ?? false;
             (nameMatch || descMatch).Should().BeTrue($"Item {item.Id} ('{item.Name}', '{item.Description}') should match '{searchTerm}'");
         }
     }
@@ -167,10 +167,10 @@ public class SearchExtensionsTests
 
         foreach (var item in resultList)
         {
-            bool nameMatch = item.Name?.ToLowerInvariant().Contains(searchTerm.Trim().ToLowerInvariant()) ?? false;
-            bool descMatch = item.Description?.ToLowerInvariant().Contains(searchTerm.Trim().ToLowerInvariant()) ?? false;
-            bool childNameMatch = item.Child?.ChildName?.ToLowerInvariant().Contains(searchTerm.Trim().ToLowerInvariant()) ?? false;
-            bool childDescMatch = item.Child?.ChildDescription?.ToLowerInvariant().Contains(searchTerm.Trim().ToLowerInvariant()) ?? false;
+            bool nameMatch = item.Name?.ToLower().Contains(searchTerm.Trim().ToLower()) ?? false;
+            bool descMatch = item.Description?.ToLower().Contains(searchTerm.Trim().ToLower()) ?? false;
+            bool childNameMatch = item.Child?.ChildName?.ToLower().Contains(searchTerm.Trim().ToLower()) ?? false;
+            bool childDescMatch = item.Child?.ChildDescription?.ToLower().Contains(searchTerm.Trim().ToLower()) ?? false;
 
             (nameMatch || descMatch || childNameMatch || childDescMatch).Should().BeTrue(
                 $"Item {item.Id} ('{item.Name}', '{item.Description}', Child: '{item.Child?.ChildName}', '{item.Child?.ChildDescription}') should match '{searchTerm}'");

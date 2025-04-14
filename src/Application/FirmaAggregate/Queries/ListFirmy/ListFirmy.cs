@@ -44,17 +44,17 @@ public class ListFirmyQueryHandler : IRequestHandler< ListFirmyQuery, PaginatedL
 
         if (!string.IsNullOrWhiteSpace(request.Search))
         {
-            var searchTerm = request.Search.Trim().ToLowerInvariant();
+            var searchTerm = request.Search.Trim().ToLower();
 
             query = query.Where(f =>
-                (f.Nazov != null && f.Nazov.ToLowerInvariant().Contains(searchTerm)) ||
-                (f.ICO != null && f.ICO.ToLowerInvariant().Contains(searchTerm)) ||
-                (f.Adresa != null && f.Adresa.Ulica != null && f.Adresa.Ulica.ToLowerInvariant().Contains(searchTerm)) ||
-                (f.IcDph != null && f.IcDph.ToLowerInvariant().Contains(searchTerm)) ||
+                (f.Nazov != null && f.Nazov.ToLower().Contains(searchTerm)) ||
+                (f.ICO != null && f.ICO.ToLower().Contains(searchTerm)) ||
+                (f.Adresa != null && f.Adresa.Ulica != null && f.Adresa.Ulica.ToLower().Contains(searchTerm)) ||
+                (f.IcDph != null && f.IcDph.ToLower().Contains(searchTerm)) ||
                 f.KontaktneOsoby.Any(ko =>
-                    (ko.Meno != null && ko.Priezvisko != null && (ko.Meno + " " + ko.Priezvisko).ToLowerInvariant().Contains(searchTerm)) ||
-                    (ko.Email != null && ko.Email.ToLowerInvariant().Contains(searchTerm)) ||
-                    (ko.Telefon != null && ko.Telefon.ToLowerInvariant().Contains(searchTerm))
+                    (ko.Meno != null && ko.Priezvisko != null && (ko.Meno + " " + ko.Priezvisko).ToLower().Contains(searchTerm)) ||
+                    (ko.Email != null && ko.Email.ToLower().Contains(searchTerm)) ||
+                    (ko.Telefon != null && ko.Telefon.ToLower().Contains(searchTerm))
                 )
             );
         }

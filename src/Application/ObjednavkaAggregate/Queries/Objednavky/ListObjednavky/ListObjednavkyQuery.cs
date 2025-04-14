@@ -45,16 +45,16 @@ public class ListObjednavkyQueryHandler : IRequestHandler<ListObjednavkyQuery, P
 
         if (!string.IsNullOrWhiteSpace(request.Search))
         {
-            var searchTerm = request.Search.Trim().ToLowerInvariant();
+            var searchTerm = request.Search.Trim().ToLower();
 
             query = query.Where(o =>
-                (o.Firma != null && o.Firma.Nazov != null && o.Firma.Nazov.ToLowerInvariant().Contains(searchTerm)) ||
-                (o.Firma != null && o.Firma.ICO != null && o.Firma.ICO.ToLowerInvariant().Contains(searchTerm)) ||
-                (o.Firma != null && o.Firma.Adresa != null && o.Firma.Adresa.Ulica != null && o.Firma.Adresa.Ulica.ToLowerInvariant().Contains(searchTerm)) ||
-                (o.Firma != null && o.Firma.IcDph != null && o.Firma.IcDph.ToLowerInvariant().Contains(searchTerm)) ||
-                (o.KontaktnaOsoba != null && o.KontaktnaOsoba.Meno != null && o.KontaktnaOsoba.Priezvisko != null && (o.KontaktnaOsoba.Meno + " " + o.KontaktnaOsoba.Priezvisko).ToLowerInvariant().Contains(searchTerm)) ||
-                (o.KontaktnaOsoba != null && o.KontaktnaOsoba.Email != null && o.KontaktnaOsoba.Email.ToLowerInvariant().Contains(searchTerm)) ||
-                (o.KontaktnaOsoba != null && o.KontaktnaOsoba.Telefon != null && o.KontaktnaOsoba.Telefon.ToLowerInvariant().Contains(searchTerm))
+                (o.Firma != null && o.Firma.Nazov != null && o.Firma.Nazov.ToLower().Contains(searchTerm)) ||
+                (o.Firma != null && o.Firma.ICO != null && o.Firma.ICO.ToLower().Contains(searchTerm)) ||
+                (o.Firma != null && o.Firma.Adresa != null && o.Firma.Adresa.Ulica != null && o.Firma.Adresa.Ulica.ToLower().Contains(searchTerm)) ||
+                (o.Firma != null && o.Firma.IcDph != null && o.Firma.IcDph.ToLower().Contains(searchTerm)) ||
+                (o.KontaktnaOsoba != null && o.KontaktnaOsoba.Meno != null && o.KontaktnaOsoba.Priezvisko != null && (o.KontaktnaOsoba.Meno + " " + o.KontaktnaOsoba.Priezvisko).ToLower().Contains(searchTerm)) ||
+                (o.KontaktnaOsoba != null && o.KontaktnaOsoba.Email != null && o.KontaktnaOsoba.Email.ToLower().Contains(searchTerm)) ||
+                (o.KontaktnaOsoba != null && o.KontaktnaOsoba.Telefon != null && o.KontaktnaOsoba.Telefon.ToLower().Contains(searchTerm))
             );
         }
 

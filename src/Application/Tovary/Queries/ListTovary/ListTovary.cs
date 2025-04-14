@@ -41,16 +41,16 @@ public class ListTovaryQueryHandler : IRequestHandler<ListTovaryQuery, Paginated
 
         if (!string.IsNullOrWhiteSpace(request.Search))
         {
-            var searchTerm = request.Search.Trim().ToLowerInvariant();
+            var searchTerm = request.Search.Trim().ToLower();
 
             query = query.Where(t =>
-                (t.Nazov != null && t.Nazov.ToLowerInvariant().Contains(searchTerm)) ||
-                (t.InterneId != null && t.InterneId.ToLowerInvariant().Contains(searchTerm)) ||
-                (t.Ean != null && t.Ean.ToLowerInvariant().Contains(searchTerm)) ||
-                (t.Dodavatel != null && t.Dodavatel.NazovFirmy != null && t.Dodavatel.NazovFirmy.ToLowerInvariant().Contains(searchTerm)) ||
-                (t.Dodavatel != null && t.Dodavatel.Adresa != null && t.Dodavatel.Adresa.Ulica != null && t.Dodavatel.Adresa.Ulica.ToLowerInvariant().Contains(searchTerm)) ||
-                (t.Dodavatel != null && t.Dodavatel.Email != null && t.Dodavatel.Email.ToLowerInvariant().Contains(searchTerm)) ||
-                (t.Dodavatel != null && t.Dodavatel.Telefon != null && t.Dodavatel.Telefon.ToLowerInvariant().Contains(searchTerm))
+                (t.Nazov != null && t.Nazov.ToLower().Contains(searchTerm)) ||
+                (t.InterneId != null && t.InterneId.ToLower().Contains(searchTerm)) ||
+                (t.Ean != null && t.Ean.ToLower().Contains(searchTerm)) ||
+                (t.Dodavatel != null && t.Dodavatel.NazovFirmy != null && t.Dodavatel.NazovFirmy.ToLower().Contains(searchTerm)) ||
+                (t.Dodavatel != null && t.Dodavatel.Adresa != null && t.Dodavatel.Adresa.Ulica != null && t.Dodavatel.Adresa.Ulica.ToLower().Contains(searchTerm)) ||
+                (t.Dodavatel != null && t.Dodavatel.Email != null && t.Dodavatel.Email.ToLower().Contains(searchTerm)) ||
+                (t.Dodavatel != null && t.Dodavatel.Telefon != null && t.Dodavatel.Telefon.ToLower().Contains(searchTerm))
             );
         }
 
