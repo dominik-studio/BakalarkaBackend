@@ -3,8 +3,9 @@ using CRMBackend.Domain.ValueObjects;
 
 namespace CRMBackend.Application.Tovary.Queries.GetTovar;
 
-public record VariantTovarDTO : BaseAuditableDto
+public record VariantTovarDTO
 {
+    public required int Id { get; init; }
     public required int TovarId { get; init; }
     public string? FarbaHex { get; init; }
     public Velkost? Velkost { get; init; }

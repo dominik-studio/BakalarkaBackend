@@ -9,6 +9,7 @@ public record CenovaPonukaDTO
     public int Id { get; init; }
     public decimal FinalnaCena { get; init; }
     public StavCenovejPonuky Stav { get; init; }
+    public required IEnumerable<CenovaPonukaTovarDTO> Polozky { get; init; }
 
     private class Mapping : Profile
     {

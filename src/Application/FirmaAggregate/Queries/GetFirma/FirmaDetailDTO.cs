@@ -7,7 +7,6 @@ namespace CRMBackend.Application.FirmaAggregate.Queries.GetFirma;
 
 public record FirmaDetailDTO : BaseAuditableDto
 {
-    public int Id { get; init; }
     public required string Nazov { get; init; }
     public required string ICO { get; init; }
     public required Adresa Adresa { get; init; }
