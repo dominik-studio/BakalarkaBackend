@@ -4,6 +4,10 @@ namespace CRMBackend.Application.Tovary.Queries.ListTovary;
 
 public record TovarDTO : BaseAuditableDto
 {
+    public required string DodavatelNazovFirmy { get; init; }
+    public required string DodavatelEmail { get; init; }
+    public required string DodavatelTelefon { get; init; }
+
     public required string InterneId { get; init; }
     public required string Nazov { get; init; }
     public string? ObrazokURL { get; init; }
