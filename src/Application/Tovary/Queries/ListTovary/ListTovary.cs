@@ -7,25 +7,25 @@ using Microsoft.EntityFrameworkCore;
 using Plainquire.Filter;
 using Plainquire.Page;
 using Plainquire.Sort;
-using DomainTovar = CRMBackend.Domain.AggregateRoots.TovarAggregate.Tovar;
 using System.Linq.Expressions;
+using CRMBackend.Domain.AggregateRoots.TovarAggregate;
 
 namespace CRMBackend.Application.Tovary.Queries.ListTovary;
 
 public record ListTovaryQuery : IRequest<PaginatedList<TovarDTO>>
 {
-    public required EntityFilter<DomainTovar> Filter { get; init; }
-    public required EntitySort<DomainTovar> Sort { get; init; }
+    public required EntityFilter<Tovar> Filter { get; init; }
+    public required EntitySort<Tovar> Sort { get; init; }
     public required EntityPage Page { get; init; }
     public string? Search { get; init; }
 }
 
 public class ListTovaryQueryHandler : IRequestHandler<ListTovaryQuery, PaginatedList<TovarDTO>>
 {
-    private readonly IReadRepository<DomainTovar> _readRepository;
+    private readonly IReadRepository<Tovar> _readRepository;
     private readonly IMapper _mapper;
 
-    public ListTovaryQueryHandler(IReadRepository<DomainTovar> readRepository, IMapper mapper)
+    public ListTovaryQueryHandler(IReadRepository<Tovar> readRepository, IMapper mapper)
     {
         _readRepository = readRepository;
         _mapper = mapper;
@@ -33,7 +33,7 @@ public class ListTovaryQueryHandler : IRequestHandler<ListTovaryQuery, Paginated
 
     public async Task<PaginatedList<TovarDTO>> Handle(ListTovaryQuery request, CancellationToken cancellationToken)
     {
-        IQueryable<DomainTovar> query = _readRepository.GetQueryableNoTracking();
+        IQueryable<Tovar> query = _readRepository.GetQueryableNoTracking();
 
         query = query
             .Include(t => t.Dodavatel)
