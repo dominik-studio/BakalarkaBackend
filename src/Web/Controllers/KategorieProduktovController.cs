@@ -28,7 +28,8 @@ public class KategorieProduktovController : ControllerBase
     public async Task<IActionResult> Create(CreateKategorieProduktovCommand command)
     {
         var entityId = await _sender.Send(command);
-        return CreatedAtAction("", new { id = entityId });
+        return StatusCode(201, new { id = entityId });
+
     }
 
     [HttpPut("{id}")]

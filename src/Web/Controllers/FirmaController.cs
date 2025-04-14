@@ -51,7 +51,8 @@ public class FirmyController : ControllerBase
     public async Task<IActionResult> Create(CreateFirmaCommand command)
     {
         var entityId = await _sender.Send(command);
-        return CreatedAtAction(nameof(GetById), new { id = entityId });
+        return StatusCode(201, new { id = entityId });
+
     }
 
     [HttpPut("{id}")]

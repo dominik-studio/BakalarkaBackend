@@ -22,7 +22,8 @@ public class KontaktneOsobyController : ControllerBase
     {
         if (command.FirmaId != firmaId) return BadRequest("Route ID does not match command ID");
         var entityId = await _sender.Send(command);
-        return CreatedAtAction("", new { id = entityId });
+        return StatusCode(201, new { id = entityId });
+
     }
 
     [HttpPut("{osobaId}")]

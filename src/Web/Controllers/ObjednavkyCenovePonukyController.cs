@@ -20,7 +20,8 @@ public class ObjednavkyCenovePonukyController : ControllerBase
     {
         if (command.ObjednavkaId != objednavkaId) return BadRequest("Route objednavkaId does not match command objednavkaId");
         var entityId = await _sender.Send(command);
-        return CreatedAtAction("", new { ponukaId = entityId });
+        return StatusCode(201, new { id = entityId });
+
     }
 
     [HttpPatch("{ponukaId}")]

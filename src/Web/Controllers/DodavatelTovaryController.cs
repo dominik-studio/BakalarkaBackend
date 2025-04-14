@@ -21,7 +21,8 @@ public class DodavatelTovaryController : ControllerBase
     {
         if (command.DodavatelId != dodavatelId) return BadRequest("Route dodavatelId does not match command dodavatelId");
         var entityId = await _sender.Send(command);
-        return CreatedAtAction("", new { tovarId = entityId });
+        return StatusCode(201, new { id = entityId });
+
     }
 
     [HttpPut("{tovarId}")]

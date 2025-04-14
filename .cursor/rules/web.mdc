@@ -12,7 +12,8 @@ When you use route parameters such as `id` or `listid`, check if the id matches 
 - do not do this for request, that contains only id fields such as `id` or `listid`, that can be only fetched from route parameters
     - f.e [DeleteTodoList.cs](mdc:src/Application/TodoLists/Commands/DeleteTodoList/DeleteTodoList.cs) contains only id fields. create request in body of method from route parameters instead adding it as parameter
 
-do not use `CreatedAtAction`.
+do not use `StatusCode(201, new { id = entityId });
+
 
 use mediatr ISender to send requests to Application layer
 ```c#

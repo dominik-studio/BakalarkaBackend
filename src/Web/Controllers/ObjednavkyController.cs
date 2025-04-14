@@ -54,7 +54,8 @@ public class ObjednavkyController : ControllerBase
     public async Task<IActionResult> Create(CreateObjednavkaCommand command)
     {
         var entityId = await _sender.Send(command);
-        return CreatedAtAction(nameof(GetById), new { id = entityId });
+        return StatusCode(201, new { id = entityId });
+
     }
 
     [HttpPatch("{id}")]
