@@ -11,8 +11,10 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Queries.Objednavky.ListObje
 
 public record ObjednavkaDTO : BaseAuditableDto
 {
+    public int FirmaId { get; init; }
     public required string FirmaNazov { get; init; }
     public required string FirmaICO { get; init; }
+    public int KontaktnaOsobaId { get; init; }
     public required string KontaktnaOsobaMeno { get; init; }
     public required string KontaktnaOsobaPriezvisko { get; init; }
     public required string KontaktnaOsobaTelefon { get; init; }

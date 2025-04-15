@@ -7,8 +7,6 @@ namespace CRMBackend.Application.FirmaAggregate.Queries.GetFirma;
 
 public record ObjednavkaDTO : BaseAuditableDto
 {
-    public int FirmaId { get; init; }
-    public int KontaktnaOsobaId { get; init; }
     public ObjednavkaFaza Faza { get; init; }
     public string? Poznamka { get; init; }
     public ChybaKlienta? ChybaKlienta { get; init; }

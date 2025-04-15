@@ -14,7 +14,6 @@ public record TovarDTO : BaseAuditableDto
     public int KategoriaId { get; init; }
     public string? Ean { get; init; }
     public required decimal Cena { get; init; }
-    public int DodavatelId { get; init; } // Included DodavatelId for reference
     public bool Aktivny { get; init; }
 
     private class Mapping : Profile
