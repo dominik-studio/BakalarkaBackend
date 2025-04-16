@@ -6,6 +6,7 @@ using Ardalis.GuardClauses;
 using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
 using CRMBackend.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.UpdateObjednavkaFaza
 {
@@ -24,9 +25,15 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.UpdateO
         }
         public async Task Handle(UpdateObjednavkaFazaCommand request, CancellationToken cancellationToken)
         {
-            var objednavka = await _repository.GetByIdAsync(request.ObjednavkaId, cancellationToken);
+            var objednavka = await _repository.GetByIdWithIncludesAsync(
+                request.ObjednavkaId,
+                query => query.Include(o => o.PoslednaCenovaPonuka),
+                cancellationToken);
+
             Guard.Against.NotFound(request.ObjednavkaId, objednavka);
+
             objednavka.SetFaza(request.Faza);
+
             await _repository.SaveAsync(cancellationToken);
         }
     }

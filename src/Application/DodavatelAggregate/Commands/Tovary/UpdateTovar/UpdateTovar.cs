@@ -1,5 +1,7 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
+using CRMBackend.Domain.AggregateRoots.DodavatelAggregate;
 using CRMBackend.Domain.AggregateRoots.KategoriaProduktuAggregate;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.UpdateTovar
 {
@@ -28,10 +30,15 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.UpdateTovar
 
         public async Task Handle(UpdateTovarCommand request, CancellationToken cancellationToken)
         {
-            var dodavatel = await _dodavatelRepository.GetByIdAsync(request.DodavatelId, cancellationToken);
+            var dodavatel = await _dodavatelRepository.GetByIdWithIncludesAsync(
+                request.DodavatelId,
+                query => query.Include(d => d.Tovary.Where(t => t.Id == request.TovarId)),
+                cancellationToken);
+
             Guard.Against.NotFound(request.DodavatelId, dodavatel);
-            var tovar = dodavatel.Tovary.FirstOrDefault(t => t.Id == request.TovarId);
-            Guard.Against.NotFound(request.TovarId, tovar);
+
+            var tovar = dodavatel.Tovary.FirstOrDefault();
+            Guard.Against.NotFound(request.TovarId, tovar, $"Tovar with Id {request.TovarId} not found for Dodavatel {request.DodavatelId}.");
             tovar.InterneId = request.InterneId;
             tovar.Nazov = request.Nazov;
             tovar.Cena = request.Cena;
@@ -40,7 +47,6 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.UpdateTovar
                 var kategoria = await _kategorieRepository.GetByIdAsync(request.KategoriaId, cancellationToken);
                 Guard.Against.NotFound(request.KategoriaId, kategoria);
                 tovar.Kategoria = kategoria;
-                tovar.KategoriaId = request.KategoriaId;
             }
             tovar.SetObrazok(request.ObrazokURL);
             tovar.SetEan(request.Ean);

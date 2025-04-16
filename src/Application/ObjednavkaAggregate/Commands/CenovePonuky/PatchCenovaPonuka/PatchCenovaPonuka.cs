@@ -29,7 +29,11 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.Patch
 
         public async Task Handle(PatchCenovaPonukaCommand request, CancellationToken cancellationToken)
         {
-            var objednavka = await _objednavkaRepository.GetByIdAsync(request.ObjednavkaId, cancellationToken);
+            var objednavka = await _objednavkaRepository.GetByIdWithIncludesAsync(
+                request.ObjednavkaId,
+                query => query.Include(o => o.CenovePonuky),
+                cancellationToken);
+
             Guard.Against.NotFound(request.ObjednavkaId, objednavka);
 
             var cenovaPonuka = objednavka.CenovePonuky.FirstOrDefault(x => x.Id == request.CenovaPonukaId);

@@ -1,4 +1,5 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.UpdateTovarAktivny
 {
@@ -20,10 +21,16 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.UpdateTovarA
 
         public async Task Handle(UpdateTovarAktivnyCommand request, CancellationToken cancellationToken)
         {
-            var dodavatel = await _dodavatelRepository.GetByIdAsync(request.DodavatelId, cancellationToken);
+            var dodavatel = await _dodavatelRepository.GetByIdWithIncludesAsync(
+                request.DodavatelId,
+                query => query.Include(d => d.Tovary.Where(t => t.Id == request.TovarId)),
+                cancellationToken);
+
             Guard.Against.NotFound(request.DodavatelId, dodavatel);
-            var tovar = dodavatel.Tovary.FirstOrDefault(t => t.Id == request.TovarId);
+
+            var tovar = dodavatel.Tovary.FirstOrDefault();
             Guard.Against.NotFound(request.TovarId, tovar);
+
             tovar.Aktivny = request.Aktivny;
             _dodavatelRepository.Update(dodavatel);
             await _dodavatelRepository.SaveAsync(cancellationToken);

@@ -1,4 +1,5 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.UpdateKontaktnaOsoba
 {
@@ -23,10 +24,16 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.UpdateKo
 
         public async Task Handle(UpdateKontaktnaOsobaCommand request, CancellationToken cancellationToken)
         {
-            var firma = await _repository.GetByIdAsync(request.FirmaId, cancellationToken);
+            var firma = await _repository.GetByIdWithIncludesAsync(
+                request.FirmaId,
+                query => query.Include(f => f.KontaktneOsoby.Where(o => o.Id == request.KontaktnaOsobaId)),
+                cancellationToken);
+
             Guard.Against.NotFound(request.FirmaId, firma);
-            var kontaktnaOsoba = firma.KontaktneOsoby.FirstOrDefault(o => o.Id == request.KontaktnaOsobaId);
+
+            var kontaktnaOsoba = firma.KontaktneOsoby.FirstOrDefault();
             Guard.Against.NotFound(request.KontaktnaOsobaId, kontaktnaOsoba);
+
             kontaktnaOsoba.Meno = request.Meno;
             kontaktnaOsoba.Priezvisko = request.Priezvisko;
             kontaktnaOsoba.Telefon = request.Telefon;
