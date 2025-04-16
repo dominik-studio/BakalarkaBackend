@@ -25,7 +25,11 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.VariantyTovarov.Cre
 
         public async Task<int> Handle(CreateVariantTovarCommand request, CancellationToken cancellationToken)
         {
-            var tovar = await _repository.GetByIdAsync(request.TovarId, cancellationToken);
+            var tovar = await _repository.GetByIdWithIncludesAsync(
+                request.TovarId,
+                query => query.Include(t => t.Varianty),
+                cancellationToken);
+            
             Guard.Against.NotFound(request.TovarId, tovar);
 
             var variant = new VariantTovar(request.FarbaHex, request.Velkost)

@@ -28,7 +28,7 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.VariantyTovarov.Upd
         {
             var tovar = await _repository.GetByIdWithIncludesAsync(
                 request.TovarId,
-                query => query.Include(t => t.Varianty.Where(v => v.Id == request.VariantId)),
+                query => query.Include(t => t.Varianty),
                 cancellationToken);
 
             Guard.Against.NotFound(request.TovarId, tovar);
