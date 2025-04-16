@@ -44,8 +44,6 @@ public class Dodavatel : BaseAuditableEntity, IAggregateRoot
 
     public void AddTovar(Tovar tovar)
     {
-        if (tovar.DodavatelId != Id)
-            throw new DomainValidationException("Tovar nepatrí tomuto dodávateľovi.");
         _tovary.Add(tovar);
     }
 
