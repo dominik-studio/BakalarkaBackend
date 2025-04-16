@@ -29,7 +29,7 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.Dodavatelia.UpdateD
             dodavatel.Telefon = request.Telefon;
             dodavatel.SetAdresa(request.Adresa);
             dodavatel.SetPoznamka(request.Poznamka);
-            _repository.Update(dodavatel);
+
             await _repository.SaveAsync(cancellationToken);
         }
     }

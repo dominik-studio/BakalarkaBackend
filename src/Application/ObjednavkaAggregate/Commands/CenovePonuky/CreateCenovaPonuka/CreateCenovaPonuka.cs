@@ -67,9 +67,7 @@ public class CreateCenovaPonukaCommandHandler : IRequestHandler<CreateCenovaPonu
         
         objednavka.AddCenovaPonuka(novaCenovaPonuka);
 
-        _objednavkaRepository.Update(objednavka);
         await _objednavkaRepository.SaveAsync(cancellationToken);
-
         return novaCenovaPonuka.Id;
     }
 } 

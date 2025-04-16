@@ -51,7 +51,7 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.CreateTovar
                 tovar.SetEan(request.Ean);
             }
             dodavatel.AddTovar(tovar);
-            _dodavatelRepository.Update(dodavatel);
+
             await _dodavatelRepository.SaveAsync(cancellationToken);
             return tovar.Id;
         }

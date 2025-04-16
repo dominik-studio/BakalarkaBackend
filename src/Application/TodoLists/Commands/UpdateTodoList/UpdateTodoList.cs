@@ -34,7 +34,7 @@ public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListComman
             entity.SetColour(request.Colour);
         }
 
-        _repository.Update(entity);
+
         await _repository.SaveAsync(cancellationToken);
     }
 }

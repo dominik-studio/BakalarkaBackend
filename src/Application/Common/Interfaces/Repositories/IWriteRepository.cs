@@ -7,9 +7,7 @@ namespace CRMBackend.Application.Common.Interfaces.Repositories
     {
         Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken);
         Task<T?> GetByIdWithIncludesAsync(int id, Func<IQueryable<T>, IQueryable<T>> includeAction, CancellationToken cancellationToken);
-        IQueryable<T> GetQueryable();
         void Add(T entity);
-        void Update(T entity);
         void Delete(T entity);
         Task SaveAsync(CancellationToken cancellationToken);
     }

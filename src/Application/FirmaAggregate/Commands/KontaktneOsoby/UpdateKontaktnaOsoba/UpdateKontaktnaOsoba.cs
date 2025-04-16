@@ -38,7 +38,7 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.UpdateKo
             kontaktnaOsoba.Priezvisko = request.Priezvisko;
             kontaktnaOsoba.Telefon = request.Telefon;
             kontaktnaOsoba.Email = request.Email;
-            _repository.Update(firma);
+
             await _repository.SaveAsync(cancellationToken);
         }
     }

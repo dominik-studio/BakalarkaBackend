@@ -50,7 +50,7 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.UpdateTovar
             }
             tovar.SetObrazok(request.ObrazokURL);
             tovar.SetEan(request.Ean);
-            _dodavatelRepository.Update(dodavatel);
+
             await _dodavatelRepository.SaveAsync(cancellationToken);
         }
     }

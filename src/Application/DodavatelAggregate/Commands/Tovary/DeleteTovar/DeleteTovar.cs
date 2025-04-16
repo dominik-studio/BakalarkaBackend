@@ -24,7 +24,7 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.DeleteTovar
             var tovar = dodavatel.Tovary.FirstOrDefault(t => t.Id == request.TovarId);
             Guard.Against.NotFound(request.TovarId, tovar);
             dodavatel.RemoveTovar(request.TovarId);
-            _dodavatelRepository.Update(dodavatel);
+
             await _dodavatelRepository.SaveAsync(cancellationToken);
         }
     }

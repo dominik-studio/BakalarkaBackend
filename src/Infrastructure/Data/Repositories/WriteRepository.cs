@@ -28,19 +28,9 @@ namespace CRMBackend.Infrastructure.Data.Repositories
             return await query.FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
         }
 
-        public IQueryable<T> GetQueryable()
-        {
-            return _context.Set<T>();
-        }
-
         public void Add(T entity)
         {
             _context.Set<T>().Add(entity);
-        }
-
-        public void Update(T entity)
-        {
-            _context.Entry(entity).State = EntityState.Modified;
         }
 
         public void Delete(T entity)

@@ -32,7 +32,7 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.UpdateTovarA
             Guard.Against.NotFound(request.TovarId, tovar);
 
             tovar.Aktivny = request.Aktivny;
-            _dodavatelRepository.Update(dodavatel);
+
             await _dodavatelRepository.SaveAsync(cancellationToken);
         }
     }

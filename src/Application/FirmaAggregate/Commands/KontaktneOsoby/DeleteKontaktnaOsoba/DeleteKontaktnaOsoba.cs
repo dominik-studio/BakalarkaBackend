@@ -24,7 +24,7 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.DeleteKo
             var kontaktnaOsoba = firma.KontaktneOsoby.FirstOrDefault(o => o.Id == request.KontaktnaOsobaId);
             Guard.Against.NotFound(request.KontaktnaOsobaId, kontaktnaOsoba);
             firma.RemoveKontaktnaOsoba(request.KontaktnaOsobaId);
-            _repository.Update(firma);
+
             await _repository.SaveAsync(cancellationToken);
         }
     }

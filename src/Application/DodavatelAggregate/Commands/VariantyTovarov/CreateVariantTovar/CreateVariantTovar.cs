@@ -37,7 +37,7 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.VariantyTovarov.Cre
             variant.SetCena(request.Cena);
             variant.SetObrazok(request.ObrazokURL);
             tovar.AddVariant(variant);
-            _repository.Update(tovar);
+
             await _repository.SaveAsync(cancellationToken);
             return variant.Id;
         }

@@ -27,7 +27,7 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.VariantyTovarov.Del
             Guard.Against.NotFound(request.VariantId, variant);
             
             tovar.RemoveVariant(request.VariantId);
-            _repository.Update(tovar);
+
             await _repository.SaveAsync(cancellationToken);
         }
     }

@@ -82,7 +82,7 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.Patch
             if (updated)
             {
                 objednavka.UpdateCenovaPonuka(cenovaPonuka);
-                _objednavkaRepository.Update(objednavka);
+
                 await _objednavkaRepository.SaveAsync(cancellationToken);
             }
         }

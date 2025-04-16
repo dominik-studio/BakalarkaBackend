@@ -34,7 +34,7 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.CreateKo
                 Aktivny = request.Aktivny ?? true,
             };
             firma.AddKontaktnaOsoba(kontaktnaOsoba);
-            _repository.Update(firma);
+
             await _repository.SaveAsync(cancellationToken);
             return kontaktnaOsoba.Id;
         }

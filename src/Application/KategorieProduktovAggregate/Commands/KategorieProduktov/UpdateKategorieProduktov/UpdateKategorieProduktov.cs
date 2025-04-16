@@ -27,7 +27,7 @@ public class UpdateKategorieProduktovCommandHandler : IRequestHandler<UpdateKate
 
         kategorieProduktov.Nazov = request.Nazov;
 
-        _repository.Update(kategorieProduktov);
+
         await _repository.SaveAsync(cancellationToken);
     }
 } 

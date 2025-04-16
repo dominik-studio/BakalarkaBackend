@@ -25,7 +25,7 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.UpdateKo
             var kontaktnaOsoba = firma.KontaktneOsoby.FirstOrDefault(o => o.Id == request.KontaktnaOsobaId);
             Guard.Against.NotFound(request.KontaktnaOsobaId, kontaktnaOsoba);
             kontaktnaOsoba.Aktivny = request.Aktivny;
-            _repository.Update(firma);
+
             await _repository.SaveAsync(cancellationToken);
         }
     }

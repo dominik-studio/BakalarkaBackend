@@ -30,7 +30,7 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.UpdateO
 
             objednavka.NaplanovanyDatumVyroby = request.NaplanovanyDatumVyroby;
 
-            _objednavkaRepository.Update(objednavka);
+
             await _objednavkaRepository.SaveAsync(cancellationToken);
         }
     }

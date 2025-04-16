@@ -29,7 +29,7 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.Firmy.UpdateFirma
             firma.ICO = request.ICO;
             firma.Adresa = request.Adresa;
             firma.SetIcDph(request.IcDph);
-            _repository.Update(firma);
+
             await _repository.SaveAsync(cancellationToken);
         }
     }

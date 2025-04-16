@@ -32,7 +32,7 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.VariantyTovarov.Upd
             Guard.Against.NotFound(request.VariantId, variant);
             
             variant.Aktivny = request.Aktivny;
-            _repository.Update(tovar);
+
             await _repository.SaveAsync(cancellationToken);
         }
     }
