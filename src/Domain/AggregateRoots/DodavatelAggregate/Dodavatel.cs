@@ -44,6 +44,7 @@ public class Dodavatel : BaseAuditableEntity, IAggregateRoot
 
     public void AddTovar(Tovar tovar)
     {
+        tovar.Aktivny = this.Aktivny;
         _tovary.Add(tovar);
     }
 
