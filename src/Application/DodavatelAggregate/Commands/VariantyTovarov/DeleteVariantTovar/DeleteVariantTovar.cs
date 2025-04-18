@@ -20,7 +20,11 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.VariantyTovarov.Del
 
         public async Task Handle(DeleteVariantTovarCommand request, CancellationToken cancellationToken)
         {
-            var tovar = await _repository.GetByIdAsync(request.TovarId, cancellationToken);
+            var tovar = await _repository.GetByIdWithIncludesAsync(
+                request.TovarId,
+                query => query.Include(t => t.Varianty.Where(v => v.Id == request.VariantId)),
+                cancellationToken);
+                
             Guard.Against.NotFound(request.TovarId, tovar);
             
             var variant = tovar.Varianty.FirstOrDefault(v => v.Id == request.VariantId);

@@ -20,10 +20,15 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.UpdateKo
 
         public async Task Handle(UpdateKontaktnaOsobaAktivnyCommand request, CancellationToken cancellationToken)
         {
-            var firma = await _repository.GetByIdAsync(request.FirmaId, cancellationToken);
+            var firma = await _repository.GetByIdWithIncludesAsync(
+                request.FirmaId,
+                query => query.Include(f => f.KontaktneOsoby.Where(o => o.Id == request.KontaktnaOsobaId)),
+                cancellationToken);
             Guard.Against.NotFound(request.FirmaId, firma);
+            
             var kontaktnaOsoba = firma.KontaktneOsoby.FirstOrDefault(o => o.Id == request.KontaktnaOsobaId);
             Guard.Against.NotFound(request.KontaktnaOsobaId, kontaktnaOsoba);
+            
             kontaktnaOsoba.Aktivny = request.Aktivny;
 
             await _repository.SaveAsync(cancellationToken);

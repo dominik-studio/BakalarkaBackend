@@ -1,4 +1,5 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.DeleteTovar
 {
@@ -19,8 +20,12 @@ namespace CRMBackend.Application.DodavatelAggregate.Commands.Tovary.DeleteTovar
 
         public async Task Handle(DeleteTovarCommand request, CancellationToken cancellationToken)
         {
-            var dodavatel = await _dodavatelRepository.GetByIdAsync(request.DodavatelId, cancellationToken);
+            var dodavatel = await _dodavatelRepository.GetByIdWithIncludesAsync(
+                request.DodavatelId,
+                query => query.Include(d => d.Tovary.Where(t => t.Id == request.TovarId)),
+                cancellationToken);
             Guard.Against.NotFound(request.DodavatelId, dodavatel);
+
             var tovar = dodavatel.Tovary.FirstOrDefault(t => t.Id == request.TovarId);
             Guard.Against.NotFound(request.TovarId, tovar);
             dodavatel.RemoveTovar(request.TovarId);

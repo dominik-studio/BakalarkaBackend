@@ -28,7 +28,6 @@ namespace CRMBackend.Application.FirmaAggregate.Commands.KontaktneOsoby.UpdateKo
                 request.FirmaId,
                 query => query.Include(f => f.KontaktneOsoby.Where(o => o.Id == request.KontaktnaOsobaId)),
                 cancellationToken);
-
             Guard.Against.NotFound(request.FirmaId, firma);
 
             var kontaktnaOsoba = firma.KontaktneOsoby.FirstOrDefault();
