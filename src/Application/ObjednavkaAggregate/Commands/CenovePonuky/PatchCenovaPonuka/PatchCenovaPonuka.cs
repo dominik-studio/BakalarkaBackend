@@ -1,6 +1,9 @@
 using CRMBackend.Application.Common.Interfaces.Repositories;
 using CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
 using CRMBackend.Domain.AggregateRoots.TovarAggregate;
+using Microsoft.EntityFrameworkCore;
+using MediatR;
+using Ardalis.GuardClauses;
 
 namespace CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.PatchCenovaPonuka
 {
@@ -31,7 +34,7 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.Patch
         {
             var objednavka = await _objednavkaRepository.GetByIdWithIncludesAsync(
                 request.ObjednavkaId,
-                query => query.Include(o => o.CenovePonuky),
+                query => query.Include(o => o.CenovePonuky).ThenInclude(cp => cp.Polozky),
                 cancellationToken);
 
             Guard.Against.NotFound(request.ObjednavkaId, objednavka);
@@ -59,18 +62,29 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.Patch
                 {
                     Tovar? tovar = null;
                     VariantTovar? variantTovar = null;
-                    if (polozkaDto.TovarId.HasValue)
+
+                    if (polozkaDto.TovarId.HasValue && polozkaDto.VariantTovarId.HasValue)
+                    {
+                        variantTovar = await _variantTovarRepository.GetQueryableNoTracking()
+                            .Include(v => v.Tovar)
+                            .FirstOrDefaultAsync(v => v.Id == polozkaDto.VariantTovarId.Value, cancellationToken);
+                        Guard.Against.NotFound(polozkaDto.VariantTovarId.Value, variantTovar);
+
+                        tovar = variantTovar.Tovar;
+                        Guard.Against.NotFound(polozkaDto.VariantTovarId.Value, tovar);
+                    }
+                    else if (polozkaDto.TovarId.HasValue)
                     {
                         tovar = await _tovarRepository.GetQueryableNoTracking()
                             .FirstOrDefaultAsync(t => t.Id == polozkaDto.TovarId.Value, cancellationToken);
+                        Guard.Against.NotFound(polozkaDto.TovarId.Value, tovar);
                     }
-                    else if (polozkaDto.VariantTovarId.HasValue)
+                    else
                     {
-                        variantTovar = await _variantTovarRepository.GetQueryableNoTracking()
-                            .FirstOrDefaultAsync(v => v.Id == polozkaDto.VariantTovarId.Value, cancellationToken);
+                        throw new ArgumentException("Pre položku cenovej ponuky musí byť zadané TovarId.");
                     }
 
-                    var novaPolozka = new CenovaPonukaTovar(tovar, variantTovar)
+                    var novaPolozka = new CenovaPonukaTovar(tovar!, variantTovar)
                     {
                         Mnozstvo = polozkaDto.Mnozstvo
                     };
@@ -81,8 +95,6 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.Patch
 
             if (updated)
             {
-                objednavka.UpdateCenovaPonuka(cenovaPonuka);
-
                 await _objednavkaRepository.SaveAsync(cancellationToken);
             }
         }

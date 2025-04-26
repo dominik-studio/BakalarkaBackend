@@ -524,7 +524,7 @@ public class ObjednavkaSeeder : IDataSeeder
                 
                 int variantCount = tovar.Varianty.Count();
                 var variant = tovar.Varianty.ElementAt(_random.Next(variantCount));
-                cenovaPonukaTovar = new CenovaPonukaTovar(variantTovar: variant) { Mnozstvo = _random.Next(1, 6) };
+                cenovaPonukaTovar = new CenovaPonukaTovar(tovar: tovar, variantTovar: variant) { Mnozstvo = _random.Next(1, 6) };
                 povodnaCenaPolozky = variant.Cena;
                 cenovaPonukaTovar.SetPovodnaCena(povodnaCenaPolozky); 
                 cenovaPonuka.AddPolozka(cenovaPonukaTovar);

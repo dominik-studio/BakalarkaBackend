@@ -8,10 +8,11 @@ public class CenovaPonukaTovar : BaseEntity
 {
     public int CenovaPonukaId { get; private set; }
     public CenovaPonuka CenovaPonuka { get; set; } = null!;
-    public Tovar? Tovar { get; private set; }
-    public int? TovarId { get; private set; }
+    public Tovar Tovar { get; private set; } = null!;
+    public int TovarId { get; private set; }
     public VariantTovar? VariantTovar { get; private set; }
     public int? VariantTovarId { get; private set; }
+    public bool JeVariantTovaru => VariantTovarId.HasValue;
     public required int Mnozstvo
     {
         get => _mnozstvo;
@@ -28,37 +29,13 @@ public class CenovaPonukaTovar : BaseEntity
     // Private parameterless constructor for EF Core
     private CenovaPonukaTovar() { }
 
-    public CenovaPonukaTovar(Tovar? tovar = null, VariantTovar? variantTovar = null)
+    public CenovaPonukaTovar(Tovar tovar, VariantTovar? variantTovar = null)
     {
-        if (tovar == null && variantTovar == null)
-            throw new DomainValidationException("Musí byť nastavený tovar alebo variant.");
-        if (tovar != null && variantTovar != null)
-            throw new DomainValidationException("Tovar a variant nemôžu byť nastavené súčasne.");
+        if (variantTovar != null && variantTovar.TovarId != tovar.Id)
+            throw new DomainValidationException("Variant tovaru nepatrí k zadanému tovaru.");
 
         Tovar = tovar;
-        TovarId = tovar?.Id;
-        VariantTovar = variantTovar;
-        VariantTovarId = variantTovar?.Id;
-    }
-
-    public void SetTovar(Tovar? tovar)
-    {
-        if (tovar != null && VariantTovar != null)
-        {
-            VariantTovar = null;
-            VariantTovarId = null;
-        }
-        Tovar = tovar;
-        TovarId = tovar?.Id;
-    }
-
-    public void SetVariantTovar(VariantTovar? variantTovar)
-    {
-        if (variantTovar != null && Tovar != null)
-        {
-            Tovar = null;
-            TovarId = null;
-        }
+        TovarId = tovar.Id;
         VariantTovar = variantTovar;
         VariantTovarId = variantTovar?.Id;
     }
