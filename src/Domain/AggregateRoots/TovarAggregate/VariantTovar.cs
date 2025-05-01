@@ -39,6 +39,9 @@ public class VariantTovar : BaseEntity
         if (!string.IsNullOrEmpty(farba) && !IsValidHexColor(farba))
             throw new DomainValidationException("Farba musí byť platný hexadecimálny kód farby");
 
+        if (farba != null)
+            farba = farba.ToUpper();
+        
         FarbaHex = farba;
         Velkost = velkost;
     }
