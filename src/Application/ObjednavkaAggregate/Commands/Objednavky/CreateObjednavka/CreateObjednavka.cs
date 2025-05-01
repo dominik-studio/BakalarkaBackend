@@ -12,11 +12,7 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.CreateO
     public record CreateObjednavkaCommand : IRequest<int>
     {
         public required int FirmaId { get; init; }
-        
-        public required int KontaktnaOsobaId { get; init; }
-        
-        public DateTime? OcakavanyDatumDorucenia { get; init; }
-        public string? Poznamka { get; init; }
+        public required int KontaktnaOsobaId { get; init; }        
     }
 
     public class CreateObjednavkaCommandHandler : IRequestHandler<CreateObjednavkaCommand, int>
@@ -41,8 +37,6 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.CreateO
                 Firma = firma,
                 KontaktnaOsoba = kontaktnaOsoba
             };
-            objednavka.SetOcakavanyDatumDorucenia(request.OcakavanyDatumDorucenia);
-            objednavka.SetPoznamka(request.Poznamka);
             _repository.Add(objednavka);
             await _repository.SaveAsync(cancellationToken);
             return objednavka.Id;

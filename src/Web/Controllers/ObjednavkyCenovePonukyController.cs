@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.CreateCenovaPonuka;
 using CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.PatchCenovaPonuka;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,15 +13,6 @@ public class ObjednavkyCenovePonukyController : ControllerBase
     private readonly ISender _sender;
 
     public ObjednavkyCenovePonukyController(ISender sender) => _sender = sender;
-
-    [HttpPost]
-    public async Task<IActionResult> Create(int objednavkaId, CreateCenovaPonukaCommand command)
-    {
-        if (command.ObjednavkaId != objednavkaId) return BadRequest("Route objednavkaId does not match command objednavkaId");
-        var entityId = await _sender.Send(command);
-        return StatusCode(201, new { id = entityId });
-
-    }
 
     [HttpPatch("{ponukaId}")]
     public async Task<IActionResult> Patch(int objednavkaId, int ponukaId, PatchCenovaPonukaCommand command)

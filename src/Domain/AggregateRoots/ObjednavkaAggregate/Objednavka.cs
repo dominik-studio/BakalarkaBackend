@@ -65,6 +65,13 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
     public IEnumerable<CenovaPonuka> CenovePonuky => _cenovePonuky.AsReadOnly();
 
 
+    public Objednavka()
+    {
+        var initialPonuka = new CenovaPonuka { Objednavka = this };
+        AddCenovaPonuka(initialPonuka);
+    }
+
+
     public void SetChybaKlienta(ChybaKlienta? chybaKlienta)
     {
         if (chybaKlienta.HasValue && ChybaKlienta == null)
@@ -175,6 +182,9 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
         {
             case ObjednavkaFaza.NacenenieCaka when novaFaza == ObjednavkaFaza.Nacenenie:
                 ZrusCenovuPonuku();
+                Faza = ObjednavkaFaza.Nacenenie;
+                var novaPonuka = new CenovaPonuka { Objednavka = this };
+                AddCenovaPonuka(novaPonuka);
                 break;
             case ObjednavkaFaza.NacenenieCaka when novaFaza == ObjednavkaFaza.VyrobaNeriesene:
                 SchvalitCenovuPonuku();
