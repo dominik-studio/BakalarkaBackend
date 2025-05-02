@@ -8,6 +8,7 @@ using CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.UpdateObjed
 using CRMBackend.Application.ObjednavkaAggregate.Commands.Objednavky.UpdateObjednavkaChybaKlienta;
 using CRMBackend.Application.ObjednavkaAggregate.Queries.Objednavky.GetObjednavka;
 using CRMBackend.Application.ObjednavkaAggregate.Queries.Objednavky.ListObjednavky;
+using CRMBackend.Application.ObjednavkaAggregate.Queries.Objednavky.DownloadCenovaPonuka;
 using CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -103,5 +104,12 @@ public class ObjednavkyController : ControllerBase
     {
         await _sender.Send(new DeleteObjednavkaCommand() { ObjednavkaId = id });
         return NoContent();
+    }
+
+    [HttpGet("cenove-ponuky/{id}/download")]
+    public async Task<IActionResult> DownloadCenovaPonuka(int id)
+    {
+        var response = await _sender.Send(new DownloadCenovaPonukaQuery { CenovaPonukaId = id });
+        return File(response.FileContents, response.ContentType, response.FileName);
     }
 } 

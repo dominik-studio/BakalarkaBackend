@@ -15,6 +15,8 @@ using CRMBackend.Domain.Entities;
 using CRMBackend.Infrastructure.Data.Repositories;
 using CRMBackend.Infrastructure.Identity;
 using CRMBackend.Infrastructure.Data.Seeders;
+using CRMBackend.Application.Common.Interfaces.Services;
+using CRMBackend.Infrastructure.Services.Invoices;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -63,5 +65,8 @@ public static class DependencyInjection
         builder.Services.AddScoped<IDataSeeder, FirmaSeeder>();
         builder.Services.AddScoped<IDataSeeder, TovarSeeder>();
         builder.Services.AddScoped<IDataSeeder, ObjednavkaSeeder>();
+
+        // Register invoice generation service
+        builder.Services.AddSingleton<IInvoiceGeneratorService, InvoiceGeneratorService>();
     }
 }
