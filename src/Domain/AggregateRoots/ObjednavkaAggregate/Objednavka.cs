@@ -64,14 +64,6 @@ public class Objednavka : BaseAuditableEntity, IAggregateRoot
     private readonly List<CenovaPonuka> _cenovePonuky = new();
     public IEnumerable<CenovaPonuka> CenovePonuky => _cenovePonuky.AsReadOnly();
 
-
-    public Objednavka()
-    {
-        var initialPonuka = new CenovaPonuka { Objednavka = this };
-        AddCenovaPonuka(initialPonuka);
-    }
-
-
     public void SetChybaKlienta(ChybaKlienta? chybaKlienta)
     {
         if (chybaKlienta.HasValue && ChybaKlienta == null)
