@@ -18,16 +18,13 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.Patch
     public class PatchCenovaPonukaCommandHandler : IRequestHandler<PatchCenovaPonukaCommand>
     {
         private readonly IWriteRepository<Objednavka> _objednavkaRepository;
-        private readonly IReadRepository<Tovar> _tovarRepository;
-        private readonly IReadRepository<VariantTovar> _variantTovarRepository;
+        private readonly IWriteRepository<Tovar> _tovarRepository;
 
         public PatchCenovaPonukaCommandHandler(IWriteRepository<Objednavka> objednavkaRepository,
-            IReadRepository<Tovar> tovarRepository,
-            IReadRepository<VariantTovar> variantTovarRepository)
+            IWriteRepository<Tovar> tovarRepository)
         {
             _objednavkaRepository = objednavkaRepository;
             _tovarRepository = tovarRepository;
-            _variantTovarRepository = variantTovarRepository;
         }
 
         public async Task Handle(PatchCenovaPonukaCommand request, CancellationToken cancellationToken)
@@ -65,18 +62,19 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.Patch
 
                     if (polozkaDto.TovarId.HasValue && polozkaDto.VariantTovarId.HasValue)
                     {
-                        variantTovar = await _variantTovarRepository.GetQueryableNoTracking()
-                            .Include(v => v.Tovar)
-                            .FirstOrDefaultAsync(v => v.Id == polozkaDto.VariantTovarId.Value, cancellationToken);
-                        Guard.Against.NotFound(polozkaDto.VariantTovarId.Value, variantTovar);
+                        var foundTovar = await _tovarRepository.GetByIdWithIncludesAsync(
+                            polozkaDto.TovarId.Value,
+                            query => query.Include(t => t.Varianty),
+                            cancellationToken);
+                        Guard.Against.NotFound(polozkaDto.TovarId.Value, foundTovar);
 
-                        tovar = variantTovar.Tovar;
-                        Guard.Against.NotFound(polozkaDto.VariantTovarId.Value, tovar);
+                        variantTovar = foundTovar.Varianty.FirstOrDefault(v => v.Id == polozkaDto.VariantTovarId.Value);
+                        Guard.Against.NotFound(polozkaDto.VariantTovarId.Value, variantTovar);
+                        tovar = foundTovar;
                     }
                     else if (polozkaDto.TovarId.HasValue)
                     {
-                        tovar = await _tovarRepository.GetQueryableNoTracking()
-                            .FirstOrDefaultAsync(t => t.Id == polozkaDto.TovarId.Value, cancellationToken);
+                        tovar = await _tovarRepository.GetByIdAsync(polozkaDto.TovarId.Value, cancellationToken);
                         Guard.Against.NotFound(polozkaDto.TovarId.Value, tovar);
                     }
                     else
