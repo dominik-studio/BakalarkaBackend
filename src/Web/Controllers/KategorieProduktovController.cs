@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CRMBackend.Web.Controllers;
 
-// [Authorize]
+[Authorize]
 [ApiController]
 [Route("api/kategorie-produktov")]
 public class KategorieProduktovController : ControllerBase

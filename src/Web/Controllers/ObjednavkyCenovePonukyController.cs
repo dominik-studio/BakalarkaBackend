@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CRMBackend.Web.Controllers;
 
-// [Authorize]
+[Authorize]
 [ApiController]
 [Route("api/objednavky/{objednavkaId}/cenove-ponuky")]
 public class ObjednavkyCenovePonukyController : ControllerBase

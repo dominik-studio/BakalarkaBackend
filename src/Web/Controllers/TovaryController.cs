@@ -11,7 +11,7 @@ using Plainquire.Sort;
 
 namespace CRMBackend.Web.Controllers;
 
-// [Authorize]
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class TovaryController : ControllerBase

@@ -14,7 +14,7 @@ using CRMBackend.Domain.Entities;
 
 namespace CRMBackend.Web.Controllers;
 
-// [Authorize]
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class FirmyController : ControllerBase

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CRMBackend.Web.Controllers;
 
-// [Authorize]
+[Authorize]
 [ApiController]
 [Route("api/firmy/{firmaId}/kontaktne-osoby")]
 public class KontaktneOsobyController : ControllerBase

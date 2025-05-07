@@ -3,11 +3,12 @@ using CRMBackend.Application.DodavatelAggregate.Commands.Tovary.DeleteTovar;
 using CRMBackend.Application.DodavatelAggregate.Commands.Tovary.UpdateTovar;
 using CRMBackend.Application.DodavatelAggregate.Commands.Tovary.UpdateTovarAktivny;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRMBackend.Web.Controllers;
 
-// [Authorize]
+[Authorize]
 [ApiController]
 [Route("api/dodavatelia/{dodavatelId}/tovary")]
 public class DodavatelTovaryController : ControllerBase
