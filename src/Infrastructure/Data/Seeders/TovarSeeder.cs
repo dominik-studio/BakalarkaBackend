@@ -181,8 +181,7 @@ namespace CRMBackend.Infrastructure.Data.Seeders
                         
                         var tovar = new Tovar
                         {
-                            
-                            InterneId = $"TOV-{kategoria.Id}-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}",
+                            InterneId = $"T-{random.Next(10, 100):00}-{GenerateRandomLetters(random, 6)}",
                             Nazov = nazov,
                             Kategoria = kategoria, 
                             KategoriaId = kategoria.Id, 
@@ -276,6 +275,13 @@ namespace CRMBackend.Infrastructure.Data.Seeders
         {
             var sizes = new[] { Velkost.XS, Velkost.S, Velkost.M, Velkost.L, Velkost.XL, Velkost.XXL };
             return sizes[random.Next(sizes.Length)];
+        }
+
+        private string GenerateRandomLetters(Random random, int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

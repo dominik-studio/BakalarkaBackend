@@ -24,10 +24,11 @@ public class DodavatelSeeder : IDataSeeder
     private Dodavatel CreateRandomDodavatel()
     {
         var random = new Random();
+        var nazovFirmy = GenerateRandomCompanyName(random);
         var dodavatel = new Dodavatel
         {
-            NazovFirmy = GenerateRandomCompanyName(random),
-            Email = GenerateRandomEmail(random),
+            NazovFirmy = nazovFirmy,
+            Email = GenerateEmailFromCompanyName(nazovFirmy),
             Telefon = GenerateRandomPhoneNumber(random)
         };
 
@@ -51,11 +52,11 @@ public class DodavatelSeeder : IDataSeeder
         return $"{firstParts[random.Next(firstParts.Length)]} {secondParts[random.Next(secondParts.Length)]}";
     }
 
-    private string GenerateRandomEmail(Random random)
+    private string GenerateEmailFromCompanyName(string companyName)
     {
-        var firstParts = new[] { "info", "support", "sales", "contact", "office", "help", "service", "admin", "manager", "assistant" };
-        var secondParts = new[] { "company", "corp", "inc", "ltd", "solutions", "tech", "global", "enterprise", "network", "group" };
-        return $"{firstParts[random.Next(firstParts.Length)]}@{secondParts[random.Next(secondParts.Length)]}.com";
+        var cleanName = companyName.ToLower().Replace(" ", "");
+        cleanName = new string(cleanName.Where(char.IsLetterOrDigit).ToArray());
+        return $"info@{cleanName}.com";
     }
 
     private string GenerateRandomPhoneNumber(Random random)

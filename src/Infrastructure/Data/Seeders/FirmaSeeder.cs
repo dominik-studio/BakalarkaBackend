@@ -155,7 +155,8 @@ public class FirmaSeeder : IDataSeeder
                 lastName = isMale ? _menLastNames[_random.Next(_menLastNames.Count)] : _womenLastNames[_random.Next(_womenLastNames.Count)];
             }
 
-            var email = $"{firstName.ToLower()}.{lastName.ToLower()}@{companyName}.com";
+            var cleanCompanyName = companyName.Replace(" ", "");
+            var email = $"{firstName.ToLower()}.{lastName.ToLower()}@{cleanCompanyName}.com";
 
             var osoba = new KontaktnaOsoba
             {
