@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.PatchCenovaPonuka;
+using CRMBackend.Application.ObjednavkaAggregate.Queries.Objednavky.DownloadCenovaPonuka;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 
@@ -22,5 +23,12 @@ public class ObjednavkyCenovePonukyController : ControllerBase
         
         await _sender.Send(command);
         return NoContent();
+    }
+    
+    [HttpGet("{ponukaId}/download")]
+    public async Task<IActionResult> DownloadCenovaPonuka(int ponukaId)
+    {
+        var response = await _sender.Send(new DownloadCenovaPonukaQuery { CenovaPonukaId = ponukaId });
+        return File(response.FileContents, response.ContentType, response.FileName);
     }
 } 

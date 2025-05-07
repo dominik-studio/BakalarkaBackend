@@ -105,11 +105,4 @@ public class ObjednavkyController : ControllerBase
         await _sender.Send(new DeleteObjednavkaCommand() { ObjednavkaId = id });
         return NoContent();
     }
-
-    [HttpGet("cenove-ponuky/{id}/download")]
-    public async Task<IActionResult> DownloadCenovaPonuka(int id)
-    {
-        var response = await _sender.Send(new DownloadCenovaPonukaQuery { CenovaPonukaId = id });
-        return File(response.FileContents, response.ContentType, response.FileName);
-    }
 } 

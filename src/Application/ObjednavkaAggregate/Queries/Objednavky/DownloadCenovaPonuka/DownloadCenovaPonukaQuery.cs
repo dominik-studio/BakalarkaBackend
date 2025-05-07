@@ -52,7 +52,7 @@ public class DownloadCenovaPonukaQueryHandler : IRequestHandler<DownloadCenovaPo
 
         var pdfBytes = await _invoiceGenerator.GenerateInvoicePdfAsync(invoiceData);
 
-        string invoiceNumber = $"FV-{DateTime.Now.Year}-{cenovaPonuka.Id:D6}";
+        string invoiceNumber = $"{DateTime.Now.Year}-{cenovaPonuka.Id:D6}";
         return new InvoiceFileResponse(pdfBytes, invoiceNumber);
     }
 } 

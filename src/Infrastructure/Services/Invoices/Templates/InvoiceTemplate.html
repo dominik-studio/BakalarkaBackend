@@ -25,7 +25,6 @@
         }
         h1{
             font-size:1.6rem;
-            color:var(--accent);
         }
         .flex{
             display:flex;
@@ -129,10 +128,9 @@
         </div>
 
         <div class="info-box info-box--grey">
-            <h2>Kupujúci</h2>
-            <strong>@Model.NazovFirmy</strong>
+            <h2>Kupujúci:</h2>
             <div class="divider"></div>
-
+            <strong>@Model.NazovFirmy</strong><br />
             IČO: @Model.ICO<br/>
             @if(!string.IsNullOrEmpty(Model.IcDph)){ <text>IČ DPH: @Model.IcDph<br/></text> }
             <div class="divider"></div>
