@@ -84,7 +84,7 @@ namespace CRMBackend.Application.ObjednavkaAggregate.Commands.CenovePonuky.Patch
                         throw new ArgumentException("Pre položku cenovej ponuky musí byť zadané TovarId.");
                     }
 
-                    var novaPolozka = new CenovaPonukaTovar(tovar!, variantTovar)
+                    var novaPolozka = new CenovaPonukaTovar(tovar, variantTovar)
                     {
                         Mnozstvo = polozkaDto.Mnozstvo
                     };

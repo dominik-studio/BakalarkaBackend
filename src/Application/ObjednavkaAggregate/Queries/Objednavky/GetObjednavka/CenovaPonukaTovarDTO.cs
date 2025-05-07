@@ -24,9 +24,9 @@ public record CenovaPonukaTovarDTO
         public Mapping()
         {
             CreateMap<CenovaPonukaTovar, CenovaPonukaTovarDTO>()
-                .ForMember(dest => dest.NazovTovaru, opt => opt.MapFrom(src => src.Tovar.Nazov))
-                .ForMember(dest => dest.InterneId, opt => opt.MapFrom(src => src.Tovar.InterneId))
-                .ForMember(dest => dest.KategoriaId, opt => opt.MapFrom(src => src.Tovar.KategoriaId))
+                .ForMember(dest => dest.NazovTovaru, opt => opt.MapFrom(src => src.Tovar!.Nazov))
+                .ForMember(dest => dest.InterneId, opt => opt.MapFrom(src => src.Tovar!.InterneId))
+                .ForMember(dest => dest.KategoriaId, opt => opt.MapFrom(src => src.Tovar!.KategoriaId))
                 .ForMember(dest => dest.TovarId, opt => opt.MapFrom(src => src.TovarId))
                 .ForMember(dest => dest.VariantTovarId, opt => opt.MapFrom(src => src.VariantTovarId))
                 .ForMember(dest => dest.JeVariantTovaru, opt => opt.MapFrom(src =>
@@ -42,7 +42,7 @@ public record CenovaPonukaTovarDTO
                         ? src.PovodnaCena
                         : (src.VariantTovar != null && src.VariantTovar.Cena != 0)
                             ? src.VariantTovar.Cena
-                            : src.Tovar.Cena
+                            : src.Tovar!.Cena
                     ));
         }
     }

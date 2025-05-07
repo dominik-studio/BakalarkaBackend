@@ -39,10 +39,8 @@ public class CenovaPonuka : BaseEntity
     {
         if (Stav != StavCenovejPonuky.Neriesene)
             throw new DomainValidationException("Položky možno pridávať iba v stave Neriesene.");
-        if (polozka.Tovar == null && polozka.VariantTovar == null)
-            throw new DomainValidationException("Musí byť nastavený tovar alebo variant.");
-        if (polozka.Tovar != null && polozka.VariantTovar != null)
-            throw new DomainValidationException("Tovar a variant nemôžu byť nastavené súčasne.");
+        if (polozka.Tovar == null)
+            throw new DomainValidationException("Vždy musí byť nastavený tovar.");
         _polozky.Add(polozka);
     }
 

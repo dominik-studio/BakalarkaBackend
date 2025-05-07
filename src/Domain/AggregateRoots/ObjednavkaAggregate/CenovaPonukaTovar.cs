@@ -8,8 +8,8 @@ public class CenovaPonukaTovar : BaseEntity
 {
     public int CenovaPonukaId { get; private set; }
     public CenovaPonuka CenovaPonuka { get; set; } = null!;
-    public Tovar Tovar { get; private set; } = null!;
-    public int TovarId { get; private set; }
+    public Tovar? Tovar { get; private set; }
+    public int? TovarId { get; private set; }
     public VariantTovar? VariantTovar { get; private set; }
     public int? VariantTovarId { get; private set; }
     public bool JeVariantTovaru => VariantTovarId.HasValue;

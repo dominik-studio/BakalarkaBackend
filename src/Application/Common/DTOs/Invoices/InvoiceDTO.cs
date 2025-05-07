@@ -67,18 +67,18 @@ public class InvoiceItemDTO
         {
             CreateMap<CenovaPonukaTovar, InvoiceItemDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.NazovTovaru, opt => opt.MapFrom(src => src.Tovar.Nazov))
-                .ForMember(dest => dest.InterneId, opt => opt.MapFrom(src => src.Tovar.InterneId))
+                .ForMember(dest => dest.NazovTovaru, opt => opt.MapFrom(src => src.Tovar!.Nazov))
+                .ForMember(dest => dest.InterneId, opt => opt.MapFrom(src => src.Tovar!.InterneId))
                 .ForMember(dest => dest.Mnozstvo, opt => opt.MapFrom(src => src.Mnozstvo))
                 .ForMember(dest => dest.JednotkovaCena, opt => opt.MapFrom(src => 
                    (src.VariantTovar != null && src.VariantTovar.Cena != 0)
                             ? src.VariantTovar.Cena
-                            : src.Tovar.Cena
+                            : src.Tovar!.Cena
                 ))
                 .ForMember(dest => dest.CelkovaCena, opt => opt.MapFrom(src => 
                     ((src.VariantTovar != null && src.VariantTovar.Cena != 0)
                             ? src.VariantTovar.Cena
-                            : src.Tovar.Cena) * src.Mnozstvo
+                            : src.Tovar!.Cena) * src.Mnozstvo
                 ))
                 .ForMember(dest => dest.FarbaHex, opt => opt.MapFrom(src =>
                     src.VariantTovar != null ? src.VariantTovar.FarbaHex : null))
