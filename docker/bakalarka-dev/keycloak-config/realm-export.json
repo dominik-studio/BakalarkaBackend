@@ -1,7 +1,7 @@
 {
   "id": "dfbeb1f2-d05b-4e17-aacc-5aee42b6ca27",
-  "realm": "promobay-dev",
-  "displayName": "",
+  "realm": "bakalarka-dev",
+  "displayName": "PromoProfi s.r.o.",
   "displayNameHtml": "",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
@@ -48,6 +48,15 @@
   "roles": {
     "realm": [
       {
+        "id": "be25343d-2030-4416-b77c-a9bdda9cac5a",
+        "name": "skladnik",
+        "description": "",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "dfbeb1f2-d05b-4e17-aacc-5aee42b6ca27",
+        "attributes": {}
+      },
+      {
         "id": "988bd355-b3d0-46c1-8569-e6b50a907b53",
         "name": "default-roles-promobay",
         "description": "${role_default-roles}",
@@ -71,6 +80,15 @@
       {
         "id": "7ce53562-a801-44e7-8527-88948ccbd723",
         "name": "admin",
+        "description": "",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "dfbeb1f2-d05b-4e17-aacc-5aee42b6ca27",
+        "attributes": {}
+      },
+      {
+        "id": "0f3745ba-357d-4909-98e5-f4c1f56c4dec",
+        "name": "obchodnik",
         "description": "",
         "composite": false,
         "clientRole": false,
@@ -309,10 +327,9 @@
           "attributes": {}
         }
       ],
-      "promobay-web-admin": [],
+      "keycloak-js": [],
       "security-admin-console": [],
       "admin-cli": [],
-      "promobay-mobile-app": [],
       "account-console": [],
       "broker": [
         {
@@ -412,8 +429,7 @@
           "containerId": "1f8066f9-7e29-445c-81b4-d2cc567a40a6",
           "attributes": {}
         }
-      ],
-      "promobay-backend": []
+      ]
     }
   },
   "groups": [],
@@ -492,13 +508,13 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/promobay-dev/account/",
+      "baseUrl": "/realms/bakalarka-dev/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/promobay-dev/account/*"
+        "/realms/bakalarka-dev/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -536,13 +552,13 @@
       "clientId": "account-console",
       "name": "${client_account-console}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/promobay-dev/account/",
+      "baseUrl": "/realms/bakalarka-dev/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/promobay-dev/account/*"
+        "/realms/bakalarka-dev/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -667,13 +683,13 @@
       ]
     },
     {
-      "id": "3d9aa841-aa78-4808-ad50-ae71b0a352fa",
-      "clientId": "promobay-backend",
+      "id": "f7e30e16-e0f7-4ab9-b402-96c26738f769",
+      "clientId": "keycloak-js",
       "name": "",
       "description": "",
-      "rootUrl": "",
+      "rootUrl": "http://localhost:4200",
       "adminUrl": "",
-      "baseUrl": "",
+      "baseUrl": "http://localhost:4200",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
@@ -695,122 +711,11 @@
       "frontchannelLogout": true,
       "protocol": "openid-connect",
       "attributes": {
-        "access.token.lifespan": "863913600",
-        "post.logout.redirect.uris": "*",
-        "oauth2.device.authorization.grant.enabled": "false",
-        "backchannel.logout.revoke.offline.tokens": "false",
-        "use.refresh.tokens": "true",
         "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
-        "client_credentials.use_refresh_token": "false",
-        "tls.client.certificate.bound.access.tokens": "false",
-        "require.pushed.authorization.requests": "false",
-        "acr.loa.map": "{}",
+        "post.logout.redirect.uris": "*",
         "display.on.consent.screen": "false",
-        "token.response.type.bearer.lower-case": "false"
-      },
-      "authenticationFlowBindingOverrides": {},
-      "fullScopeAllowed": true,
-      "nodeReRegistrationTimeout": -1,
-      "defaultClientScopes": [
-        "web-origins",
-        "acr",
-        "profile",
-        "roles",
-        "email"
-      ],
-      "optionalClientScopes": [
-        "address",
-        "phone",
-        "offline_access",
-        "microprofile-jwt"
-      ]
-    },
-    {
-      "id": "ff0dc35e-1ea0-4ae8-b342-7550695149a0",
-      "clientId": "promobay-mobile-app",
-      "name": "",
-      "description": "",
-      "rootUrl": "",
-      "adminUrl": "",
-      "baseUrl": "",
-      "surrogateAuthRequired": false,
-      "enabled": true,
-      "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
-      "redirectUris": [
-        "*"
-      ],
-      "webOrigins": [
-        "*"
-      ],
-      "notBefore": 0,
-      "bearerOnly": false,
-      "consentRequired": false,
-      "standardFlowEnabled": true,
-      "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": false,
-      "serviceAccountsEnabled": false,
-      "publicClient": true,
-      "frontchannelLogout": true,
-      "protocol": "openid-connect",
-      "attributes": {
-        "oidc.ciba.grant.enabled": "false",
-        "post.logout.redirect.uris": "*",
         "oauth2.device.authorization.grant.enabled": "false",
-        "backchannel.logout.session.required": "true",
-        "backchannel.logout.revoke.offline.tokens": "false"
-      },
-      "authenticationFlowBindingOverrides": {},
-      "fullScopeAllowed": true,
-      "nodeReRegistrationTimeout": -1,
-      "defaultClientScopes": [
-        "web-origins",
-        "acr",
-        "profile",
-        "roles",
-        "email"
-      ],
-      "optionalClientScopes": [
-        "address",
-        "phone",
-        "offline_access",
-        "microprofile-jwt"
-      ]
-    },
-    {
-      "id": "926413b4-e38c-46c9-ac1a-fd93de3ad2c6",
-      "clientId": "promobay-web-admin",
-      "name": "",
-      "description": "",
-      "rootUrl": "http://localhost:4020/",
-      "adminUrl": "http://localhost:4020/",
-      "baseUrl": "http://localhost:4020/",
-      "surrogateAuthRequired": false,
-      "enabled": true,
-      "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
-      "redirectUris": [
-        "http://localhost:4020/*"
-      ],
-      "webOrigins": [
-        "http://localhost:4020/*"
-      ],
-      "notBefore": 0,
-      "bearerOnly": false,
-      "consentRequired": false,
-      "standardFlowEnabled": true,
-      "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": false,
-      "serviceAccountsEnabled": false,
-      "publicClient": true,
-      "frontchannelLogout": true,
-      "protocol": "openid-connect",
-      "attributes": {
-        "oidc.ciba.grant.enabled": "false",
-        "post.logout.redirect.uris": "http://localhost:4020/*",
-        "oauth2.device.authorization.grant.enabled": "false",
-        "backchannel.logout.session.required": "true",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -875,13 +780,13 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/promobay-dev/console/",
+      "baseUrl": "/admin/bakalarka-dev/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/admin/promobay-dev/console/*"
+        "/admin/bakalarka-dev/console/*"
       ],
       "webOrigins": [
         "+"
@@ -1548,14 +1453,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
+            "saml-user-attribute-mapper",
             "oidc-full-name-mapper",
             "saml-role-list-mapper",
-            "oidc-usermodel-attribute-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
-            "saml-user-attribute-mapper",
-            "saml-user-property-mapper",
             "oidc-address-mapper",
-            "oidc-usermodel-property-mapper"
+            "saml-user-property-mapper",
+            "oidc-usermodel-attribute-mapper",
+            "oidc-usermodel-property-mapper",
+            "oidc-sha256-pairwise-sub-mapper"
           ]
         }
       },
@@ -1595,14 +1500,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-user-attribute-mapper",
             "oidc-address-mapper",
+            "oidc-usermodel-attribute-mapper",
+            "saml-user-property-mapper",
             "oidc-usermodel-property-mapper",
-            "oidc-full-name-mapper",
             "oidc-sha256-pairwise-sub-mapper",
             "saml-role-list-mapper",
-            "saml-user-property-mapper",
-            "oidc-usermodel-attribute-mapper"
+            "saml-user-attribute-mapper",
+            "oidc-full-name-mapper"
           ]
         }
       },
@@ -1687,8 +1592,11 @@
       }
     ]
   },
-  "internationalizationEnabled": false,
-  "supportedLocales": [],
+  "internationalizationEnabled": true,
+  "supportedLocales": [
+    "sk"
+  ],
+  "defaultLocale": "sk",
   "authenticationFlows": [
     {
       "id": "9b6020c3-f759-4353-bb4b-db9146cad47e",
