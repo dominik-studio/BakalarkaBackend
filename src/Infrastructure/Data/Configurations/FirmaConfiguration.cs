@@ -20,7 +20,8 @@ public class FirmaConfiguration : IEntityTypeConfiguration<Firma>
         builder.OwnsOne(f => f.Adresa);
 
         builder.Property(f => f.SkoreSpolahlivosti)
-               .HasColumnType("decimal(3,2)");
+               .HasColumnType("decimal(3,2)")
+               .HasDefaultValue(0.7m);
 
         builder.Property(f => f.HodnotaObjednavok)
                .HasColumnType("decimal(18,2)");
