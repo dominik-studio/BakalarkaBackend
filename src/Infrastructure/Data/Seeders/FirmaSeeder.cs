@@ -75,6 +75,38 @@ public class FirmaSeeder : IDataSeeder
         "Flow", "Bridge", "Most", "Access", "Prístup", "Vision", "Vízia", "Future", "Budúcnosť"
     };
 
+    private static readonly Dictionary<char, char> _slovakCharMap = new()
+    {
+        {'á', 'a'}, {'ä', 'a'},
+        {'č', 'c'},
+        {'ď', 'd'},
+        {'é', 'e'},
+        {'í', 'i'},
+        {'ĺ', 'l'}, {'ľ', 'l'},
+        {'ň', 'n'},
+        {'ó', 'o'}, {'ô', 'o'},
+        {'ŕ', 'r'},
+        {'š', 's'},
+        {'ť', 't'},
+        {'ú', 'u'},
+        {'ý', 'y'},
+        {'ž', 'z'},
+        {'Á', 'a'}, {'Ä', 'a'},
+        {'Č', 'c'},
+        {'Ď', 'd'},
+        {'É', 'e'},
+        {'Í', 'i'},
+        {'Ĺ', 'l'}, {'Ľ', 'l'},
+        {'Ň', 'n'},
+        {'Ó', 'o'}, {'Ô', 'o'},
+        {'Ŕ', 'r'},
+        {'Š', 's'},
+        {'Ť', 't'},
+        {'Ú', 'u'},
+        {'Ý', 'y'},
+        {'Ž', 'z'}
+    };
+
     private readonly ApplicationDbContext _dbContext;
 
     public FirmaSeeder(ApplicationDbContext dbContext)
@@ -140,6 +172,11 @@ public class FirmaSeeder : IDataSeeder
         return firma;
     }
 
+    private string NormalizeSlovakChars(string input)
+    {
+        return new string(input.Select(c => _slovakCharMap.ContainsKey(c) ? _slovakCharMap[c] : c).ToArray());
+    }
+
     private void AddKontaktneOsoby(Firma firma, string companyName)
     {
         var count = _random.Next(1, 4);
@@ -155,8 +192,11 @@ public class FirmaSeeder : IDataSeeder
                 lastName = isMale ? _menLastNames[_random.Next(_menLastNames.Count)] : _womenLastNames[_random.Next(_womenLastNames.Count)];
             }
 
-            var cleanCompanyName = companyName.Replace(" ", "");
-            var email = $"{firstName.ToLower()}.{lastName.ToLower()}@{cleanCompanyName}.com";
+            var normalizedFirstName = NormalizeSlovakChars(firstName.ToLower());
+            var normalizedLastName = NormalizeSlovakChars(lastName.ToLower());
+            var normalizedCompanyName = NormalizeSlovakChars(companyName.Replace(" ", ""));
+
+            var email = $"{normalizedFirstName}.{normalizedLastName}@{normalizedCompanyName}.com";
 
             var osoba = new KontaktnaOsoba
             {
