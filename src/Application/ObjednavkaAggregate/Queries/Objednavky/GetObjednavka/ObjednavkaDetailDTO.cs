@@ -1,8 +1,8 @@
 using AutoMapper;
 using CRMBackend.Application.Common.Mappings;
 using CRMBackend.Application.Common.Models;
-using CRMBackend.Application.FirmaAggregate.Queries.ListFirmy; // Assuming FirmaDTO location
-using CRMBackend.Application.FirmaAggregate.Queries.GetFirma; // Assuming KontaktnaOsobaDTO location
+using CRMBackend.Application.FirmaAggregate.Queries.ListFirmy;
+using CRMBackend.Application.FirmaAggregate.Queries.GetFirma;
 using CRMBackend.Domain.AggregateRoots.FirmaAggregate;
 using CRMBackend.Domain.AggregateRoots.ObjednavkaAggregate;
 using CRMBackend.Domain.Enums;

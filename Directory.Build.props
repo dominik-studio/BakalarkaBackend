@@ -1,5 +1,4 @@
-﻿<!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
-<Project>
+﻿<Project>
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
