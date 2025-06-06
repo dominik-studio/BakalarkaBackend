@@ -13,24 +13,27 @@ public class PrepocitajHodnotuKlientaHandler : INotificationHandler<ObjednavkaVy
 {
     private readonly ILogger<PrepocitajHodnotuKlientaHandler> _logger;
     private readonly IWriteRepository<Firma> _firmaWriteRepository;
-    private readonly IReadRepository<Objednavka> _objednavkaReadRepository;
 
-    private const int PocetRokovNaHistoriu = 5;
-    private const decimal KoeficientPreNovehoklienta = 0.7m;
+    private const int PocetRokovHistoriaObjednavok = 5;
+    private const decimal MaxKoeficientExtrapolacie = 5m;
+    private const decimal KoeficientHodnotaExtrapolacie = 0.5m;
 
     public PrepocitajHodnotuKlientaHandler(
         ILogger<PrepocitajHodnotuKlientaHandler> logger,
-        IWriteRepository<Firma> firmaWriteRepository,
-        IReadRepository<Objednavka> objednavkaReadRepository)
+        IWriteRepository<Firma> firmaWriteRepository)
     {
         _logger = logger;
         _firmaWriteRepository = firmaWriteRepository;
-        _objednavkaReadRepository = objednavkaReadRepository;
     }
 
     private async Task PrepocitajHodnotu(int firmaId, CancellationToken cancellationToken)
     {
-        var firma = await _firmaWriteRepository.GetByIdAsync(firmaId, cancellationToken);
+        var firma = await _firmaWriteRepository.GetByIdWithIncludesAsync(
+            firmaId,
+            query => query
+                .Include(f => f.Objednavky)
+                    .ThenInclude(o => o.PoslednaCenovaPonuka),
+            cancellationToken);
 
         if (firma == null)
         {
@@ -38,12 +41,11 @@ public class PrepocitajHodnotuKlientaHandler : INotificationHandler<ObjednavkaVy
             return;
         }
 
-        var datumOd = DateTime.UtcNow.AddYears(-PocetRokovNaHistoriu);
+        var datumOd = DateTime.UtcNow.AddYears(-PocetRokovHistoriaObjednavok);
 
-        var objednavky = await _objednavkaReadRepository
-            .GetQueryableNoTracking()
-            .Where(o => o.FirmaId == firmaId && o.VytvoreneDna >= datumOd && o.Faza == ObjednavkaFaza.Vybavene)
-            .ToListAsync(cancellationToken);
+        var objednavky = firma.Objednavky
+            .Where(o => o.VytvoreneDna >= datumOd && o.Faza == ObjednavkaFaza.Vybavene)
+            .ToList();
 
         if (!objednavky.Any())
         {
@@ -53,27 +55,20 @@ public class PrepocitajHodnotuKlientaHandler : INotificationHandler<ObjednavkaVy
         }
         
         decimal hodnotaObjednavok = objednavky
-            .Sum(o =>
-            {
-                if (o.PoslednaCenovaPonuka == null)
-                {
-                    _logger.LogWarning("Vybavená objednávka {ObjednavkaId} neobsahuje poslednú cenovú ponuku", o.Id);
-                    return 0;
-                }
-                return o.PoslednaCenovaPonuka.FinalnaCena;
-            });
+            .Sum(o => o.PoslednaCenovaPonuka?.FinalnaCena ?? 0);
 
         var datumRegistracieFirmy = firma.VytvoreneDna;
-        var vekFirmyVMesiacoch = (DateTime.UtcNow - datumRegistracieFirmy).TotalDays / 30;
+        var vekFirmyMesiace = (DateTime.UtcNow - datumRegistracieFirmy).TotalDays / 30;
+        vekFirmyMesiace = Math.Min(1, vekFirmyMesiace);
 
-        if (vekFirmyVMesiacoch < PocetRokovNaHistoriu * 12)
+        if (vekFirmyMesiace < PocetRokovHistoriaObjednavok * 12)
         {
-            if (vekFirmyVMesiacoch > 0)
-            {
-                decimal fullExtrapolatedValue = hodnotaObjednavok * ((PocetRokovNaHistoriu * 12) / (decimal)vekFirmyVMesiacoch);
-                decimal missingPart = fullExtrapolatedValue - hodnotaObjednavok;
-                hodnotaObjednavok = hodnotaObjednavok + (missingPart * KoeficientPreNovehoklienta);
-            }
+            decimal faktorExtrapolacie = Math.Min(MaxKoeficientExtrapolacie, (PocetRokovHistoriaObjednavok * 12) / (decimal)vekFirmyMesiace);
+            faktorExtrapolacie = Math.Max(1, faktorExtrapolacie);
+                
+            decimal extrapolovanaHodnota = hodnotaObjednavok * faktorExtrapolacie;
+            decimal chybajucaCast = extrapolovanaHodnota - hodnotaObjednavok;
+            hodnotaObjednavok = hodnotaObjednavok + (chybajucaCast * KoeficientHodnotaExtrapolacie);
         }
 
         firma.UpdateHodnotaObjednavok(hodnotaObjednavok);

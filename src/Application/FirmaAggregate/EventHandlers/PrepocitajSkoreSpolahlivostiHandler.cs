@@ -6,17 +6,16 @@ using CRMBackend.Domain.Entities;
 using CRMBackend.Domain.Enums;
 using CRMBackend.Domain.Events;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRMBackend.Application.Firmy.EventHandlers;
 
 public class PrepocitajSkoreSpolahlivostiHandler : 
-    INotificationHandler<ObjednavkaVytvorenaEvent>,
     INotificationHandler<ChybaKlientaZaznamenanaEvent>,
     INotificationHandler<ObjednavkaVybavenaEvent>
 {
     private readonly ILogger<PrepocitajSkoreSpolahlivostiHandler> _logger;
     private readonly IWriteRepository<Firma> _firmaWriteRepository;
-    private readonly IReadRepository<Objednavka> _objednavkaReadRepository;
 
     private const decimal PociatocneSkore = 0.70m;
     private const decimal MaxSkore = 1m;
@@ -26,12 +25,10 @@ public class PrepocitajSkoreSpolahlivostiHandler :
 
     public PrepocitajSkoreSpolahlivostiHandler(
         ILogger<PrepocitajSkoreSpolahlivostiHandler> logger,
-        IWriteRepository<Firma> firmaWriteRepository,
-        IReadRepository<Objednavka> objednavkaReadRepository)
+        IWriteRepository<Firma> firmaWriteRepository)
     {
         _logger = logger;
         _firmaWriteRepository = firmaWriteRepository;
-        _objednavkaReadRepository = objednavkaReadRepository;
     }
 
     private static decimal GetHodnotaChyby(ChybaKlienta chyba)
@@ -48,7 +45,11 @@ public class PrepocitajSkoreSpolahlivostiHandler :
 
     private async Task PrepocitajSkore(int firmaId, CancellationToken cancellationToken)
     {
-        var firma = await _firmaWriteRepository.GetByIdAsync(firmaId, cancellationToken);
+        var firma = await _firmaWriteRepository.GetByIdWithIncludesAsync(
+            firmaId,
+            query => query
+                .Include(f => f.Objednavky),
+            cancellationToken);
 
         if (firma == null)
         {
@@ -56,12 +57,10 @@ public class PrepocitajSkoreSpolahlivostiHandler :
             return;
         }
 
-        var objednavky = await _objednavkaReadRepository
-            .GetQueryableNoTracking()
-            .Where(o => o.FirmaId == firmaId)
+        var objednavky = firma.Objednavky
             .OrderByDescending(o => o.VytvoreneDna)
             .Take(MaximumObjednavokNaVypocet)
-            .ToListAsync(cancellationToken);
+            .ToList();
 
         if (!objednavky.Any())
         {
@@ -87,17 +86,12 @@ public class PrepocitajSkoreSpolahlivostiHandler :
         await _firmaWriteRepository.SaveAsync(cancellationToken);
     }
 
-    public async Task Handle(ObjednavkaVytvorenaEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(ObjednavkaVybavenaEvent notification, CancellationToken cancellationToken)
     {
         await PrepocitajSkore(notification.FirmaId, cancellationToken);
     }
 
     public async Task Handle(ChybaKlientaZaznamenanaEvent notification, CancellationToken cancellationToken)
-    {
-        await PrepocitajSkore(notification.FirmaId, cancellationToken);
-    }
-
-    public async Task Handle(ObjednavkaVybavenaEvent notification, CancellationToken cancellationToken)
     {
         await PrepocitajSkore(notification.FirmaId, cancellationToken);
     }
