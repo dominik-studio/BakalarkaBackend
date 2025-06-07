@@ -1,0 +1,95 @@
+# Docker Compose for Staging Environment
+# Reads sensitive values from the .env file in the same directory
+# Builds the backend service from source
+
+# Uses a fixed project name to avoid creating new docker volumes, networks, etc, when directory is renamed
+name: bakalarka_staging
+
+services:
+  caddy:
+    image: caddy:2.9.1
+    container_name: caddy_staging
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ../../frontend:/srv/frontend:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - keycloak
+      - backend
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.1.3
+    container_name: keycloak_staging
+    restart: unless-stopped
+    # command: start --import-realm --proxy-headers=xforwarded
+    command: start --proxy-headers=xforwarded
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+
+      KC_HOSTNAME: keycloak.${DOMAIN_NAME}
+      KC_HTTP_ENABLED: "true" # Allow internal HTTP communication from Caddy
+      KC_HTTP_PORT: ${KEYCLOAK_HTTP_PORT}
+      KC_HTTP_RELATIVE_PATH: /auth
+
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN_USER}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: "true"
+      KC_HEALTH_ENABLED: "true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  backend:
+    build:
+      # IMPORTANT: Adjust this path relative to Dockerfile
+      context: ../../
+    image: bakalarka-backend:staging
+    container_name: backend_staging
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Staging
+      ASPNETCORE_URLS: http://*:${BACKEND_PORT}
+
+      ConnectionStrings__BakalarkaBackendDb: "Server=postgres;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
+
+      Keycloak__realm: "${KEYCLOAK_REALM}"
+      Keycloak__auth-server-url: "https://keycloak.${DOMAIN_NAME}/auth" # Public URL via Caddy is required for OIDC
+      Keycloak__ssl-required: "none"
+      Keycloak__verify-token-audience: "false"
+      Keycloak__confidential-port: "0"
+    depends_on:
+      - postgres
+      - keycloak
+
+  postgres:
+    image: postgres:15
+    container_name: postgres_staging
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./create_db_bakalarka.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d keycloak"]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:

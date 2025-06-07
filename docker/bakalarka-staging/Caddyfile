@@ -1,0 +1,21 @@
+# By default, Caddy uses Let's Encrypt's production CA.
+
+# {
+#   email your_email
+# }
+
+backend.bakalarka.tech {
+  reverse_proxy backend:5000
+}
+
+
+keycloak.bakalarka.tech {
+  reverse_proxy keycloak:9090
+}
+
+
+bakalarka.tech {
+    file_server
+    root * /srv/frontend
+    try_files {path} {path}/ /index.html
+}
